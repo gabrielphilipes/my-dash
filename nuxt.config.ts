@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxthub/core',
-    'nuxthub-ratelimit'
+    'nuxthub-ratelimit',
+    'nuxt-auth-utils'
   ],
 
   devtools: { enabled: true },
@@ -28,7 +29,7 @@ export default defineNuxtConfig({
     }
   },
 
-  css: ['~/assets/css/typography.css'],
+  css: ['~/assets/css/general.css'],
 
   nitro: {
     compressPublicAssets: true,
@@ -78,6 +79,28 @@ export default defineNuxtConfig({
       '/api/*': {
         maxRequests: 45,
         intervalSeconds: 60
+      }
+    }
+  },
+
+  runtimeConfig: {
+    session: {
+      name: 'dash-session',
+      password: process.env.NUXT_SESSION_PASSWORD
+    },
+
+    oauth: {
+      github: {
+        clientId: process.env.NUXT_OAUTH_GITHUB_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GITHUB_CLIENT_SECRET
+      },
+      google: {
+        clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET
+      },
+      facebook: {
+        clientId: process.env.NUXT_OAUTH_FACEBOOK_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_FACEBOOK_CLIENT_SECRET
       }
     }
   }

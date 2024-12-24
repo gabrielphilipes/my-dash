@@ -1,4 +1,5 @@
-Os novos arquivos devem seguir a estrutura de diretórios já existente e o padrão de nomes de arquivos do Nuxt 4.
+Os arquivos do frontend, devem ser criados na pasta `./app` e os arquivos do backend, na pasta `./server`, seguindo a estrutura de diretórios do Nuxt 4.
+
 O projeto está usando:
 
 - `Nuxt UI` como biblioteca de componentes.
