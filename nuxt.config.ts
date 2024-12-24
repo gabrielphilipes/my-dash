@@ -1,21 +1,18 @@
 export default defineNuxtConfig({
-  // Habilita comportamento do Nuxt 4
+  compatibilityDate: "2024-12-24",
+
   future: {
     compatibilityVersion: 4,
   },
 
-  // Módulos recomendados para o template
-  modules: ["@nuxt/devtools", "@nuxtjs/eslint-module"],
+  modules: ["@nuxt/ui", "@nuxtjs/tailwindcss"],
 
-  // Configurações de desenvolvimento
   devtools: { enabled: true },
 
-  // Nova estrutura de diretórios do Nuxt 4
+  // Fixed new structure of Nuxt 4
   srcDir: "app",
-
   serverDir: "server",
 
-  // Configurações de runtime
   app: {
     head: {
       charset: "utf-8",
@@ -23,20 +20,22 @@ export default defineNuxtConfig({
     },
   },
 
-  // Configurações de build
   nitro: {
     compressPublicAssets: true,
   },
 
-  // Configurações experimentais recomendadas para Nuxt 4
   experimental: {
     sharedPrerenderData: true,
     defaults: {
       useAsyncData: {
-        deep: false, // Melhora performance usando shallow refs
+        deep: false,
       },
     },
   },
 
-  compatibilityDate: "2024-12-24",
+  // Modules
+  tailwindcss: {
+    exposeConfig: true,
+    viewer: true,
+  },
 });
