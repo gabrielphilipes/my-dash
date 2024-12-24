@@ -67,6 +67,53 @@
         </div>
       </div>
     </UCard>
+
+    <UCard class="max-w-md mx-auto">
+      <template #header>
+        <h3 class="text-lg font-semibold">Demonstração do D1</h3>
+      </template>
+
+      <div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <h4 class="font-medium">Lista de Usuários</h4>
+          <UButton
+            icon="i-heroicons-arrow-path"
+            :loading="loading"
+            @click="fetchUsers"
+            variant="ghost"
+            color="gray"
+          />
+        </div>
+
+        <div v-if="users.length" class="divide-y">
+          <div
+            v-for="user in users"
+            :key="user.id"
+            class="py-2 flex justify-between items-center"
+          >
+            <div>
+              <p class="font-medium">{{ user.name }}</p>
+              <p class="text-sm text-gray-600">{{ user.email }}</p>
+            </div>
+            <UBadge
+              :color="isNew(user.createdAt) ? 'primary' : 'gray'"
+              variant="subtle"
+              size="sm"
+            >
+              {{ formatDate(user.createdAt) }}
+            </UBadge>
+          </div>
+        </div>
+
+        <div v-else-if="!loading" class="text-center py-4 text-gray-500">
+          Nenhum usuário encontrado
+        </div>
+
+        <div v-if="error" class="text-red-500 text-sm">
+          {{ error }}
+        </div>
+      </div>
+    </UCard>
   </div>
 </template>
 
@@ -113,4 +160,48 @@ async function checkPing() {
     loading.value = false;
   }
 }
+
+// Tipos
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: number;
+}
+
+// Estado
+const users = ref<User[]>([]);
+const error = ref<string | null>(null);
+
+// Métodos
+async function fetchUsers() {
+  loading.value = true;
+  error.value = null;
+
+  try {
+    users.value = await $fetch("/api/users");
+  } catch (e) {
+    error.value = "Erro ao carregar usuários";
+    console.error("Erro:", e);
+  } finally {
+    loading.value = false;
+  }
+}
+
+function formatDate(timestamp: number) {
+  return new Date(timestamp).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+  });
+}
+
+function isNew(timestamp: number) {
+  const DAY_IN_MS = 86400000; // 24 * 60 * 60 * 1000
+  return Date.now() - timestamp < DAY_IN_MS;
+}
+
+// Carregar usuários ao montar o componente
+onMounted(() => {
+  fetchUsers();
+});
 </script>

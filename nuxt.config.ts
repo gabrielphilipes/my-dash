@@ -32,6 +32,14 @@ export default defineNuxtConfig({
 
   nitro: {
     compressPublicAssets: true,
+    typescript: {
+      tsConfig: {
+        compilerOptions: {
+          strict: true,
+          types: ["@cloudflare/workers-types"],
+        },
+      },
+    },
   },
 
   experimental: {
