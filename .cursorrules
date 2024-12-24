@@ -3,3 +3,4 @@ O projeto está usando:
 
 - `Nuxt UI` como biblioteca de componentes.
 - `bun` como gerenciador de pacotes.
+- `TypeScript` como linguagem de programação.

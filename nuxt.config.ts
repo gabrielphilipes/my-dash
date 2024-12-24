@@ -11,6 +11,8 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@pinia/nuxt",
     "@vueuse/nuxt",
+    "@nuxthub/core",
+    "nuxthub-ratelimit",
   ],
 
   devtools: { enabled: true },
@@ -25,6 +27,8 @@ export default defineNuxtConfig({
       viewport: "width=device-width, initial-scale=1",
     },
   },
+
+  css: ["~/assets/css/typography.css"],
 
   nitro: {
     compressPublicAssets: true,
@@ -55,5 +59,18 @@ export default defineNuxtConfig({
     preload: true,
   },
 
-  css: ["~/assets/css/typography.css"],
+  hub: {
+    blob: true,
+    database: true,
+    kv: true,
+  },
+
+  nuxtHubRateLimit: {
+    routes: {
+      "/api/*": {
+        maxRequests: 45,
+        intervalSeconds: 60,
+      },
+    },
+  },
 });
