@@ -1,15 +1,14 @@
 import type { Config } from "tailwindcss";
 
-export default <Partial<Config>>{
-  content: [
-    "~/components/**/*.{js,vue,ts}",
-    "~/layouts/**/*.vue",
-    "~/pages/**/*.vue",
-    "~/plugins/**/*.{js,ts}",
-    "~/app.vue",
-    "~/error.vue",
-  ],
+export default {
+  content: [],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Open Sans", "sans-serif"],
+        heading: ["Faustina", "serif"],
+      },
+    },
   },
-};
+  plugins: [],
+} satisfies Config;

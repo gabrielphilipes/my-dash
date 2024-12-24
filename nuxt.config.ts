@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: ["@nuxt/ui", "@nuxtjs/tailwindcss"],
+  modules: ["@nuxt/ui", "@nuxtjs/tailwindcss", "@nuxtjs/google-fonts"],
 
   devtools: { enabled: true },
 
@@ -38,4 +38,16 @@ export default defineNuxtConfig({
     exposeConfig: true,
     viewer: true,
   },
+
+  googleFonts: {
+    families: {
+      Faustina: [400, 500, 600, 700],
+      "Open Sans": [300, 400, 500, 700],
+    },
+    display: "swap",
+    download: true,
+    preload: true,
+  },
+
+  css: ["~/assets/css/typography.css"],
 });

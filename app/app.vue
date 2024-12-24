@@ -6,7 +6,9 @@
           <h3 class="text-lg font-semibold">Bem-vindo ao Nuxt UI</h3>
         </template>
 
-        <p>Esta é uma demonstração do Nuxt UI com Tailwind CSS</p>
+        <div>
+          <p>Este texto usará Open Sans automaticamente</p>
+        </div>
 
         <template #footer>
           <UButton color="primary"> Clique aqui </UButton>
