@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxtjs/google-fonts",
     "@pinia/nuxt",
+    "@vueuse/nuxt",
   ],
 
   devtools: { enabled: true },

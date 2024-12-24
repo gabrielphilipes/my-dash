@@ -1,5 +1,6 @@
 <template>
-  <div class="p-4">
+  <div class="p-4 space-y-8">
+    <!-- Card do contador -->
     <UCard class="max-w-md mx-auto">
       <template #header>
         <h3 class="text-lg font-semibold">Demonstração do Pinia Store</h3>
@@ -11,10 +12,41 @@
 
         <div class="flex gap-2">
           <UButton @click="counter.increment()"> Incrementar </UButton>
-
           <UButton @click="counter.decrement()" variant="outline">
             Decrementar
           </UButton>
+        </div>
+      </div>
+    </UCard>
+
+    <!-- Card com exemplos do VueUse -->
+    <UCard class="max-w-md mx-auto">
+      <template #header>
+        <h3 class="text-lg font-semibold">Demonstração do VueUse</h3>
+      </template>
+
+      <div class="space-y-4">
+        <!-- Mouse -->
+        <div class="p-4 border rounded-lg">
+          <p>Posição do Mouse: x: {{ x }}, y: {{ y }}</p>
+          <p>Mouse pressionado: {{ pressed ? "Sim" : "Não" }}</p>
+        </div>
+
+        <!-- Bateria -->
+        <div class="p-4 border rounded-lg">
+          <p>Nível da Bateria: {{ Math.round(batteryLevel * 100) }}%</p>
+          <p>Carregando: {{ charging ? "Sim" : "Não" }}</p>
+        </div>
+
+        <!-- Rede -->
+        <div class="p-4 border rounded-lg">
+          <p>Online: {{ isOnline ? "Sim" : "Não" }}</p>
+        </div>
+
+        <!-- Tema -->
+        <div class="flex items-center justify-between p-4 border rounded-lg">
+          <span>Tema Escuro</span>
+          <USwitch v-model="isDark" />
         </div>
       </div>
     </UCard>
@@ -22,5 +54,26 @@
 </template>
 
 <script setup lang="ts">
+import {
+  useMouse,
+  useMousePressed,
+  useBattery,
+  useNetwork,
+  useDark,
+} from "@vueuse/core";
+
 const counter = useCounterStore();
+
+// Mouse
+const { x, y } = useMouse();
+const { pressed } = useMousePressed();
+
+// Bateria
+const { charging, level: batteryLevel } = useBattery();
+
+// Rede
+const { isOnline } = useNetwork();
+
+// Tema escuro
+const isDark = useDark();
 </script>

@@ -33,6 +33,8 @@
     "@nuxtjs/tailwindcss": "latest",
     "@pinia/nuxt": "^0.9.0",
     "@types/node": "^20.11.0",
+    "@vueuse/core": "^12.2.0",
+    "@vueuse/nuxt": "^12.2.0",
     "pinia": "^2.3.0",
     "vue": "^3.4.0"
   },
