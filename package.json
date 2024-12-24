@@ -31,7 +31,9 @@
     "@nuxt/ui": "latest",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/tailwindcss": "latest",
+    "@pinia/nuxt": "^0.9.0",
     "@types/node": "^20.11.0",
+    "pinia": "^2.3.0",
     "vue": "^3.4.0"
   },
   "engines": {
