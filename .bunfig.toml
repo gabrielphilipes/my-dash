@@ -1,0 +1,7 @@
+[install]
+frozen = true
+production = false
+
+[install.cache]
+dir = ".bun"
+disable = false 
