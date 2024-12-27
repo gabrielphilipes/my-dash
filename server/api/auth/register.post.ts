@@ -30,11 +30,13 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  console.table({
-    name: user.name,
-    email: user.email,
-    emailVerificationCode: user.emailVerificationCode
-  })
+  if (process.env.NODE_ENV === 'development') {
+    console.table({
+      name: user.name,
+      email: user.email,
+      emailVerificationCode: user.emailVerificationCode
+    })
+  }
 
   return user
 })
