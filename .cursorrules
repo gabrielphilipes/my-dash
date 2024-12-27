@@ -3,5 +3,7 @@ Os arquivos do frontend, devem ser criados na pasta `./app` e os arquivos do bac
 O projeto está usando:
 
 - `Nuxt UI` como biblioteca de componentes.
+- `NuxtHub` para auxiliar o deploy, junto a Cloudflare.
+- `Drizzle` como ORM.
 - `bun` como gerenciador de pacotes.
 - `TypeScript` como linguagem de programação.

@@ -5,7 +5,7 @@
 <template>
   <NuxtLoadingIndicator />
 
-  <Toaster position="top-right" rich-colors :duration="5000" />
+  <Toaster position="top-center" rich-colors :duration="5000" />
 
   <NuxtLayout>
     <NuxtPage />

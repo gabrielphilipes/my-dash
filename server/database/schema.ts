@@ -7,5 +7,13 @@ export const users = sqliteTable('users', {
     .$default(() => nanoid()),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).$default(() => new Date())
+  emailVerified: integer('emailVerified', { mode: 'timestamp' }),
+  emailVerificationCode: text('emailVerificationCode'),
+  avatarUrl: text('avatarUrl'),
+  permissions: text('permissions', { mode: 'json' }).$default(() => ['user']),
+  password: text('password'),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).$onUpdate(() => new Date()),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).$default(() => new Date())
 })
+
+export type CreateUser = typeof users.$inferInsert

@@ -79,6 +79,11 @@ export default defineNuxtConfig({
       '/api/*': {
         maxRequests: 45,
         intervalSeconds: 60
+      },
+
+      '/api/auth/*': {
+        maxRequests: 5,
+        intervalSeconds: 60
       }
     }
   },

@@ -42,7 +42,7 @@
       <p class="block text-center text-xs text-gray-400">ou digite seus dados abaixo</p>
     </div>
 
-    <UForm :schema="schema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
+    <UForm :schema="RegisterSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
       <UFormGroup name="name">
         <UInput v-model="state.name" placeholder="Digite seu nome" />
       </UFormGroup>
@@ -74,24 +74,25 @@
       <UButton type="submit" class="justify-center" :disabled="!isValid" :loading="isLoading">
         Cadastrar
       </UButton>
+
+      <p class="text-center text-xs text-gray-400">
+        Já tem uma conta? <NuxtLink to="/login">Faça login</NuxtLink>
+      </p>
     </UForm>
   </section>
 </template>
 
 <script setup lang="ts">
-  import { z } from 'zod'
+  import type { FormSubmitEvent } from '#ui/types'
+  import { toast } from 'vue-sonner'
+  import { RegisterSchema } from '~~/server/validations/auth'
+  import type { RegisterSchema as RegisterSchemaType } from '~~/server/validations/auth'
 
   definePageMeta({
     layout: 'auth'
   })
 
-  const schema = z.object({
-    name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
-    email: z.string().email('Email inválido'),
-    password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres')
-  })
-
-  const isValid = computed(() => schema.safeParse(state.value).success)
+  const isValid = computed(() => RegisterSchema.safeParse(state.value).success)
 
   const state = ref({
     name: '',
@@ -101,13 +102,20 @@
 
   const isLoading = ref(false)
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
-    console.log(data)
-
+  const onSubmit = async (event: FormSubmitEvent<RegisterSchemaType>) => {
     isLoading.value = true
 
-    setTimeout(() => {
-      isLoading.value = false
-    }, 2000)
+    await $fetch('/api/auth/register', {
+      method: 'POST',
+      body: event.data
+    })
+      .then(() => {
+        toast.success('Usuário criado com sucesso!')
+        navigateTo('/login')
+      })
+      .catch((error) => {
+        isLoading.value = false
+        toast.error(error.data.message)
+      })
   }
 </script>
