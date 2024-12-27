@@ -6,20 +6,6 @@ import type { CreateUser, SelectUser } from '../schema'
 class UserModel {
   async findByEmail(email: string) {
     try {
-      const [existingUser] = await useDB()
-        .select()
-        .from(schema.users)
-        .where(eq(schema.users.email, email))
-
-      return !!existingUser
-    } catch (error) {
-      console.error(error)
-      return false
-    }
-  }
-
-  async findByEmailVerificationCode(email: string) {
-    try {
       const user = await useDB()
         .select()
         .from(schema.users)

@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const user = await userModel.findByEmailVerificationCode(body.email)
+  const user = await userModel.findByEmail(body.email)
 
   if (!user) {
     throw createError({
