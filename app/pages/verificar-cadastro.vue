@@ -5,17 +5,17 @@
     </header>
 
     <UForm :schema="RegisterSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
-      <UFormGroup name="name">
+      <UFormField name="name">
         <UInput v-model="state.name" placeholder="Digite seu nome" />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup name="email">
+      <UFormField name="email">
         <UInput v-model="state.email" type="email" placeholder="Seu melhor e-mail" />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup name="password">
+      <UFormField name="password">
         <UInput v-model="state.password" type="password" placeholder="Uma senha forte" />
-      </UFormGroup>
+      </UFormField>
 
       <Transition
         enter-active-class="transition duration-300 ease-out"

@@ -11,7 +11,7 @@
 
 <template>
   <ul class="bg-white rounded-md p-2 text-xs text-gray-500">
-    <li>
+    <li class="flex items-center gap-1">
       <UIcon
         name="material-symbols:check-circle-rounded"
         :class="[isMin8Characters ? 'text-green-500' : 'text-red-400']"
@@ -19,7 +19,7 @@
       <span>Mínimo de 8 caracteres</span>
     </li>
 
-    <li>
+    <li class="flex items-center gap-1">
       <UIcon
         name="material-symbols:check-circle-rounded"
         :class="[hasUpperCase ? 'text-green-500' : 'text-red-400']"
@@ -27,7 +27,7 @@
       <span>Pelo menos uma letra maiúscula</span>
     </li>
 
-    <li>
+    <li class="flex items-center gap-1">
       <UIcon
         name="material-symbols:check-circle-rounded"
         :class="[hasNumber ? 'text-green-500' : 'text-red-400']"
@@ -35,7 +35,7 @@
       <span>Pelo menos um número</span>
     </li>
 
-    <li>
+    <li class="flex items-center gap-1">
       <UIcon
         name="material-symbols:check-circle-rounded"
         :class="[hasSpecialCharacter ? 'text-green-500' : 'text-red-400']"
@@ -44,9 +44,3 @@
     </li>
   </ul>
 </template>
-
-<style scoped>
-  li {
-    @apply flex items-center gap-1;
-  }
-</style>

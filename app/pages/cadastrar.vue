@@ -7,12 +7,22 @@
     <div
       class="flex flex-wrap items-center justify-center gap-4 border-t border-gray-200 pt-4 mb-6"
     >
-      <UButton color="gray" class="flex items-center gap-2" size="xs">
+      <UButton
+        color="neutral"
+        variant="outline"
+        class="flex items-center gap-2 cursor-pointer"
+        size="xs"
+      >
         <Icon name="mdi:github" class="text-xl text-[#24292e]" />
         GitHub
       </UButton>
 
-      <UButton color="gray" class="flex items-center gap-2" size="xs">
+      <UButton
+        color="neutral"
+        variant="outline"
+        class="flex items-center gap-2 cursor-pointer"
+        size="xs"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 48 48">
           <path
             fill="#EA4335"
@@ -34,7 +44,12 @@
         Google
       </UButton>
 
-      <UButton color="gray" class="flex items-center gap-2" size="xs">
+      <UButton
+        color="neutral"
+        variant="outline"
+        class="flex items-center gap-2 cursor-pointer"
+        size="xs"
+      >
         <Icon name="mdi:facebook" class="text-xl text-[#1877f2]" />
         Facebook
       </UButton>
@@ -43,17 +58,22 @@
     </div>
 
     <UForm :schema="RegisterSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
-      <UFormGroup name="name">
-        <UInput v-model="state.name" placeholder="Digite seu nome" />
-      </UFormGroup>
+      <UFormField name="name">
+        <UInput v-model="state.name" placeholder="Digite seu nome" class="w-full" />
+      </UFormField>
 
-      <UFormGroup name="email">
-        <UInput v-model="state.email" type="email" placeholder="Seu melhor e-mail" />
-      </UFormGroup>
+      <UFormField name="email">
+        <UInput v-model="state.email" type="email" placeholder="Seu melhor e-mail" class="w-full" />
+      </UFormField>
 
-      <UFormGroup name="password">
-        <UInput v-model="state.password" type="password" placeholder="Uma senha forte" />
-      </UFormGroup>
+      <UFormField name="password">
+        <UInput
+          v-model="state.password"
+          type="password"
+          placeholder="Uma senha forte"
+          class="w-full"
+        />
+      </UFormField>
 
       <Transition
         enter-active-class="transition duration-300 ease-out"
