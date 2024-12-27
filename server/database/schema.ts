@@ -17,3 +17,4 @@ export const users = sqliteTable('users', {
 })
 
 export type CreateUser = typeof users.$inferInsert
+export type SelectUser = typeof users.$inferSelect

@@ -1,12 +1,14 @@
 export default defineAppConfig({
   ui: {
     gray: 'cool',
+    icons: {
+      loading: 'line-md:loading-loop'
+    },
     button: {
       base: 'font-heading',
       default: {
         size: 'md',
-        variant: 'solid',
-        loadingIcon: 'line-md:loading-loop'
+        variant: 'solid'
       },
       padding: {
         '2xs': 'p-1 !pt-0.5',

@@ -7,3 +7,10 @@ export const RegisterSchema = z.object({
 })
 
 export type RegisterSchema = z.infer<typeof RegisterSchema>
+
+export const ConfirmRegisterSchema = z.object({
+  pin: z.array(z.string()).length(6, 'Código de verificação inválido'),
+  email: z.string().email('Email inválido').optional()
+})
+
+export type ConfirmRegisterSchema = z.infer<typeof ConfirmRegisterSchema>

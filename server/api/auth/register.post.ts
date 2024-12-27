@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     email: body.email
   }
 
-  const emailVerificationCode = nanoid(10) // TODO: Send email to confirm email
+  const emailVerificationCode = nanoid(6) // TODO: Send email to confirm email
   const user = await userModel.createUsingPassword(payload, body.password, emailVerificationCode)
 
   if (!user) {
@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
     console.table({
       name: user.name,
       email: user.email,
-      emailVerificationCode: user.emailVerificationCode
+      emailVerificationCode
     })
   }
 

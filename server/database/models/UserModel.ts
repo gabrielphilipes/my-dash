@@ -1,7 +1,7 @@
 import { useDB } from '~~/server/utils/useDB'
 import * as schema from '../schema'
 import { eq } from 'drizzle-orm'
-import type { CreateUser } from '../schema'
+import type { CreateUser, SelectUser } from '../schema'
 
 class UserModel {
   async findByEmail(email: string) {
@@ -15,6 +15,21 @@ class UserModel {
     } catch (error) {
       console.error(error)
       return false
+    }
+  }
+
+  async findByEmailVerificationCode(email: string) {
+    try {
+      const user = await useDB()
+        .select()
+        .from(schema.users)
+        .where(eq(schema.users.email, email))
+        .get()
+
+      return user
+    } catch (error) {
+      console.error(error)
+      return null
     }
   }
 
@@ -38,6 +53,10 @@ class UserModel {
       console.error(error)
       return null
     }
+  }
+
+  async update(id: string, data: Partial<CreateUser>) {
+    return await useDB().update(schema.users).set(data).where(eq(schema.users.id, id))
   }
 }
 

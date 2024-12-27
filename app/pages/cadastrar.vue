@@ -131,7 +131,7 @@
     })
       .then(() => {
         toast.success('Usuário criado com sucesso!')
-        navigateTo('/login')
+        navigateTo(`/confirmar-cadastro?email=${state.value.email}`)
       })
       .catch((error) => {
         isLoading.value = false
