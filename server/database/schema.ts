@@ -8,7 +8,6 @@ export const users = sqliteTable('users', {
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   emailVerified: integer('emailVerified', { mode: 'timestamp' }),
-  emailVerificationCode: text('emailVerificationCode'),
   avatarUrl: text('avatarUrl'),
   permissions: text('permissions', { mode: 'json' }).$default(() => ['user']),
   password: text('password'),
@@ -40,3 +39,26 @@ export const oauthAccounts = sqliteTable(
 
 export type SelectOAuthAccount = typeof oauthAccounts.$inferSelect
 export type CreateOAuthAccount = typeof oauthAccounts.$inferInsert
+
+export enum TokenType {
+  EMAIL_VERIFICATION = 'email_verification',
+  PASSWORD_RESET = 'password_reset',
+  MAGIC_LINK = 'magic_link'
+}
+
+export const userCodes = sqliteTable('userCodes', {
+  id: text('id')
+    .primaryKey()
+    .$default(() => nanoid()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id),
+  type: text('type', { enum: Object.values(TokenType) as [string] }).notNull(),
+  code: text('code').notNull(),
+  expiresAt: integer('expiresAt', { mode: 'timestamp' }).notNull(),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).$onUpdate(() => new Date()),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).$default(() => new Date())
+})
+
+export type CreateUserCode = typeof userCodes.$inferInsert
+export type SelectUserCode = typeof userCodes.$inferSelect

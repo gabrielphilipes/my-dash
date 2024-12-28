@@ -1,5 +1,7 @@
 import { z } from 'zod'
 import { userModel } from '~~/server/database/models/UserModel'
+import { userCodeModel } from '~~/server/database/models/UserCodeModel'
+import { TokenType } from '~~/server/database/schema'
 
 const ConfirmRegisterSchema = z.object({
   email: z.string().email(),
@@ -27,15 +29,13 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  if (!user.emailVerificationCode) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: 'Empty email verification code',
-      message: 'Código de verificação inválido!'
-    })
-  }
+  const token = await userCodeModel.findValidCode(
+    user.id,
+    await hashPassword(body.pin),
+    TokenType.EMAIL_VERIFICATION
+  )
 
-  if (!(await verifyPassword(user.emailVerificationCode, body.pin))) {
+  if (!token) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Invalid pin',
@@ -43,8 +43,17 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  await userModel.update(user.id, {
-    emailVerified: new Date(),
-    emailVerificationCode: null
-  })
+  if (token.expiresAt < new Date()) {
+    await userCodeModel.deleteCode(token.id)
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Token expired',
+      message: 'Código de verificação expirado!'
+    })
+  }
+
+  await Promise.all([
+    userModel.update(user.id, { emailVerified: new Date() }),
+    userCodeModel.deleteCode(token.id)
+  ])
 })

@@ -2,6 +2,7 @@ import { useDB } from '~~/server/utils/useDB'
 import * as schema from '../schema'
 import { eq } from 'drizzle-orm'
 import type { CreateUser, SelectUser, SelectOAuthAccount } from '../schema'
+import { userCodeModel } from './UserCodeModel'
 
 class UserModel {
   async findByEmail(email: string): Promise<SelectUser | null> {
@@ -29,13 +30,25 @@ class UserModel {
       const hashedPassword = await hashPassword(password)
       const hashedEmailVerificationCode = await hashPassword(emailVerificationCode)
 
-      const dataToInsert = {
-        ...data,
-        password: hashedPassword,
-        emailVerificationCode: hashedEmailVerificationCode
+      const user = await useDB()
+        .insert(schema.users)
+        .values({
+          ...data,
+          password: hashedPassword
+        })
+        .returning()
+        .get()
+
+      if (user) {
+        await userCodeModel.create({
+          userId: user.id,
+          type: schema.TokenType.EMAIL_VERIFICATION,
+          code: hashedEmailVerificationCode,
+          expiresAt: new Date(Date.now() + 72 * 60 * 60 * 1000) // 72 hours (3 days)
+        })
       }
 
-      return await useDB().insert(schema.users).values(dataToInsert).returning().get()
+      return user
     } catch (error) {
       console.error(error)
       return null
