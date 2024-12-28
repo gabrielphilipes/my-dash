@@ -52,11 +52,6 @@ export default defineNuxtConfig({
   },
 
   // Modules
-  tailwindcss: {
-    exposeConfig: true,
-    viewer: true
-  },
-
   googleFonts: {
     families: {
       Faustina: [400, 500, 600, 700],
@@ -90,7 +85,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     session: {
       name: 'dash-session',
-      password: process.env.NUXT_SESSION_PASSWORD
+      password: process.env.NUXT_SESSION_PASSWORD ?? ''
     },
 
     oauth: {

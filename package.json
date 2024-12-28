@@ -11,7 +11,7 @@
     "postinstall": "nuxt prepare",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "nuxt typecheck",
+    "ts:check": "nuxt typecheck",
     "db:generate": "drizzle-kit generate",
     "db:studio": "drizzle-kit studio"
   },
@@ -22,8 +22,8 @@
     "nuxt": "^3.10.0",
     "nuxthub-ratelimit": "^1.0.4",
     "prettier": "^3.2.5",
-    "typescript": "~5.5.0",
-    "vue-tsc": "^1.8.27",
+    "typescript": "^5.7.2",
+    "vue-tsc": "^2.2.0",
     "wrangler": "^3.99.0"
   },
   "dependencies": {
