@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
+import { sqliteTable, text, integer, uniqueIndex } from 'drizzle-orm/sqlite-core'
 import { nanoid } from 'nanoid'
 
 export const users = sqliteTable('users', {
@@ -18,3 +18,25 @@ export const users = sqliteTable('users', {
 
 export type CreateUser = typeof users.$inferInsert
 export type SelectUser = typeof users.$inferSelect
+
+export const oauthAccounts = sqliteTable(
+  'oauthAccounts',
+  {
+    id: text('id').primaryKey(),
+    userId: text('userId').references(() => users.id),
+    provider: text('provider').notNull(),
+    providerAccountId: text('providerAccountId').notNull(),
+    updatedAt: integer('updatedAt', { mode: 'timestamp' }).$onUpdate(() => new Date()),
+    createdAt: integer('createdAt', { mode: 'timestamp' }).$default(() => new Date())
+  },
+  (table) => ({
+    userIdProviderIndex: uniqueIndex('userIdProviderIndex').on(table.userId, table.provider),
+    providerUniqueIndex: uniqueIndex('providerUniqueIndex').on(
+      table.provider,
+      table.providerAccountId
+    )
+  })
+)
+
+export type SelectOAuthAccount = typeof oauthAccounts.$inferSelect
+export type CreateOAuthAccount = typeof oauthAccounts.$inferInsert

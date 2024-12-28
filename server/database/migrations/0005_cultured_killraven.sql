@@ -1,0 +1,2 @@
+CREATE UNIQUE INDEX `userIdProviderIndex` ON `oauthAccounts` (`userId`,`provider`);--> statement-breakpoint
+CREATE UNIQUE INDEX `providerUniqueIndex` ON `oauthAccounts` (`provider`,`providerAccountId`);

@@ -4,15 +4,16 @@ import { eq } from 'drizzle-orm'
 import type { CreateUser, SelectUser } from '../schema'
 
 class UserModel {
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<SelectUser | null> {
     try {
       const user = await useDB()
         .select()
         .from(schema.users)
         .where(eq(schema.users.email, email))
+        .limit(1)
         .get()
 
-      return user
+      return user ?? null
     } catch (error) {
       console.error(error)
       return null
@@ -43,6 +44,39 @@ class UserModel {
 
   async update(id: string, data: Partial<CreateUser>) {
     return await useDB().update(schema.users).set(data).where(eq(schema.users.id, id))
+  }
+
+  async createUsingOAuth(data: {
+    name: string
+    email: string
+    avatarUrl?: string
+  }): Promise<CreateUser | null> {
+    try {
+      const dataToInsert = {
+        ...data,
+        emailVerified: new Date(),
+        permissions: ['user']
+      }
+
+      return await useDB().insert(schema.users).values(dataToInsert).returning().get()
+    } catch (error) {
+      console.error(error)
+      return null
+    }
+  }
+
+  async updateAvatar(id: string, avatarUrl: string) {
+    try {
+      return await useDB()
+        .update(schema.users)
+        .set({ avatarUrl })
+        .where(eq(schema.users.id, id))
+        .returning()
+        .get()
+    } catch (error) {
+      console.error(error)
+      return null
+    }
   }
 }
 
