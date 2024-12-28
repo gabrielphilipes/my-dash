@@ -28,7 +28,7 @@
   import { ConfirmRegisterSchema } from '~~/server/validations/auth'
   import type { ConfirmRegisterSchema as ConfirmRegisterSchemaType } from '~~/server/validations/auth'
 
-  definePageMeta({ layout: 'auth' })
+  definePageMeta({ layout: 'auth', middleware: ['guest'] })
 
   const route = useRoute()
 

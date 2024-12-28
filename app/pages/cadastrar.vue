@@ -66,6 +66,7 @@
   import type { RegisterSchema as RegisterSchemaType } from '~~/server/validations/auth'
 
   definePageMeta({
+    middleware: ['guest'],
     layout: 'auth'
   })
 
