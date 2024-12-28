@@ -1,36 +1,83 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center flex-col gap-4">
-    <template v-if="user">
-      <UCard>
-        <div class="flex flex-col items-center gap-4">
-          <UAvatar v-if="user.avatar" :src="user.avatar" :alt="user.name || ''" size="lg" />
+  <section>
+    <header class="mb-5 text-center">
+      <h2 class="text-2xl font-thin text-gray-700">Bem-vindo de volta!</h2>
+    </header>
 
-          <div class="text-center">
-            <h2 class="text-lg font-semibold">{{ user.name }}</h2>
-            <p class="text-gray-500">{{ user.email }}</p>
-            <p v-if="user.login" class="text-sm text-gray-400">@{{ user.login }}</p>
-          </div>
+    <div
+      class="flex flex-wrap items-center justify-center gap-4 border-t border-gray-200 pt-4 mb-6"
+    >
+      <AuthLoginWithGithub />
+      <AuthLoginWithGoogle />
+      <AuthLoginWithFacebook />
 
-          <UButton color="red" variant="soft" @click="logout"> Sair </UButton>
-        </div>
-      </UCard>
+      <p class="block text-center text-xs text-gray-400">ou digite seus dados abaixo</p>
+    </div>
 
-      <pre class="text-xs p-3 bg-yellow-100 border border-yellow-300 border-dashed rounded-md">{{
-        user
-      }}</pre>
-    </template>
+    <UForm :schema="LoginSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
+      <UFormField name="email">
+        <UInput v-model="state.email" type="email" placeholder="Seu e-mail" class="w-full" />
+      </UFormField>
 
-    <template v-else>
-      <LoginWithGithub />
-    </template>
-  </div>
+      <UFormField name="password">
+        <UInput v-model="state.password" type="password" placeholder="Sua senha" class="w-full" />
+      </UFormField>
+
+      <div class="flex justify-end">
+        <NuxtLink to="/esqueci-senha" class="text-xs text-gray-400 hover:text-gray-600">
+          Esqueceu sua senha?
+        </NuxtLink>
+      </div>
+
+      <UButton type="submit" class="justify-center" :disabled="!isValid" :loading="isLoading">
+        Entrar
+      </UButton>
+
+      <p class="text-center text-xs text-gray-400">
+        Não tem uma conta? <NuxtLink to="/cadastrar">Cadastre-se</NuxtLink>
+      </p>
+    </UForm>
+  </section>
 </template>
 
 <script setup lang="ts">
-  const { user, clear } = useUserSession()
+  import type { FormSubmitEvent } from '#ui/types'
+  import { toast } from 'vue-sonner'
+  import { LoginSchema } from '~~/server/validations/auth'
+  import type { LoginSchema as LoginSchemaType } from '~~/server/validations/auth'
 
-  const logout = async () => {
-    await clear()
-    navigateTo('/')
+  definePageMeta({
+    middleware: ['guest'],
+    layout: 'auth'
+  })
+
+  const isValid = computed(() => LoginSchema.safeParse(state.value).success)
+
+  const state = ref({
+    email: '',
+    password: ''
+  })
+
+  const isLoading = ref(false)
+
+  const onSubmit = async (event: FormSubmitEvent<LoginSchemaType>) => {
+    isLoading.value = true
+
+    const { fetch: refreshUserSession } = useUserSession()
+
+    try {
+      await $fetch('/api/auth/login', {
+        method: 'POST',
+        body: event.data
+      })
+
+      await refreshUserSession()
+
+      toast.success('Login realizado com sucesso!')
+      navigateTo('/')
+    } catch (error: any) {
+      isLoading.value = false
+      toast.error(error.data.message)
+    }
   }
 </script>

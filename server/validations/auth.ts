@@ -14,3 +14,10 @@ export const ConfirmRegisterSchema = z.object({
 })
 
 export type ConfirmRegisterSchema = z.infer<typeof ConfirmRegisterSchema>
+
+export const LoginSchema = z.object({
+  email: z.string().email('Email inválido'),
+  password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres')
+})
+
+export type LoginSchema = z.infer<typeof LoginSchema>
