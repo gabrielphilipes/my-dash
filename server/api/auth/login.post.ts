@@ -2,7 +2,6 @@ import { H3Event } from 'h3'
 import { LoginSchema } from '~~/server/validations/auth'
 import { userModel } from '~~/server/database/models/UserModel'
 import { UserResource } from '~~/server/resources/UserResource'
-import { oAuthAccountModel } from '~~/server/database/models/OAuthAccountModel'
 
 export default defineEventHandler(async (event: H3Event) => {
   const body = await readValidatedBody(event, (body) => LoginSchema.parse(body))
@@ -40,6 +39,14 @@ export default defineEventHandler(async (event: H3Event) => {
       statusCode: 401,
       statusMessage: 'Invalid password',
       message: 'E-mail ou senha inválidos'
+    })
+  }
+
+  if (user.emailVerified === null) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Email not verified',
+      message: 'E-mail não verificado. Por favor, verifique seu e-mail.'
     })
   }
 
