@@ -1,7 +1,7 @@
 import { useDB } from '~~/server/utils/useDB'
 import * as schema from '../schema'
 import { eq } from 'drizzle-orm'
-import type { CreateUser, SelectUser } from '../schema'
+import type { CreateUser, SelectUser, SelectOAuthAccount } from '../schema'
 
 class UserModel {
   async findByEmail(email: string): Promise<SelectUser | null> {
@@ -76,6 +76,19 @@ class UserModel {
     } catch (error) {
       console.error(error)
       return null
+    }
+  }
+
+  async findOAuthAccounts(userId: string): Promise<SelectOAuthAccount[]> {
+    try {
+      return await useDB()
+        .select()
+        .from(schema.oauthAccounts)
+        .where(eq(schema.oauthAccounts.userId, userId))
+        .all()
+    } catch (error) {
+      console.error(error)
+      return []
     }
   }
 }
