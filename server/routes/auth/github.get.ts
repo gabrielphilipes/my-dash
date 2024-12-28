@@ -1,6 +1,7 @@
 import { userModel } from '~~/server/database/models/UserModel'
 import { oAuthAccountModel } from '~~/server/database/models/OAuthAccountModel'
 import type { CreateUser, SelectUser } from '~~/server/database/schema'
+import { UserResource } from '~~/server/resources/UserResource'
 
 export default defineOAuthGitHubEventHandler({
   config: {
@@ -42,13 +43,10 @@ export default defineOAuthGitHubEventHandler({
       await oAuthAccountModel.create(userToSet.id, 'github', user.id)
     }
 
+    const userResource = UserResource(userToSet)
+
     await setUserSession(event, {
-      user: {
-        id: userToSet.id,
-        email: userToSet.email,
-        name: userToSet.name,
-        avatar: user.avatar_url
-      },
+      user: userResource,
       secure: {
         accessToken: tokens.accessToken
       }

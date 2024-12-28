@@ -3,15 +3,14 @@
     <template v-if="user">
       <UCard>
         <div class="flex flex-col items-center gap-4">
-          <UAvatar v-if="user.avatar" :src="user.avatar" :alt="user.name || ''" size="lg" />
+          <UAvatar :src="user.avatarUrl || ''" :alt="user.name || ''" size="lg" />
 
           <div class="text-center">
             <h2 class="text-lg font-semibold">{{ user.name }}</h2>
             <p class="text-gray-500">{{ user.email }}</p>
-            <p v-if="user.login" class="text-sm text-gray-400">@{{ user.login }}</p>
           </div>
 
-          <UButton color="red" variant="soft" @click="logout"> Sair </UButton>
+          <UButton color="error" variant="soft" @click="logout"> Sair </UButton>
         </div>
       </UCard>
     </template>
@@ -29,11 +28,11 @@
 </template>
 
 <script setup lang="ts">
-  definePageMeta({
-    middleware: ['auth']
-  })
+  import type { SelectUser } from '~~/server/database/schema'
 
-  const { user, clear } = useUserSession()
+  const { user: userSession, clear } = useUserSession()
+
+  const user = userSession.value as SelectUser | null
 
   const logout = async () => {
     await clear()
