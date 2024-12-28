@@ -53,7 +53,7 @@
       </UButton>
 
       <p class="text-center text-xs text-gray-400">
-        Já tem uma conta? <NuxtLink to="/login">Faça login</NuxtLink>
+        Já tem uma conta? <NuxtLink to="/entrar">Faça login</NuxtLink>
       </p>
     </UForm>
   </section>

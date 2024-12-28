@@ -21,7 +21,7 @@
         <h1 class="text-xl font-bold text-center">Bem-vindo!</h1>
         <p class="text-gray-500 mt-2 text-center">Faça login para continuar</p>
         <div class="mt-4">
-          <UButton to="/login" block> Entrar </UButton>
+          <UButton to="/entrar" block> Entrar </UButton>
         </div>
       </UCard>
     </template>
@@ -29,10 +29,14 @@
 </template>
 
 <script setup lang="ts">
+  definePageMeta({
+    middleware: ['auth']
+  })
+
   const { user, clear } = useUserSession()
 
   const logout = async () => {
     await clear()
-    navigateTo('/login')
+    navigateTo('/entrar')
   }
 </script>

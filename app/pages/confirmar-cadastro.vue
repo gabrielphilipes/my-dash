@@ -34,7 +34,7 @@
 
   onBeforeMount(() => {
     if (!route.query?.email) {
-      navigateTo('/login')
+      navigateTo('/entrar')
     }
   })
 
@@ -57,7 +57,7 @@
     })
       .then(() => {
         toast.success('Cadastro confirmado com sucesso!')
-        navigateTo('/login')
+        navigateTo('/entrar')
       })
       .catch((error) => {
         toast.error(error.data.message)

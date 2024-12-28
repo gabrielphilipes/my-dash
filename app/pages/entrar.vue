@@ -60,6 +60,15 @@
 
   const isLoading = ref(false)
 
+  const route = useRoute()
+
+  onMounted(() => {
+    const error = route.query?.error
+    if (error === 'unauthorized') {
+      toast.error('Você precisa estar logado para acessar esta página')
+    }
+  })
+
   const onSubmit = async (event: FormSubmitEvent<LoginSchemaType>) => {
     isLoading.value = true
 
