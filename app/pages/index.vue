@@ -28,6 +28,10 @@
 </template>
 
 <script setup lang="ts">
+  definePageMeta({
+    layout: 'app'
+  })
+
   import type { SelectUser } from '~~/server/database/schema'
 
   const { user: userSession, clear } = useUserSession()

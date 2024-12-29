@@ -55,7 +55,7 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       Faustina: [400, 500, 600, 700],
-      'Open Sans': [300, 400, 500, 700]
+      Roboto: [300, 400, 500, 700]
     },
     display: 'swap',
     download: true,

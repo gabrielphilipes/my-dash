@@ -15,6 +15,10 @@
   --color-primary-950: var(--ui-color-primary-950);
 }
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 h1,
 h2,
 h3,
