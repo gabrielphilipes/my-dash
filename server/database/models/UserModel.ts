@@ -104,6 +104,22 @@ class UserModel {
       return []
     }
   }
+
+  async updatePassword(id: string, newPassword: string): Promise<SelectUser | null> {
+    try {
+      const hashedPassword = await hashPassword(newPassword)
+
+      return await useDB()
+        .update(schema.users)
+        .set({ password: hashedPassword })
+        .where(eq(schema.users.id, id))
+        .returning()
+        .get()
+    } catch (error) {
+      console.error(error)
+      return null
+    }
+  }
 }
 
 export const userModel = new UserModel()

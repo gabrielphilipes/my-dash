@@ -22,16 +22,15 @@ class UserCodeModel {
       const userCode = await useDB()
         .select()
         .from(schema.userCodes)
-        .where(
-          and(
-            eq(schema.userCodes.userId, userId),
-            eq(schema.userCodes.code, code),
-            eq(schema.userCodes.type, type)
-          )
-        )
+        .where(and(eq(schema.userCodes.userId, userId), eq(schema.userCodes.type, type)))
         .get()
 
-      return userCode ?? null
+      if (!userCode) return null
+
+      const isValid = await verifyPassword(userCode.code, code)
+      if (!isValid) return null
+
+      return userCode
     } catch (error) {
       console.error(error)
       return null
