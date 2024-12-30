@@ -1,5 +1,5 @@
 <template>
-  <UContainer class="min-h-screen">
+  <UContainer class="min-h-screen max-w-[1728px]">
     <aside class="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r bg-gray-900 md:block">
       <div class="flex h-full flex-col justify-between">
         <div class="space-y-4 p-4">
@@ -61,10 +61,8 @@
       </div>
     </div>
 
-    <main class="lg:ml-64">
-      <div class="mx-auto max-w-7xl px-4 py-6 lg:px-8">
-        <slot />
-      </div>
+    <main class="md:ml-64">
+      <slot />
     </main>
   </UContainer>
 </template>
