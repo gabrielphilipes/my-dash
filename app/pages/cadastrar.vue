@@ -14,7 +14,12 @@
       <p class="block text-center text-xs text-gray-400">{{ t('auth.register.socialDivider') }}</p>
     </div>
 
-    <UForm :schema="RegisterSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
+    <UForm
+      :schema="RegisterSchema(t)"
+      :state="state"
+      class="flex flex-col gap-4"
+      @submit="onSubmit"
+    >
       <UFormField name="name">
         <UInput v-model="state.name" :placeholder="t('auth.register.form.name')" class="w-full" />
       </UFormField>
@@ -80,7 +85,7 @@
 
   const { t } = useI18n()
 
-  const isValid = computed(() => RegisterSchema.safeParse(state.value).success)
+  const isValid = computed(() => RegisterSchema(t).safeParse(state.value).success)
 
   const state = ref({
     name: '',

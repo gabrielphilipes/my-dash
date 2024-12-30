@@ -14,7 +14,7 @@
       <p class="block text-center text-xs text-gray-400">{{ t('auth.login.socialDivider') }}</p>
     </div>
 
-    <UForm :schema="LoginSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
+    <UForm :schema="LoginSchema(t)" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
       <UFormField name="email">
         <UInput
           v-model="state.email"
@@ -64,7 +64,7 @@
 
   const { t } = useI18n()
 
-  const isValid = computed(() => LoginSchema.safeParse(state.value).success)
+  const isValid = computed(() => LoginSchema(t).safeParse(state.value).success)
 
   const state = ref({
     email: '',

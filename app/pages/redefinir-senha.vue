@@ -9,7 +9,7 @@
     </header>
 
     <UForm
-      :schema="ResetPasswordSchema"
+      :schema="ResetPasswordSchema(t)"
       :state="state"
       class="flex flex-col gap-4"
       @submit="onSubmit"
@@ -64,10 +64,11 @@
     }
   })
 
-  const isValid = computed(() => ResetPasswordSchema.safeParse(state.value).success)
+  const isValid = computed(() => ResetPasswordSchema(t).safeParse(state.value).success)
   const state = ref<ResetPasswordSchemaType>({
     pin: [],
-    password: ''
+    password: '',
+    email: ''
   })
   const isLoading = ref(false)
 

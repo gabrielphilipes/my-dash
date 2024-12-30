@@ -8,7 +8,7 @@
     </header>
 
     <UForm
-      :schema="ForgotPasswordSchema"
+      :schema="ForgotPasswordSchema(t)"
       :state="state"
       class="flex flex-col gap-4"
       @submit="onSubmit"
@@ -47,7 +47,7 @@
 
   const { t } = useI18n()
 
-  const isValid = computed(() => ForgotPasswordSchema.safeParse(state.value).success)
+  const isValid = computed(() => ForgotPasswordSchema(t).safeParse(state.value).success)
   const state = ref<ForgotPasswordSchemaType>({ email: '' })
   const isLoading = ref<boolean>(false)
 

@@ -6,7 +6,7 @@ import { UserResource } from '~~/server/resources/UserResource'
 export default defineEventHandler(async (event: H3Event) => {
   const t = await useTranslation(event)
 
-  const body = await readValidatedBody(event, (body) => LoginSchema.parse(body))
+  const body = await readValidatedBody(event, (body) => LoginSchema(t).parse(body))
 
   const user = await userModel.findByEmail(body.email)
   if (!user) {

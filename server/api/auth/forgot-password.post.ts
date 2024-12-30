@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid'
 
 export default defineEventHandler(async (event) => {
   const t = await useTranslation(event)
-  const body = await readValidatedBody(event, (body) => ForgotPasswordSchema.parse(body))
+  const body = await readValidatedBody(event, (body) => ForgotPasswordSchema(t).parse(body))
 
   const user = await userModel.findByEmail(body.email)
   if (!user) return

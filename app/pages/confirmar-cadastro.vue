@@ -9,7 +9,7 @@
     </header>
 
     <div class="flex flex-wrap justify-center w-full max-w-xs mx-auto">
-      <UForm :state="state" @submit="onSubmit" :schema="ConfirmRegisterSchema">
+      <UForm :state="state" @submit="onSubmit" :schema="ConfirmRegisterSchema(t)">
         <UFormField name="pin">
           <UPinInput name="pin" size="xl" length="6" v-model="state.pin" :disabled="isLoading" />
         </UFormField>
@@ -39,7 +39,7 @@
   })
 
   const isLoading = ref(false)
-  const isValid = computed(() => ConfirmRegisterSchema.safeParse(state.value).success)
+  const isValid = computed(() => ConfirmRegisterSchema(t).safeParse(state.value).success)
   const state = ref<ConfirmRegisterSchemaType>({ pin: [] })
 
   const { t } = useI18n()

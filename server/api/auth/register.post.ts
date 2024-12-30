@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 
 export default defineEventHandler(async (event) => {
   const t = await useTranslation(event)
-  const body = await readValidatedBody(event, (body) => RegisterSchema.parse(body))
+  const body = await readValidatedBody(event, (body) => RegisterSchema(t).parse(body))
 
   if (await userModel.findByEmail(body.email)) {
     throw createError({
