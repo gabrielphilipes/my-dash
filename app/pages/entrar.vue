@@ -64,8 +64,14 @@
 
   onMounted(() => {
     const error = route.query?.error
+    const action = route.query?.action
+
     if (error === 'unauthorized') {
       toast.error('Você precisa estar logado para acessar esta página')
+    }
+
+    if (action === 'logout') {
+      toast.success('Você saiu com sucesso!')
     }
   })
 

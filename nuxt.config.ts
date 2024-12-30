@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxthub/core',
     'nuxthub-ratelimit',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
+    '@nuxtjs/i18n'
   ],
 
   devtools: { enabled: true },
@@ -51,6 +52,28 @@ export default defineNuxtConfig({
     }
   },
 
+  runtimeConfig: {
+    session: {
+      name: 'dash-session',
+      password: process.env.NUXT_SESSION_PASSWORD ?? ''
+    },
+
+    oauth: {
+      github: {
+        clientId: process.env.NUXT_OAUTH_GITHUB_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GITHUB_CLIENT_SECRET
+      },
+      google: {
+        clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET
+      },
+      facebook: {
+        clientId: process.env.NUXT_OAUTH_FACEBOOK_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_FACEBOOK_CLIENT_SECRET
+      }
+    }
+  },
+
   // Modules
   googleFonts: {
     families: {
@@ -82,25 +105,27 @@ export default defineNuxtConfig({
     }
   },
 
-  runtimeConfig: {
-    session: {
-      name: 'dash-session',
-      password: process.env.NUXT_SESSION_PASSWORD ?? ''
-    },
-
-    oauth: {
-      github: {
-        clientId: process.env.NUXT_OAUTH_GITHUB_CLIENT_ID,
-        clientSecret: process.env.NUXT_OAUTH_GITHUB_CLIENT_SECRET
+  i18n: {
+    strategy: 'no_prefix',
+    defaultLocale: 'pt-BR',
+    locales: [
+      {
+        code: 'pt-BR',
+        language: 'pt-BR',
+        files: ['pt-BR/auth.ts'],
+        name: 'Português (BR)'
       },
-      google: {
-        clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
-        clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET
-      },
-      facebook: {
-        clientId: process.env.NUXT_OAUTH_FACEBOOK_CLIENT_ID,
-        clientSecret: process.env.NUXT_OAUTH_FACEBOOK_CLIENT_SECRET
+      {
+        code: 'en',
+        language: 'en-US',
+        files: ['en/auth.ts'],
+        name: 'English'
       }
+    ],
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'lang_redirected',
+      redirectOn: 'root'
     }
   }
 })

@@ -63,7 +63,10 @@
     {
       label: 'Sair',
       icon: 'i-heroicons-arrow-right-on-rectangle',
-      to: '/sair'
+      onSelect: (event) => {
+        event.preventDefault()
+        window.location.href = '/sair'
+      }
     }
   ]
 </script>
