@@ -10,6 +10,7 @@ const ResetPasswordRequestSchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
+  const t = await useTranslation(event)
   const body = await readValidatedBody(event, (body) => ResetPasswordRequestSchema.parse(body))
 
   const user = await userModel.findByEmail(body.email)
@@ -17,7 +18,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 404,
       statusMessage: 'User not found',
-      message: 'Dados inválidos!'
+      message: t('auth.resetPassword.errors.invalidData')
     })
   }
 
@@ -27,7 +28,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 400,
       statusMessage: 'Invalid pin',
-      message: 'Código de verificação inválido!'
+      message: t('auth.resetPassword.errors.invalidCode')
     })
   }
 
@@ -37,7 +38,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 400,
       statusMessage: 'Token expired',
-      message: 'Código de verificação expirado! Solicite um novo código.'
+      message: t('auth.resetPassword.errors.expiredCode')
     })
   }
 

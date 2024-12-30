@@ -5,6 +5,7 @@ import { TokenType } from '~~/server/database/schema'
 import { nanoid } from 'nanoid'
 
 export default defineEventHandler(async (event) => {
+  const t = await useTranslation(event)
   const body = await readValidatedBody(event, (body) => ForgotPasswordSchema.parse(body))
 
   const user = await userModel.findByEmail(body.email)
@@ -12,10 +13,11 @@ export default defineEventHandler(async (event) => {
 
   const oauthAccounts = await userModel.findOAuthAccounts(user.id)
   if (oauthAccounts.length > 0) {
+    const provider = oauthAccounts[0]?.provider
     throw createError({
       statusCode: 400,
       statusMessage: 'OAuth account',
-      message: `Esta conta está vinculada ao ${oauthAccounts[0]?.provider}. Então não é possível redefinir a senha.`
+      message: t('auth.forgotPassword.errors.oauthAccount', { provider })
     })
   }
 

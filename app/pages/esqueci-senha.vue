@@ -1,9 +1,9 @@
 <template>
   <section>
     <header class="mb-5 text-center">
-      <h2 class="text-2xl font-thin text-gray-700">Recuperar senha</h2>
+      <h2 class="text-2xl font-thin text-gray-700">{{ t('auth.forgotPassword.title') }}</h2>
       <p class="text-sm text-gray-400 mt-2">
-        Digite seu e-mail para receber as instruções de recuperação de senha:
+        {{ t('auth.forgotPassword.description') }}
       </p>
     </header>
 
@@ -17,17 +17,18 @@
         <UInput
           v-model="state.email"
           type="email"
-          placeholder="Seu e-mail cadastrado"
+          :placeholder="t('auth.forgotPassword.form.email')"
           class="w-full"
         />
       </UFormField>
 
       <UButton type="submit" class="justify-center" :disabled="!isValid" :loading="isLoading">
-        Enviar instruções
+        {{ t('auth.forgotPassword.form.submit') }}
       </UButton>
 
       <p class="text-center text-xs text-gray-400">
-        Lembrou sua senha? <NuxtLink to="/entrar">Faça login</NuxtLink>
+        {{ t('auth.forgotPassword.rememberPassword') }}
+        <NuxtLink to="/entrar">{{ t('auth.forgotPassword.login') }}</NuxtLink>
       </p>
     </UForm>
   </section>
@@ -44,6 +45,8 @@
     layout: 'auth'
   })
 
+  const { t } = useI18n()
+
   const isValid = computed(() => ForgotPasswordSchema.safeParse(state.value).success)
   const state = ref<ForgotPasswordSchemaType>({ email: '' })
   const isLoading = ref<boolean>(false)
@@ -57,7 +60,7 @@
         body: event.data
       })
 
-      toast.success('Instruções enviadas para seu e-mail!')
+      toast.success(t('auth.forgotPassword.messages.success'))
       navigateTo(`/redefinir-senha?email=${state.value.email}`)
     } catch (error: any) {
       toast.error(error.data.message)

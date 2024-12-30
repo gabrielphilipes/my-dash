@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="mb-5 text-center">
-      <h2 class="text-2xl font-thin text-gray-700">Criar minha conta!</h2>
+      <h2 class="text-2xl font-thin text-gray-700">{{ t('auth.register.title') }}</h2>
     </header>
 
     <div
@@ -11,23 +11,28 @@
       <AuthLoginWithGoogle />
       <AuthLoginWithFacebook />
 
-      <p class="block text-center text-xs text-gray-400">ou digite seus dados abaixo</p>
+      <p class="block text-center text-xs text-gray-400">{{ t('auth.register.socialDivider') }}</p>
     </div>
 
     <UForm :schema="RegisterSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
       <UFormField name="name">
-        <UInput v-model="state.name" placeholder="Digite seu nome" class="w-full" />
+        <UInput v-model="state.name" :placeholder="t('auth.register.form.name')" class="w-full" />
       </UFormField>
 
       <UFormField name="email">
-        <UInput v-model="state.email" type="email" placeholder="Seu melhor e-mail" class="w-full" />
+        <UInput
+          v-model="state.email"
+          type="email"
+          :placeholder="t('auth.register.form.email')"
+          class="w-full"
+        />
       </UFormField>
 
       <UFormField name="password">
         <UInput
           v-model="state.password"
           type="password"
-          placeholder="Uma senha forte"
+          :placeholder="t('auth.register.form.password')"
           class="w-full"
         />
       </UFormField>
@@ -44,16 +49,19 @@
       </Transition>
 
       <p class="text-xs text-gray-400">
-        Ao criar uma conta, você concorda com os <a href="/">termos de uso</a> e a
-        <a href="/">política de privacidade</a>
+        {{ t('auth.register.terms.text') }}
+        <a href="/">{{ t('auth.register.terms.termsLink') }}</a>
+        {{ t('auth.register.terms.and') }}
+        <a href="/">{{ t('auth.register.terms.privacyLink') }}</a>
       </p>
 
       <UButton type="submit" class="justify-center" :disabled="!isValid" :loading="isLoading">
-        Cadastrar
+        {{ t('auth.register.form.submit') }}
       </UButton>
 
       <p class="text-center text-xs text-gray-400">
-        Já tem uma conta? <NuxtLink to="/entrar">Faça login</NuxtLink>
+        {{ t('auth.register.hasAccount') }}
+        <NuxtLink to="/entrar">{{ t('auth.register.login') }}</NuxtLink>
       </p>
     </UForm>
   </section>
@@ -69,6 +77,8 @@
     middleware: ['guest'],
     layout: 'auth'
   })
+
+  const { t } = useI18n()
 
   const isValid = computed(() => RegisterSchema.safeParse(state.value).success)
 
@@ -88,7 +98,7 @@
       body: event.data
     })
       .then(() => {
-        toast.success('Usuário criado com sucesso!')
+        toast.success(t('auth.register.messages.success'))
         navigateTo(`/confirmar-cadastro?email=${state.value.email}`)
       })
       .catch((error) => {

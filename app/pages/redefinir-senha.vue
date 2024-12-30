@@ -1,9 +1,9 @@
 <template>
   <section>
     <header class="mb-5 text-center">
-      <h2 class="text-2xl font-thin text-gray-700">Redefinir senha</h2>
+      <h2 class="text-2xl font-thin text-gray-700">{{ t('auth.resetPassword.title') }}</h2>
       <p class="text-sm text-gray-400 mt-2">
-        Digite o código de verificação enviado para o e-mail
+        {{ t('auth.resetPassword.description') }}
         <span class="font-bold">{{ route.query.email }}</span>
       </p>
     </header>
@@ -19,7 +19,12 @@
       </UFormField>
 
       <UFormField name="password">
-        <UInput v-model="state.password" type="password" placeholder="Nova senha" class="w-full" />
+        <UInput
+          v-model="state.password"
+          type="password"
+          :placeholder="t('auth.resetPassword.form.password')"
+          class="w-full"
+        />
       </UFormField>
 
       <Transition
@@ -34,7 +39,7 @@
       </Transition>
 
       <UButton type="submit" class="justify-center" :disabled="!isValid" :loading="isLoading">
-        Redefinir senha
+        {{ t('auth.resetPassword.form.submit') }}
       </UButton>
     </UForm>
   </section>
@@ -66,6 +71,8 @@
   })
   const isLoading = ref(false)
 
+  const { t } = useI18n()
+
   const onSubmit = async (event: FormSubmitEvent<ResetPasswordSchemaType>) => {
     isLoading.value = true
 
@@ -80,7 +87,7 @@
         }
       })
 
-      toast.success('Senha alterada com sucesso!')
+      toast.success(t('auth.resetPassword.messages.success'))
       navigateTo('/entrar')
     } catch (error: any) {
       toast.error(error.data.message)

@@ -1,10 +1,10 @@
 <template>
   <section>
     <header class="mb-5 text-center">
-      <h2 class="text-2xl font-thin text-gray-700">Verificar cadastro!</h2>
+      <h2 class="text-2xl font-thin text-gray-700">{{ t('auth.confirmRegister.title') }}</h2>
       <p class="text-sm text-gray-400 mt-2">
-        Para finalizar o cadastro, é necessário inserir o código de verificação enviado para o
-        e-mail <span class="font-bold">{{ route.query.email }}</span>
+        {{ t('auth.confirmRegister.description') }}
+        <span class="font-bold">{{ route.query.email }}</span>
       </p>
     </header>
 
@@ -15,7 +15,7 @@
         </UFormField>
 
         <UButton block class="mt-4 cursor-pointer" type="submit" :disabled="!isValid" loading-auto>
-          Confirmar cadastro!
+          {{ t('auth.confirmRegister.submit') }}
         </UButton>
       </UForm>
     </div>
@@ -42,6 +42,8 @@
   const isValid = computed(() => ConfirmRegisterSchema.safeParse(state.value).success)
   const state = ref<ConfirmRegisterSchemaType>({ pin: [] })
 
+  const { t } = useI18n()
+
   const onSubmit = async (event: FormSubmitEvent<ConfirmRegisterSchemaType>) => {
     isLoading.value = true
 
@@ -56,7 +58,7 @@
       }
     })
       .then(() => {
-        toast.success('Cadastro confirmado com sucesso!')
+        toast.success(t('auth.confirmRegister.messages.success'))
         navigateTo('/entrar')
       })
       .catch((error) => {

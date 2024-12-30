@@ -13,7 +13,7 @@ export default defineEventHandler(async (event: H3Event) => {
     throw createError({
       statusCode: 404,
       statusMessage: 'User not found',
-      message: t('auth.errors.credentials')
+      message: t('auth.login.errors.credentials')
     })
   }
 
@@ -25,14 +25,14 @@ export default defineEventHandler(async (event: H3Event) => {
       throw createError({
         statusCode: 401,
         statusMessage: 'OAuth account',
-        message: t('auth.errors.oauthAccount', { provider })
+        message: t('auth.login.errors.oauthAccount', { provider })
       })
     }
 
     throw createError({
       statusCode: 401,
       statusMessage: 'Password not set',
-      message: t('auth.errors.credentials')
+      message: t('auth.login.errors.credentials')
     })
   }
 
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event: H3Event) => {
     throw createError({
       statusCode: 401,
       statusMessage: 'Invalid password',
-      message: t('auth.errors.credentials')
+      message: t('auth.login.errors.credentials')
     })
   }
 
@@ -49,7 +49,7 @@ export default defineEventHandler(async (event: H3Event) => {
     throw createError({
       statusCode: 401,
       statusMessage: 'Email not verified',
-      message: t('auth.errors.emailNotVerified')
+      message: t('auth.login.errors.emailNotVerified')
     })
   }
 

@@ -9,13 +9,14 @@ const ConfirmRegisterSchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
+  const t = await useTranslation(event)
   const body = await readValidatedBody(event, (body) => ConfirmRegisterSchema.parse(body))
 
   if (!body.email) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Email is required',
-      message: 'E-mail inválido!'
+      message: t('auth.confirmRegister.errors.invalidEmail')
     })
   }
 
@@ -25,7 +26,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 404,
       statusMessage: 'User not found',
-      message: 'E-mail inválido!'
+      message: t('auth.confirmRegister.errors.invalidEmail')
     })
   }
 
@@ -35,7 +36,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 400,
       statusMessage: 'Invalid pin',
-      message: 'Código de verificação inválido!'
+      message: t('auth.confirmRegister.errors.invalidCode')
     })
   }
 
@@ -44,7 +45,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 400,
       statusMessage: 'Token expired',
-      message: 'Código de verificação expirado!'
+      message: t('auth.confirmRegister.errors.expiredCode')
     })
   }
 
