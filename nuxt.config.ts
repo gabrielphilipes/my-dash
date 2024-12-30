@@ -108,6 +108,9 @@ export default defineNuxtConfig({
   i18n: {
     strategy: 'no_prefix',
     defaultLocale: 'pt-BR',
+    experimental: {
+      localeDetector: 'localeDetector.ts'
+    },
     locales: [
       {
         code: 'pt-BR',

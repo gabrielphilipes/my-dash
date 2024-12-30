@@ -4,6 +4,8 @@ import { userModel } from '~~/server/database/models/UserModel'
 import { UserResource } from '~~/server/resources/UserResource'
 
 export default defineEventHandler(async (event: H3Event) => {
+  const t = await useTranslation(event)
+
   const body = await readValidatedBody(event, (body) => LoginSchema.parse(body))
 
   const user = await userModel.findByEmail(body.email)
@@ -11,7 +13,7 @@ export default defineEventHandler(async (event: H3Event) => {
     throw createError({
       statusCode: 404,
       statusMessage: 'User not found',
-      message: 'E-mail ou senha inválidos'
+      message: t('auth.errors.credentials')
     })
   }
 
@@ -19,17 +21,18 @@ export default defineEventHandler(async (event: H3Event) => {
     const oauthAccounts = await userModel.findOAuthAccounts(user.id)
 
     if (oauthAccounts.length > 0) {
+      const provider = oauthAccounts[0]?.provider
       throw createError({
         statusCode: 401,
         statusMessage: 'OAuth account',
-        message: `Esta conta está vinculada ao ${oauthAccounts[0]?.provider}. Por favor, faça login usando ${oauthAccounts[0]?.provider}.`
+        message: t('auth.errors.oauthAccount', { provider })
       })
     }
 
     throw createError({
       statusCode: 401,
       statusMessage: 'Password not set',
-      message: 'E-mail ou senha inválidos'
+      message: t('auth.errors.credentials')
     })
   }
 
@@ -38,7 +41,7 @@ export default defineEventHandler(async (event: H3Event) => {
     throw createError({
       statusCode: 401,
       statusMessage: 'Invalid password',
-      message: 'E-mail ou senha inválidos'
+      message: t('auth.errors.credentials')
     })
   }
 
@@ -46,7 +49,7 @@ export default defineEventHandler(async (event: H3Event) => {
     throw createError({
       statusCode: 401,
       statusMessage: 'Email not verified',
-      message: 'E-mail não verificado. Por favor, verifique seu e-mail.'
+      message: t('auth.errors.emailNotVerified')
     })
   }
 

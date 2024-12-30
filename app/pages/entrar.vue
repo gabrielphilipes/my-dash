@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="mb-5 text-center">
-      <h2 class="text-2xl font-thin text-gray-700">Bem-vindo de volta!</h2>
+      <h2 class="text-2xl font-thin text-gray-700">{{ t('auth.login.welcome') }}</h2>
     </header>
 
     <div
@@ -11,30 +11,41 @@
       <AuthLoginWithGoogle />
       <AuthLoginWithFacebook />
 
-      <p class="block text-center text-xs text-gray-400">ou digite seus dados abaixo</p>
+      <p class="block text-center text-xs text-gray-400">{{ t('auth.login.socialDivider') }}</p>
     </div>
 
     <UForm :schema="LoginSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
       <UFormField name="email">
-        <UInput v-model="state.email" type="email" placeholder="Seu e-mail" class="w-full" />
+        <UInput
+          v-model="state.email"
+          type="email"
+          :placeholder="t('auth.login.form.email')"
+          class="w-full"
+        />
       </UFormField>
 
       <UFormField name="password">
-        <UInput v-model="state.password" type="password" placeholder="Sua senha" class="w-full" />
+        <UInput
+          v-model="state.password"
+          type="password"
+          :placeholder="t('auth.login.form.password')"
+          class="w-full"
+        />
       </UFormField>
 
       <div class="flex justify-end">
         <NuxtLink to="/esqueci-senha" class="text-xs text-gray-400 hover:text-gray-600">
-          Esqueceu sua senha?
+          {{ t('auth.login.form.forgotPassword') }}
         </NuxtLink>
       </div>
 
       <UButton type="submit" class="justify-center" :disabled="!isValid" :loading="isLoading">
-        Entrar
+        {{ t('auth.login.form.submit') }}
       </UButton>
 
       <p class="text-center text-xs text-gray-400">
-        Não tem uma conta? <NuxtLink to="/cadastrar">Cadastre-se</NuxtLink>
+        {{ t('auth.login.noAccount') }}
+        <NuxtLink to="/cadastrar">{{ t('auth.login.signUp') }}</NuxtLink>
       </p>
     </UForm>
   </section>
@@ -50,6 +61,8 @@
     middleware: ['guest'],
     layout: 'auth'
   })
+
+  const { t } = useI18n()
 
   const isValid = computed(() => LoginSchema.safeParse(state.value).success)
 
@@ -67,11 +80,11 @@
     const action = route.query?.action
 
     if (error === 'unauthorized') {
-      toast.error('Você precisa estar logado para acessar esta página')
+      toast.error(t('auth.login.messages.unauthorized'))
     }
 
     if (action === 'logout') {
-      toast.success('Você saiu com sucesso!')
+      toast.success(t('auth.login.messages.logoutSuccess'))
     }
   })
 
@@ -88,7 +101,7 @@
 
       await refreshUserSession()
 
-      toast.success('Login realizado com sucesso!')
+      toast.success(t('auth.login.messages.loginSuccess'))
       navigateTo('/')
     } catch (error: any) {
       isLoading.value = false
