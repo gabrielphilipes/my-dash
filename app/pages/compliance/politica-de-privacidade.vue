@@ -5,13 +5,13 @@
 
   <main class="md:max-w-screen-md mx-auto">
     <header class="block mb-10">
-      <h1 class="text-5xl font-bold mb-2">{{ $t('compliance.termsOfUse.title') }}</h1>
+      <h1 class="text-5xl font-bold mb-2">{{ t('compliance.privacyPolicy.title') }}</h1>
       <span class="text-sm text-gray-500">
-        {{ $t('compliance.termsOfUse.lastUpdated') }}: {{ termsUse.lastUpdated }}
+        {{ t('compliance.privacyPolicy.lastUpdated') }}: {{ privacyPolicy.lastUpdated }}
       </span>
     </header>
 
-    <ContentRenderer :value="termsUse" class="space-y-4" />
+    <ContentRenderer :value="privacyPolicy" class="space-y-4" />
   </main>
 </template>
 
@@ -33,5 +33,7 @@
     }
   ]
 
-  const termsUse = await queryContent(`/terms-use-${locale.value.toLowerCase()}`).findOne()
+  const privacyPolicy = await queryContent(
+    `/privacy-policy-${locale.value.toLowerCase()}`
+  ).findOne()
 </script>

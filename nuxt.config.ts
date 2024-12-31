@@ -13,7 +13,8 @@ export default defineNuxtConfig({
     '@nuxthub/core',
     'nuxthub-ratelimit',
     'nuxt-auth-utils',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxt/content'
   ],
 
   devtools: { enabled: true },
@@ -115,14 +116,14 @@ export default defineNuxtConfig({
       {
         code: 'pt-BR',
         language: 'pt-BR',
-        files: ['pt-BR/auth.ts', 'pt-BR/validations.ts', 'pt-BR/layouts.ts'],
+        files: ['pt-BR/auth.ts', 'pt-BR/validations.ts', 'pt-BR/layouts.ts', 'pt-BR/compliance.ts'],
         name: 'Português (BR)',
         flag: '🇧🇷'
       },
       {
         code: 'en',
         language: 'en-US',
-        files: ['en/auth.ts', 'en/validations.ts', 'en/layouts.ts'],
+        files: ['en/auth.ts', 'en/validations.ts', 'en/layouts.ts', 'en/compliance.ts'],
         name: 'English',
         flag: '🇺🇸'
       }

@@ -6,7 +6,7 @@
         :disabled="locale.code === activeLocale"
         size="sm"
         :label="`${locale.flag} ${locale.name}`"
-        @click="setLocale(locale.code)"
+        @click="onClick(locale.code)"
         class="cursor-pointer"
       />
     </div>
@@ -15,4 +15,9 @@
 
 <script setup lang="ts">
   const { locales, locale: activeLocale, setLocale } = useI18n()
+
+  const onClick = (locale: string) => {
+    setLocale(locale as any)
+    window.location.reload()
+  }
 </script>
