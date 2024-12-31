@@ -5,7 +5,8 @@ export default defineNuxtRouteMiddleware((to) => {
     '/confirmar-cadastro',
     '/esqueci-senha',
     '/redefinir-senha',
-    '/compliance/'
+    '/compliance/termos-de-uso',
+    '/compliance/politica-de-privacidade'
   ]
 
   if (ignorePaths.includes(to.path)) {

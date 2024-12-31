@@ -11,7 +11,21 @@
       </div>
 
       <div>
-        <UButton>Entrar</UButton>
+        <UButton v-if="!loggedIn" to="/entrar">{{ t('auth.login.form.submit') }}</UButton>
+
+        <template v-else>
+          <div class="flex items-center space-x-2">
+            <UButton to="/" icon="material-symbols:arrow-outward" variant="soft">Dashboard</UButton>
+            <UButton
+              @click="logout"
+              icon="material-symbols:logout"
+              variant="link"
+              :title="t('userMenu.logout')"
+              color="neutral"
+              class="hover:text-red-500"
+            />
+          </div>
+        </template>
       </div>
     </div>
 
@@ -25,4 +39,11 @@
   import type { NavigationMenuItem } from '#ui/types'
 
   defineProps<{ menuItems: NavigationMenuItem[] }>()
+
+  const { loggedIn } = useUserSession()
+  const { t } = useI18n()
+
+  const logout = () => {
+    window.location.href = '/sair'
+  }
 </script>

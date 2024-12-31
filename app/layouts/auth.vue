@@ -15,11 +15,11 @@
     >
       <ul class="flex gap-4 justify-center mb-4">
         <li>
-          <a href="/">{{ $t('auth.footer.termsOfUse') }}</a>
+          <a href="/compliance/termos-de-uso">{{ $t('auth.footer.termsOfUse') }}</a>
         </li>
 
         <li>
-          <a href="/">{{ $t('auth.footer.privacyPolicy') }}</a>
+          <a href="/compliance/politica-de-privacidade">{{ $t('auth.footer.privacyPolicy') }}</a>
         </li>
       </ul>
 

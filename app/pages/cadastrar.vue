@@ -55,9 +55,9 @@
 
       <p class="text-xs text-gray-400">
         {{ t('auth.register.terms.text') }}
-        <a href="/">{{ t('auth.register.terms.termsLink') }}</a>
+        <a href="/compliance/termos-de-uso">{{ t('auth.register.terms.termsLink') }}</a>
         {{ t('auth.register.terms.and') }}
-        <a href="/">{{ t('auth.register.terms.privacyLink') }}</a>
+        <a href="/compliance/politica-de-privacidade">{{ t('auth.register.terms.privacyLink') }}</a>
       </p>
 
       <UButton type="submit" class="justify-center" :disabled="!isValid" :loading="isLoading">

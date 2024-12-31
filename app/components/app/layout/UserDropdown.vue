@@ -53,7 +53,7 @@
     {
       label: t('userMenu.termsOfUse'),
       icon: 'i-heroicons-document-text',
-      to: '/terms'
+      to: '/compliance/termos-de-uso'
     },
     {
       label: t('userMenu.sendFeedback'),
