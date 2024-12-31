@@ -1,11 +1,14 @@
 export default defineNuxtRouteMiddleware((to) => {
-  if (
-    to.path === '/entrar' ||
-    to.path === '/cadastrar' ||
-    to.path === '/confirmar-cadastro' ||
-    to.path === '/esqueci-senha' ||
-    to.path === '/redefinir-senha'
-  ) {
+  const ignorePaths = [
+    '/entrar',
+    '/cadastrar',
+    '/confirmar-cadastro',
+    '/esqueci-senha',
+    '/redefinir-senha',
+    '/compliance/'
+  ]
+
+  if (ignorePaths.includes(to.path)) {
     return
   }
 
