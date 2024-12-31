@@ -14,7 +14,9 @@
   </nav>
 
   <section class="mt-6">
-    <span class="text-xs font-medium uppercase text-gray-400 mb-3 block">Tarefas</span>
+    <span class="text-xs font-medium uppercase text-gray-400 mb-3 block">
+      {{ $t('nav.tasks.title') }}
+    </span>
 
     <div class="grid grid-cols-2 gap-2">
       <UButton
@@ -36,7 +38,9 @@
       </UButton>
     </div>
 
-    <span class="text-xs font-medium uppercase text-gray-400 mb-3 block mt-6">Tags</span>
+    <span class="text-xs font-medium uppercase text-gray-400 mb-3 block mt-6">
+      {{ $t('nav.tags.title') }}
+    </span>
 
     <div class="relative group">
       <div class="flex flex-wrap gap-2 max-h-[120px] overflow-hidden group-hover:max-h-full">
@@ -59,36 +63,38 @@
 <script setup lang="ts">
   import type { ButtonProps } from '#ui/types'
 
+  const { t } = useI18n()
+
   const items: ButtonProps[] = [
-    { label: 'Início', icon: 'i-heroicons-home', to: '/' },
-    { label: 'Projetos', icon: 'i-heroicons-shopping-cart', to: '/projects' },
-    { label: 'Configurações ', icon: 'i-heroicons-cog-6-tooth', to: '/settings' }
+    { label: t('nav.menu.home'), icon: 'i-heroicons-home', to: '/' },
+    { label: t('nav.menu.projects'), icon: 'i-heroicons-shopping-cart', to: '/projects' },
+    { label: t('nav.menu.settings'), icon: 'i-heroicons-cog-6-tooth', to: '/settings' }
   ]
 
   const stats = [
     {
-      label: 'Todas',
+      label: t('nav.tasks.all'),
       icon: 'i-heroicons-inbox',
       count: '28',
       color: 'text-blue-500',
       animate: false
     },
     {
-      label: 'Agendadas',
+      label: t('nav.tasks.scheduled'),
       icon: 'i-heroicons-calendar',
       count: '12',
       color: 'text-violet-500',
       animate: false
     },
     {
-      label: 'Para hoje',
+      label: t('nav.tasks.today'),
       icon: 'i-heroicons-sun',
       count: '5',
       color: 'text-yellow-500',
       animate: false
     },
     {
-      label: 'Urgentes',
+      label: t('nav.tasks.urgent'),
       icon: 'i-heroicons-exclamation-triangle',
       count: '3',
       color: 'text-red-500',

@@ -39,29 +39,30 @@
     showInfo: true
   })
 
+  const { t } = useI18n()
   const { user: userSession } = useUserSession()
   const user = userSession.value as SelectUser | null
 
   const items: DropdownMenuItem[] = [
     {
-      label: 'Minha conta',
+      label: t('userMenu.myAccount'),
       icon: 'i-heroicons-user-circle',
       to: '/settings/profile'
     },
     { type: 'separator' },
     {
-      label: 'Termos de uso',
+      label: t('userMenu.termsOfUse'),
       icon: 'i-heroicons-document-text',
       to: '/terms'
     },
     {
-      label: 'Enviar feedback',
+      label: t('userMenu.sendFeedback'),
       icon: 'i-heroicons-chat-bubble-left-right',
       to: '/feedback'
     },
     { type: 'separator' },
     {
-      label: 'Sair',
+      label: t('userMenu.logout'),
       icon: 'i-heroicons-arrow-right-on-rectangle',
       onSelect: (event) => {
         event.preventDefault()

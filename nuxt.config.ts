@@ -115,13 +115,13 @@ export default defineNuxtConfig({
       {
         code: 'pt-BR',
         language: 'pt-BR',
-        files: ['pt-BR/auth.ts', 'pt-BR/validations.ts'],
+        files: ['pt-BR/auth.ts', 'pt-BR/validations.ts', 'pt-BR/layouts.ts'],
         name: 'Português (BR)'
       },
       {
         code: 'en',
         language: 'en-US',
-        files: ['en/auth.ts', 'en/validations.ts'],
+        files: ['en/auth.ts', 'en/validations.ts', 'en/layouts.ts'],
         name: 'English'
       }
     ],
