@@ -88,18 +88,11 @@
     </footer>
   </UContainer>
 
-  <UModal v-model:open="modalRegisterTeam" title="Cadastrar time">
-    <template #body>
-      <span>Form in soon</span>
-    </template>
-  </UModal>
+  <AppModalRegisterTeam />
 </template>
 
 <script setup lang="ts">
   import type { NavigationMenuItem } from '#ui/types'
-
-  // Default state's to app
-  const modalRegisterTeam = useState('modalRegisterTeam', () => false)
 
   const isSidebarOpen = ref(false)
 
