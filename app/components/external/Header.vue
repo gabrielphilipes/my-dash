@@ -2,8 +2,8 @@
   <header class="mb-24">
     <div class="flex justify-between items-center">
       <div class="flex items-center space-x-2">
-        <UIcon name="i-heroicons-bolt" class="h-8 w-8 text-primary-500" />
-        <h1 class="text-xl font-bold text-black">Catalyst</h1>
+        <UIcon name="fluent:task-list-ltr-24-filled" class="h-8 w-8 text-primary-500" />
+        <h1 class="text-xl font-bold text-black">{{ siteData.name }}</h1>
       </div>
 
       <div class="hidden md:block">

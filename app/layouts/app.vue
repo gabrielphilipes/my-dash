@@ -4,8 +4,8 @@
       <div class="flex h-full flex-col justify-between">
         <div class="space-y-4 p-4">
           <div class="flex items-center space-x-2 border-b pb-4">
-            <UIcon name="i-heroicons-bolt" class="h-8 w-8 text-primary-500" />
-            <h1 class="text-xl font-bold text-white">Catalyst</h1>
+            <UIcon name="fluent:task-list-ltr-24-filled" class="h-8 w-8 text-primary-500" />
+            <h1 class="text-xl font-bold text-white">{{ siteData.name }}</h1>
           </div>
 
           <AppLayoutNav />
@@ -61,12 +61,64 @@
       </div>
     </div>
 
-    <main class="md:ml-64">
+    <main class="mt-16 md:ml-64 md:mt-0">
       <slot />
     </main>
+
+    <footer
+      class="mt-36 mb-10 md:ml-64 border-t border-gray-200 pt-10 opacity-50 hover:opacity-100 transition-opacity duration-300"
+    >
+      <div class="flex items-center justify-between">
+        <UNavigationMenu color="neutral" variant="link" :items="menuItems" />
+
+        <UButton
+          variant="ghost"
+          color="neutral"
+          icon="i-heroicons-arrow-up-on-square"
+          class="text-sm cursor-pointer"
+          @click="scrollToTop"
+        >
+          Topo
+        </UButton>
+      </div>
+
+      <span class="block text-center text-sm text-gray-500 mt-24"
+        >© {{ siteData.year }} - {{ siteData.name }}</span
+      >
+    </footer>
   </UContainer>
+
+  <UModal v-model:open="modalRegisterTeam" title="Cadastrar time">
+    <template #body>
+      <span>Form in soon</span>
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
+  import type { NavigationMenuItem } from '#ui/types'
+
+  // Default state's to app
+  const modalRegisterTeam = useState('modalRegisterTeam', () => false)
+
   const isSidebarOpen = ref(false)
+
+  const { t } = useI18n()
+
+  const menuItems: NavigationMenuItem[] = [
+    {
+      label: t('compliance.menu.termsOfUse'),
+      target: '_blank',
+      to: '/compliance/termos-de-uso'
+    },
+    {
+      label: t('compliance.menu.privacyPolicy'),
+      target: '_blank',
+      to: '/compliance/politica-de-privacidade'
+    }
+  ]
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 </script>
