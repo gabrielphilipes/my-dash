@@ -1,4 +1,6 @@
-Os arquivos do frontend, devem ser criados na pasta `./app` e os arquivos do backend, na pasta `./server`, seguindo a estrutura de diretórios do Nuxt 4.
+Os arquivos do frontend, devem ser criados na pasta `./app`.
+Os arquivos do backend, devem ser criados na pasta `./server/api` e os arquivos de validação, na pasta `./server/validations`.
+Ambos devem ser criados seguindo a estrutura de diretórios do Nuxt 4.
 
 O projeto está usando:
 
@@ -8,3 +10,4 @@ O projeto está usando:
 - `Drizzle` como ORM.
 - `bun` como gerenciador de pacotes.
 - `TypeScript` como linguagem de programação.
+- `i18n` como gerenciador de internacionalização e não se deve sugerir seu uso, sem uma solicitação do usuário.

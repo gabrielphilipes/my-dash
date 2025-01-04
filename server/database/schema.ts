@@ -62,3 +62,29 @@ export const userCodes = sqliteTable('userCodes', {
 
 export type CreateUserCode = typeof userCodes.$inferInsert
 export type SelectUserCode = typeof userCodes.$inferSelect
+
+export const teams = sqliteTable('teams', {
+  id: text('id')
+    .primaryKey()
+    .$default(() => nanoid()),
+  name: text('name').notNull(),
+  description: text('description'),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).$default(() => new Date()),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).$onUpdate(() => new Date())
+})
+
+export type CreateTeam = typeof teams.$inferInsert
+export type SelectTeam = typeof teams.$inferSelect
+
+export const teamMembers = sqliteTable('teamMembers', {
+  id: text('id')
+    .primaryKey()
+    .$default(() => nanoid()),
+  teamId: text('teamId').references(() => teams.id),
+  userId: text('userId').references(() => users.id),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).$default(() => new Date()),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).$onUpdate(() => new Date())
+})
+
+export type CreateTeamMember = typeof teamMembers.$inferInsert
+export type SelectTeamMember = typeof teamMembers.$inferSelect

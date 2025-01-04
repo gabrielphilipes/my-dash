@@ -1,4 +1,8 @@
 <template>
+  <div class="flex items-center justify-between my-6">
+    <AppLayoutTeamSelector />
+  </div>
+
   <nav class="space-y-1">
     <UButton
       v-for="item in items"
