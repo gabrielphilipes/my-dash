@@ -78,7 +78,7 @@
           class="text-sm cursor-pointer"
           @click="scrollToTop"
         >
-          Topo
+          {{ $t('layoutDashboard.backToTop') }}
         </UButton>
       </div>
 

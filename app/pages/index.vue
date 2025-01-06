@@ -1,5 +1,5 @@
 <template>
-  <AppPageHeader title="Seja bem-vindo(a) de volta 👋🏻" />
+  <AppPageHeader :title="$t('dashboard.welcomeBack')" />
 
   <AppDashboardRegisterTeam />
 </template>

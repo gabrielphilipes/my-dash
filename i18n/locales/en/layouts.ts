@@ -27,5 +27,12 @@ export default {
     termsOfUse: 'Terms of Use',
     sendFeedback: 'Send Feedback',
     logout: 'Logout'
+  },
+  teamSelector: {
+    noTeams: 'Register a team',
+    registerNewTeam: 'Register new team'
+  },
+  layoutDashboard: {
+    backToTop: 'Top'
   }
 }

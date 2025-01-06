@@ -1,8 +1,8 @@
 <template>
   <UModal
     v-model:open="modalRegisterTeam"
-    title="Cadastrar time"
-    description="Ao cadastrar você poderá acrescentar membros e gerenciar suas atividades."
+    :title="$t('dashboard.team.modal.title')"
+    :description="$t('dashboard.team.modal.description')"
   >
     <template #body>
       <UForm
@@ -13,13 +13,21 @@
         ref="form"
       >
         <div>
-          <UFormField name="name" label="Nome do time" required>
-            <UInput v-model="state.name" placeholder="Ex: landing page" class="w-full" />
+          <UFormField name="name" :label="$t('dashboard.team.modal.form.name.label')" required>
+            <UInput
+              v-model="state.name"
+              :placeholder="$t('dashboard.team.modal.form.name.placeholder')"
+              class="w-full"
+            />
           </UFormField>
         </div>
 
-        <UFormField name="description" label="Descrição do time">
-          <UTextarea v-model="state.description" placeholder="Descrição do time" class="w-full" />
+        <UFormField name="description" :label="$t('dashboard.team.modal.form.description.label')">
+          <UTextarea
+            v-model="state.description"
+            :placeholder="$t('dashboard.team.modal.form.description.placeholder')"
+            class="w-full"
+          />
         </UFormField>
       </UForm>
     </template>
@@ -33,7 +41,7 @@
           :disabled="!isValid"
           :loading="isLoading"
         >
-          Cadastrar
+          {{ $t('dashboard.team.modal.submit') }}
         </UButton>
       </div>
     </template>
@@ -69,7 +77,7 @@
 
       teamsStore.teams.push(response.team)
 
-      toast.success('Time cadastrado com sucesso')
+      toast.success(t('dashboard.team.modal.success'))
 
       modalRegisterTeam.value = false
       setTimeout(() => (isLoading.value = false), 2000)

@@ -10,4 +10,4 @@ O projeto está usando:
 - `Drizzle` como ORM.
 - `bun` como gerenciador de pacotes.
 - `TypeScript` como linguagem de programação.
-- `i18n` como gerenciador de internacionalização e não se deve sugerir seu uso, sem uma solicitação do usuário.
+- `i18n` como gerenciador de internacionalização e não se deve sugerir seu uso, sem uma solicitação do usuário. Dentre a tag `<template>`, deve sempre ser usado o `$t()` para resgatar os textos e dentro do `<script *>` deve ser usado o `const { t } = useI18n()`.

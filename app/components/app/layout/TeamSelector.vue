@@ -22,6 +22,8 @@
   import type { SelectItem } from '#ui/types'
   import type { SelectTeam } from '~~/server/database/schema'
 
+  const { t } = useI18n()
+
   // Fetch teams from the API, during SSR
   const { data } = await useFetch('/api/teams')
   const teams = ref(data.value?.teams as SelectTeam[])
@@ -35,7 +37,7 @@
     if (!teams.value || teams.value.length === 0) {
       return [
         {
-          label: 'Cadastre um time',
+          label: t('teamSelector.noTeams'),
           value: 'no_teams',
           icon: 'i-lucide-circle-help'
         }
@@ -50,7 +52,7 @@
 
     items.push({ type: 'separator' })
     items.push({
-      label: 'Cadastrar novo time',
+      label: t('teamSelector.registerNewTeam'),
       value: 'register_new_team',
       icon: 'i-lucide-plus-circle'
     })

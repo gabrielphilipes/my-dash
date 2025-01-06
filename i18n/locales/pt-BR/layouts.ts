@@ -27,5 +27,12 @@ export default {
     termsOfUse: 'Termos de uso',
     sendFeedback: 'Enviar feedback',
     logout: 'Sair'
+  },
+  teamSelector: {
+    noTeams: 'Cadastre um time',
+    registerNewTeam: 'Cadastrar novo time'
+  },
+  layoutDashboard: {
+    backToTop: 'Topo'
   }
 }

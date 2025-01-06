@@ -1,6 +1,6 @@
 <template>
   <p class="text-gray-500 mb-10">
-    Para começar a criar e gerenciar tarefas, é necessário, primeiro, cadastrar um time.
+    {{ $t('dashboard.team.registerMessage') }}
   </p>
 
   <ULink
@@ -9,7 +9,7 @@
   >
     <div class="flex items-center gap-2">
       <UIcon name="ic:baseline-person-add-alt-1" class="size-10 text-primary-500" />
-      <span class="text-lg font-semibold">Cadastrar time</span>
+      <span class="text-lg font-semibold">{{ $t('dashboard.team.registerButton') }}</span>
     </div>
   </ULink>
 </template>
