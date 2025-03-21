@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Front-end
+- The project is using the NUXT 4 folder structure: all within `./app/**`
+
+General preferences
+- In the project I am using `bun` to manage packages
