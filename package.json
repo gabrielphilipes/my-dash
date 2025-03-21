@@ -1,23 +1,46 @@
 {
-  "name": "nuxt-app",
-  "private": true,
+  "name": "my-dash",
   "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "Gabriel Philipe Silva",
+    "email": "gabriel@philipe.dev",
+    "url": "https://philipe.dev"
+  },
+  "description": "Template SaaS com Nuxt.js",
+  "keywords": [
+    "nuxt",
+    "nuxt-app",
+    "nuxt-template",
+    "nuxt-starter"
+  ],
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "format": "prettier --write \"**/*.{js,ts,vue,json,css,scss,md}\"",
+    "format:check": "prettier --check \"**/*.{js,ts,vue,json,css,scss,md}\""
   },
   "dependencies": {
     "@nuxt/fonts": "0.11.0",
     "@nuxt/icon": "1.11.0",
     "@nuxt/scripts": "0.11.2",
     "@nuxt/ui": "3.0.1",
-    "@unhead/vue": "^2.0.0-rc.8",
+    "@unhead/vue": "^2.0.0-rc.13",
     "nuxt": "^3.16.1",
-    "typescript": "^5.6.3",
+    "typescript": "^5.8.2",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@nuxthub/core": "^0.8.18",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.1.19"
   }
 }

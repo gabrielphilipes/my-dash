@@ -1,0 +1,48 @@
+# Dependências
+node_modules
+.nuxt
+.output
+dist
+
+# Arquivos de build
+.nitro
+.cache
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de ambiente
+.env
+.env.*
+!.env.example
+
+# Arquivos de IDE
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Misc
+.fleet
+.fleet.*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Drizzle
+drizzle
+
+# Coverage directory
+coverage 
