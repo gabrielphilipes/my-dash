@@ -10,6 +10,7 @@
   })
 
   const isValid = computed<boolean>(() => LoginSchema.safeParse(state.value).success)
+  const showPassword = ref<boolean>(false)
   const loading = ref<boolean>(false)
 
   const handleSubmit = (e: SubmitEvent) => {
@@ -88,7 +89,25 @@
           </UFormField>
 
           <UFormField name="password" label="Senha">
-            <UInput v-model="state.password" type="password" placeholder="********" class="block" />
+            <UInput
+              v-model="state.password"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="********"
+              class="block"
+            >
+              <template #trailing>
+                <UButton
+                  color="neutral"
+                  variant="link"
+                  size="sm"
+                  :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                  :aria-label="showPassword ? 'Hide password' : 'Show password'"
+                  :aria-pressed="showPassword"
+                  aria-controls="password"
+                  @click="showPassword = !showPassword"
+                />
+              </template>
+            </UInput>
           </UFormField>
 
           <div class="flex items-center justify-between">

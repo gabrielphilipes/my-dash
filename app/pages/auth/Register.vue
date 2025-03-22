@@ -11,6 +11,8 @@
   })
 
   const isValid = computed<boolean>(() => RegisterSchema.safeParse(state.value).success)
+  const showPasswordFirst = ref<boolean>(false)
+  const showPasswordSecond = ref<boolean>(false)
   const loading = ref<boolean>(false)
 
   const handleSubmit = (e: SubmitEvent) => {
@@ -91,19 +93,45 @@
             <UFormField name="password" label="Senha" class="relative">
               <UInput
                 v-model="state.password"
-                type="password"
+                :type="showPasswordFirst ? 'text' : 'password'"
                 placeholder="********"
                 class="block"
-              />
+              >
+                <template #trailing>
+                  <UButton
+                    color="neutral"
+                    variant="link"
+                    size="sm"
+                    :icon="showPasswordFirst ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                    :aria-label="showPasswordFirst ? 'Hide password' : 'Show password'"
+                    :aria-pressed="showPasswordFirst"
+                    aria-controls="password"
+                    @click="showPasswordFirst = !showPasswordFirst"
+                  />
+                </template>
+              </UInput>
             </UFormField>
 
             <UFormField name="confirmPassword" label="Confirmar senha">
               <UInput
                 v-model="state.confirmPassword"
-                type="password"
+                :type="showPasswordSecond ? 'text' : 'password'"
                 placeholder="********"
                 class="block"
-              />
+              >
+                <template #trailing>
+                  <UButton
+                    color="neutral"
+                    variant="link"
+                    size="sm"
+                    :icon="showPasswordSecond ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                    :aria-label="showPasswordSecond ? 'Hide password' : 'Show password'"
+                    :aria-pressed="showPasswordSecond"
+                    aria-controls="password"
+                    @click="showPasswordSecond = !showPasswordSecond"
+                  />
+                </template>
+              </UInput>
             </UFormField>
           </div>
 
