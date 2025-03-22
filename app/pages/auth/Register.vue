@@ -1,10 +1,9 @@
 <script setup lang="ts">
   import { RegisterSchema, type RegisterSchemaType } from '~~/server/validations/auth'
 
-  const rememberEmail = useCookie<string | undefined>('my-email')
   const state = ref<RegisterSchemaType>({
     name: '',
-    email: rememberEmail.value ?? '',
+    email: '',
     password: '',
     confirmPassword: '',
     terms: false
@@ -84,7 +83,7 @@
             <UInput
               v-model="state.email"
               type="email"
-              :placeholder="`gabriel@${useAppConfig().site_name}.com`"
+              :placeholder="`gabriel@${useAppConfig().site_name.toLowerCase()}.com`"
               class="block"
             />
           </UFormField>

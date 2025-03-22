@@ -44,7 +44,7 @@
             variant="link"
             leading-icon="devicon:google"
             label="Google"
-            class="!text-zinc-600 hover:text-zinc-600 hover:bg-zinc-100"
+            class="!text-zinc-600 hover:text-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-800"
             :disabled="true"
           />
 
@@ -53,7 +53,7 @@
             variant="link"
             leading-icon="i-mdi-facebook"
             label="Facebook"
-            class="!text-[#1877F2] hover:text-[#1877F2] hover:bg-[#1877F2]/10"
+            class="!text-[#1877F2] hover:text-[#1877F2] hover:bg-[#1877F2]/20"
             :disabled="true"
           />
 
@@ -83,7 +83,7 @@
             <UInput
               v-model="state.email"
               type="email"
-              :placeholder="`gabriel@${useAppConfig().site_name}.com`"
+              :placeholder="`gabriel@${useAppConfig().site_name.toLowerCase()}.com`"
               class="block"
             />
           </UFormField>
