@@ -29,6 +29,7 @@
     "@nuxt/icon": "1.11.0",
     "@nuxt/scripts": "0.11.2",
     "@nuxt/ui": "3.0.1",
+    "@nuxtjs/google-fonts": "3.2.0",
     "@tailwindcss/vite": "^4.0.15",
     "@unhead/vue": "^2.0.0-rc.13",
     "nuxt": "^3.16.1",

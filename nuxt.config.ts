@@ -6,12 +6,22 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   future: { compatibilityVersion: 4 },
 
-  modules: ['@nuxt/fonts', '@nuxt/icon', '@nuxt/scripts', '@nuxt/ui', '@nuxthub/core'],
+  modules: ['@nuxt/icon', '@nuxt/scripts', '@nuxt/ui', '@nuxthub/core', '@nuxtjs/google-fonts'],
 
-  css: ['~/assets/css/tailwinds.css'],
+  css: ['~/assets/css/general.css'],
 
   // Modules
   vite: {
     plugins: [tailwindcss()]
+  },
+
+  googleFonts: {
+    families: {
+      Raleway: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+      Poppins: [100, 200, 300, 400, 500, 600, 700, 800, 900]
+    },
+    display: 'swap',
+    download: true,
+    preload: true
   }
 })
