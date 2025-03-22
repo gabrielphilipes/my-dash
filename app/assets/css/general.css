@@ -15,7 +15,7 @@
   }
 
   a {
-    @apply hover:text-primary-500;
+    @apply underline hover:text-primary-500;
   }
 
   button {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { AuthFooter } from '#components'
   import { LoginSchema, type LoginSchemaType } from '~~/server/validations/auth'
 
   const rememberEmail = useCookie<string | undefined>('my-email')
@@ -66,9 +67,9 @@
         </div>
 
         <div class="flex items-center gap-2 text-xs font-medium">
-          <span class="w-full h-[1px] bg-zinc-200" />
+          <span class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-700" />
           <p>ou</p>
-          <span class="w-full h-[1px] bg-zinc-200" />
+          <span class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-700" />
         </div>
 
         <UForm
@@ -81,7 +82,7 @@
             <UInput
               v-model="state.email"
               type="email"
-              placeholder="gabriel@my-dash.com"
+              :placeholder="`gabriel@${useAppConfig().site_name}.com`"
               class="block"
             />
           </UFormField>
@@ -97,7 +98,10 @@
               size="sm"
               :ui="{ label: 'cursor-pointer' }"
             />
-            <NuxtLink to="/recovery-password" class="text-xs font-medium text-zinc-400">
+            <NuxtLink
+              to="/recovery-password"
+              class="text-xs font-medium text-zinc-400 no-underline"
+            >
               Esqueceu sua senha?
             </NuxtLink>
           </div>
@@ -112,7 +116,7 @@
         </UForm>
 
         <div class="flex justify-center text-xs font-medium mt-4">
-          <div class="flex items-center gap-1 opacity-70 hover:opacity-100 my_transition">
+          <div class="flex items-center gap-1 opacity-70 text-zinc-400">
             <p>Não tem uma conta?</p>
             <NuxtLink to="/register">Crie sua conta!</NuxtLink>
           </div>
@@ -120,10 +124,14 @@
       </div>
     </section>
 
-    <aside class="hidden md:block w-5/12 lg:w-7/12 h-9/12 rounded-3xl overflow-hidden bg-zinc-100">
+    <aside
+      class="hidden md:block w-5/12 lg:w-7/12 h-9/12 rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-800"
+    >
       <div class="w-full h-full flex items-center justify-center">
         <img src="/images/login.svg" alt="Login background" class="w-full h-full object-cover" />
       </div>
     </aside>
   </main>
+
+  <AuthFooter />
 </template>
