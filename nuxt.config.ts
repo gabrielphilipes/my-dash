@@ -6,7 +6,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   future: { compatibilityVersion: 4 },
 
-  modules: ['@nuxt/icon', '@nuxt/scripts', '@nuxt/ui', '@nuxthub/core', '@nuxtjs/google-fonts'],
+  modules: [
+    '@nuxt/icon',
+    '@nuxt/scripts',
+    '@nuxt/ui',
+    '@nuxthub/core',
+    '@nuxtjs/google-fonts',
+    'vue-sonner/nuxt'
+  ],
 
   css: ['~/assets/css/general.css'],
 
