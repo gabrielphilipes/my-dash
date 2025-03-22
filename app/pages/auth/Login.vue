@@ -1,9 +1,28 @@
 <script setup lang="ts">
-  const state = ref({
-    email: '',
+  import { LoginSchema, type LoginSchemaType } from '~~/server/validations/auth'
+
+  const rememberEmail = useCookie<string | undefined>('my-email')
+  const state = ref<LoginSchemaType>({
+    email: rememberEmail.value ?? '',
     password: '',
-    remember: false
+    remember: !!rememberEmail.value
   })
+
+  const isValid = computed<boolean>(() => LoginSchema.safeParse(state.value).success)
+  const loading = ref<boolean>(false)
+
+  const handleSubmit = (e: SubmitEvent) => {
+    e.preventDefault()
+
+    if (!isValid.value) return
+
+    // Remove the cookie if the user doesn't want to remember the email
+    if (!state.value.remember) {
+      useCookie('my-email').value = ''
+    }
+
+    // TODO: Implement the login logic
+  }
 </script>
 
 <template>
@@ -52,13 +71,23 @@
           <span class="w-full h-[1px] bg-zinc-200" />
         </div>
 
-        <UForm :state="state" class="flex flex-col gap-4">
-          <UFormField label="Email" class="block">
-            <UInput v-model="state.email" label="Email" class="block" />
+        <UForm
+          :schema="LoginSchema"
+          :state="state"
+          @submit="handleSubmit"
+          class="flex flex-col gap-4"
+        >
+          <UFormField name="email" label="E-mail">
+            <UInput
+              v-model="state.email"
+              type="email"
+              placeholder="gabriel@my-dash.com"
+              class="block"
+            />
           </UFormField>
 
-          <UFormField label="Senha" class="block">
-            <UInput v-model="state.password" label="Password" class="block" />
+          <UFormField name="password" label="Senha">
+            <UInput v-model="state.password" type="password" placeholder="********" class="block" />
           </UFormField>
 
           <div class="flex items-center justify-between">
@@ -73,7 +102,13 @@
             </NuxtLink>
           </div>
 
-          <UButton label="Entrar" class="justify-center font-bold" />
+          <UButton
+            type="submit"
+            label="Entrar"
+            :disabled="!isValid"
+            :loading="loading"
+            class="justify-center font-bold"
+          />
         </UForm>
 
         <div class="flex justify-center text-xs font-medium mt-4">

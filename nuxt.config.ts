@@ -5,6 +5,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   future: { compatibilityVersion: 4 },
+  srcDir: 'app',
+  serverDir: 'server',
 
   modules: [
     '@nuxt/icon',
@@ -16,6 +18,10 @@ export default defineNuxtConfig({
   ],
 
   css: ['~/assets/css/general.css'],
+
+  nitro: {
+    preset: 'cloudflare-pages'
+  },
 
   // Modules
   vite: {
