@@ -4,8 +4,9 @@
     type RecoveryPasswordSchemaType
   } from '~~/server/validations/auth'
 
+  const rememberEmail = useCookie<string | undefined>('my-email')
   const state = ref<RecoveryPasswordSchemaType>({
-    email: ''
+    email: rememberEmail.value ?? ''
   })
 
   const isValid = computed<boolean>(() => RecoveryPasswordSchema.safeParse(state.value).success)
@@ -39,7 +40,7 @@
           @submit="handleSubmit"
           class="flex flex-col gap-4"
         >
-          <UFormField name="email" label="E-mail">
+          <UFormField name="email" label="E-mail" required>
             <UInput
               v-model="state.email"
               type="email"

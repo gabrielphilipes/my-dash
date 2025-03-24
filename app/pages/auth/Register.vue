@@ -75,11 +75,11 @@
           @submit="handleSubmit"
           class="flex flex-col gap-4"
         >
-          <UFormField name="name" label="Nome completo">
+          <UFormField name="name" label="Nome completo" required>
             <UInput v-model="state.name" type="text" placeholder="Gabriel Philipe" class="block" />
           </UFormField>
 
-          <UFormField name="email" label="E-mail">
+          <UFormField name="email" label="E-mail" required>
             <UInput
               v-model="state.email"
               type="email"
@@ -89,7 +89,7 @@
           </UFormField>
 
           <div class="grid md:grid-cols-2 gap-4">
-            <UFormField name="password" label="Senha" class="relative">
+            <UFormField name="password" label="Senha" class="relative" required>
               <UInput
                 v-model="state.password"
                 :type="showPasswordFirst ? 'text' : 'password'"
@@ -111,7 +111,7 @@
               </UInput>
             </UFormField>
 
-            <UFormField name="confirmPassword" label="Confirmar senha">
+            <UFormField name="confirmPassword" label="Confirmar senha" required>
               <UInput
                 v-model="state.confirmPassword"
                 :type="showPasswordSecond ? 'text' : 'password'"
