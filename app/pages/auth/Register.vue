@@ -21,6 +21,13 @@
 
     // TODO: Implement the login logic
   }
+
+  useHead({
+    title: 'Cadastre-se e tenha acesso a todos os recursos',
+    meta: [
+      // TODO: Add the meta tags
+    ]
+  })
 </script>
 
 <template>

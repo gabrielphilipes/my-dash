@@ -25,6 +25,13 @@
 
     // TODO: Implement the login logic
   }
+
+  useHead({
+    title: 'Acesse sua conta',
+    meta: [
+      // TODO: Add the meta tags
+    ]
+  })
 </script>
 
 <template>

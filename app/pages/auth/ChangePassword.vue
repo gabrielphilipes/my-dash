@@ -26,6 +26,13 @@
 
     // TODO: Implementar a lógica de troca de senha
   }
+
+  useHead({
+    title: 'Altere sua senha',
+    meta: [
+      // TODO: Add the meta tags
+    ]
+  })
 </script>
 
 <template>

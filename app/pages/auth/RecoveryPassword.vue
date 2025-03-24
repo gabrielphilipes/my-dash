@@ -19,6 +19,13 @@
 
     // TODO: Implementar a lógica de recuperação de senha
   }
+
+  useHead({
+    title: 'Recupere sua senha',
+    meta: [
+      // TODO: Add the meta tags
+    ]
+  })
 </script>
 
 <template>
