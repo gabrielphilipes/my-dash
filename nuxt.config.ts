@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
+import type { NuxtPage } from 'nuxt/schema'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -21,6 +22,16 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'cloudflare-pages'
+  },
+
+  hooks: {
+    'pages:extend'(pages: NuxtPage[]) {
+      // Add the auth routes
+      pages.push({ path: '/login', file: '~/pages/auth/Login.vue' })
+      pages.push({ path: '/register', file: '~/pages/auth/Register.vue' })
+      pages.push({ path: '/recovery-password', file: '~/pages/auth/RecoveryPassword.vue' })
+      pages.push({ path: '/change-password', file: '~/pages/auth/ChangePassword.vue' })
+    }
   },
 
   // Modules

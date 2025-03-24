@@ -8,6 +8,8 @@
   <Toaster position="top-center" :duration="5000" rich-colors close-button />
 
   <UApp>
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </UApp>
 </template>

@@ -26,6 +26,8 @@
       // TODO: Add the meta tags
     ]
   })
+
+  definePageMeta({ layout: false })
 </script>
 
 <template>
