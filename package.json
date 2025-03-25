@@ -41,7 +41,6 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@nuxthub/core": "^0.8.18",
     "@types/node": "^22.13.11",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",

@@ -9,19 +9,12 @@ export default defineNuxtConfig({
   srcDir: 'app',
   serverDir: 'server',
 
-  modules: [
-    '@nuxt/icon',
-    '@nuxt/scripts',
-    '@nuxt/ui',
-    '@nuxthub/core',
-    '@nuxtjs/google-fonts',
-    'vue-sonner/nuxt'
-  ],
+  modules: ['@nuxt/icon', '@nuxt/scripts', '@nuxt/ui', '@nuxtjs/google-fonts', 'vue-sonner/nuxt'],
 
   css: ['~/assets/css/general.css'],
 
   nitro: {
-    preset: 'cloudflare-pages'
+    preset: 'vercel'
   },
 
   hooks: {
