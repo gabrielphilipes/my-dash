@@ -39,7 +39,7 @@
     >
       <header class="text-center block mb-10">
         <h1 class="text-4xl font-bold">Cadastre-se ✍🏻</h1>
-        <p class="text-sm text-zinc-500">Escolha sua rede social ou insira seus dados abaixo</p>
+        <p class="text-sm text-neutral-500">Escolha sua rede social ou insira seus dados abaixo</p>
       </header>
 
       <div class="flex flex-col gap-5 w-full">
@@ -49,7 +49,7 @@
             variant="link"
             leading-icon="devicon:google"
             label="Google"
-            class="!text-zinc-600 hover:text-zinc-600 hover:bg-zinc-100"
+            class="!text-neutral-600 hover:text-neutral-600 hover:bg-neutral-100"
             :disabled="true"
           />
 
@@ -73,9 +73,9 @@
         </div>
 
         <div class="flex items-center gap-2 text-xs font-medium">
-          <span class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-700" />
+          <span class="w-full h-[1px] bg-neutral-200 dark:bg-neutral-700" />
           <p>ou</p>
-          <span class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-700" />
+          <span class="w-full h-[1px] bg-neutral-200 dark:bg-neutral-700" />
         </div>
 
         <UForm
@@ -162,7 +162,7 @@
         </UForm>
 
         <div class="flex justify-center text-xs font-medium mt-4">
-          <div class="flex items-center gap-1 text-zinc-400">
+          <div class="flex items-center gap-1 text-neutral-400">
             <p>Já tem uma conta?</p>
             <NuxtLink to="/login">Faça login!</NuxtLink>
           </div>

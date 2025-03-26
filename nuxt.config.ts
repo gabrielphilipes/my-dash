@@ -34,7 +34,7 @@ export default defineNuxtConfig({
 
   googleFonts: {
     families: {
-      Raleway: [100, 200, 300, 400, 500, 600, 700, 800, 900]
+      'DM Sans': [400, 500, 600, 700]
     },
     display: 'swap',
     download: true,

@@ -16,7 +16,7 @@
     size="sm"
     @update:model-value="colorMode.preference = isDark ? 'dark' : 'light'"
     :ui="{
-      label: 'text-xs text-zinc-400 cursor-pointer'
+      label: 'text-xs text-neutral-400 cursor-pointer'
     }"
   />
 </template>

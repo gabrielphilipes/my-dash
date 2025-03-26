@@ -37,7 +37,7 @@
     >
       <header class="text-center block mb-10">
         <h1 class="text-4xl font-bold">Recuperar senha 🔑</h1>
-        <p class="text-sm text-zinc-500">
+        <p class="text-sm text-neutral-500">
           Digite seu e-mail para receber as instruções de recuperação de senha
         </p>
       </header>
@@ -68,7 +68,7 @@
         </UForm>
 
         <div class="flex justify-center text-xs font-medium mt-4">
-          <div class="flex items-center gap-1 text-zinc-400">
+          <div class="flex items-center gap-1 text-neutral-400">
             <p>Lembrou sua senha?</p>
             <NuxtLink to="/login">Faça login!</NuxtLink>
           </div>

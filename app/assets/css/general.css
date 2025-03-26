@@ -2,7 +2,7 @@
 @import '@nuxt/ui';
 
 @theme {
-  --font-sans: 'Poppins', sans-serif;
+  --font-sans: 'DM Sans', sans-serif;
 }
 
 @layer utilities {

@@ -43,7 +43,7 @@
     <section class="w-10/12 mt-40 mx-auto md:w-7/12 lg:w-5/12 md:m-0">
       <header class="text-center block mb-10">
         <h1 class="text-4xl font-bold">Seja bem vindo 👋🏻</h1>
-        <p class="text-sm text-zinc-500">Faça login para continuar</p>
+        <p class="text-sm text-neutral-500">Faça login para continuar</p>
       </header>
 
       <div class="flex flex-col gap-5">
@@ -53,7 +53,7 @@
             variant="link"
             leading-icon="devicon:google"
             label="Google"
-            class="!text-zinc-600 hover:text-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            class="!text-neutral-600 hover:text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800"
             :disabled="true"
           />
 
@@ -77,9 +77,9 @@
         </div>
 
         <div class="flex items-center gap-2 text-xs font-medium">
-          <span class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-700" />
+          <span class="w-full h-[1px] bg-neutral-200 dark:bg-neutral-700" />
           <p>ou</p>
-          <span class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-700" />
+          <span class="w-full h-[1px] bg-neutral-200 dark:bg-neutral-700" />
         </div>
 
         <UForm
@@ -128,7 +128,7 @@
             />
             <NuxtLink
               to="/recovery-password"
-              class="text-xs font-medium text-zinc-400 no-underline"
+              class="text-xs font-medium text-neutral-400 no-underline"
             >
               Esqueceu sua senha?
             </NuxtLink>
@@ -144,7 +144,7 @@
         </UForm>
 
         <div class="flex justify-center text-xs font-medium mt-4">
-          <div class="flex items-center gap-1 opacity-70 text-zinc-400">
+          <div class="flex items-center gap-1 opacity-70 text-neutral-400">
             <p>Não tem uma conta?</p>
             <NuxtLink to="/register">Crie sua conta!</NuxtLink>
           </div>
@@ -153,7 +153,7 @@
     </section>
 
     <aside
-      class="hidden md:block w-5/12 lg:w-7/12 h-9/12 rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-800"
+      class="hidden md:block w-5/12 lg:w-7/12 h-9/12 rounded-3xl overflow-hidden bg-neutral-100 dark:bg-neutral-800"
     >
       <div class="w-full h-full flex items-center justify-center">
         <img src="/images/login.svg" alt="Login background" class="w-full h-full object-cover" />
