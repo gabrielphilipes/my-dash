@@ -31,11 +31,7 @@
     </aside>
 
     <div class="flex flex-col gap-10 mt-24 md:mt-2 w-full mx-auto mb-10 md:flex-1 md:pr-5">
-      <section
-        class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 md:rounded-lg text-sm"
-      >
-        <slot />
-      </section>
+      <slot />
 
       <footer
         class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 w-full mb-10 opacity-50 hover:opacity-100 my_transition"

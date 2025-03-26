@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppLayoutContent title="Home" description="Bem-vindo ao MyDash">
     <h1>Home</h1>
-  </div>
+  </AppLayoutContent>
 </template>
