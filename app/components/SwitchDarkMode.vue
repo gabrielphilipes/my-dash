@@ -11,7 +11,8 @@
   <USwitch
     unchecked-icon="i-lucide-moon"
     checked-icon="i-lucide-sun"
-    v-model="isDark"
+    v-model:model-value="isDark"
+    :default-value="isDark"
     :label="isDark ? 'Modo escuro' : 'Modo claro'"
     size="sm"
     @update:model-value="colorMode.preference = isDark ? 'dark' : 'light'"
