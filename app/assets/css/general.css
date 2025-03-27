@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 @import '@nuxt/ui';
 
 @theme {
@@ -20,5 +21,9 @@
 
   button {
     @apply cursor-pointer;
+  }
+
+  .prose {
+    @apply !w-full !max-w-none;
   }
 }
