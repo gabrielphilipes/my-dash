@@ -1,60 +1,6 @@
 <script setup lang="ts">
-  import type { NavigationMenuItem, DropdownMenuItem, SelectItem } from '@nuxt/ui'
-
-  const navHeader = ref<NavigationMenuItem[][]>([
-    [
-      {
-        label: 'Home',
-        type: 'label'
-      },
-      {
-        label: 'Guide',
-        icon: 'i-lucide-book-open',
-        to: '/getting-started'
-      },
-      {
-        label: 'Composables',
-        icon: 'i-lucide-database',
-        to: '/composables'
-      },
-      {
-        label: 'Components',
-        icon: 'i-lucide-box',
-        to: '/components',
-        active: true
-      }
-    ]
-  ])
-
-  const navFooter = ref<NavigationMenuItem[][]>([
-    [
-      {
-        label: 'Composables',
-        icon: 'i-lucide-database',
-        to: '/composables'
-      },
-      {
-        label: 'Components',
-        icon: 'i-lucide-box',
-        to: '/components'
-      }
-    ]
-  ])
-
-  const dropdownItems = ref<DropdownMenuItem[]>([
-    {
-      label: 'Profile',
-      icon: 'i-lucide-user'
-    },
-    {
-      label: 'Billing',
-      icon: 'i-lucide-credit-card'
-    },
-    {
-      label: 'Settings',
-      icon: 'i-lucide-cog'
-    }
-  ])
+  import type { NavigationMenuItem, SelectItem } from '@nuxt/ui'
+  import { navLinksHeader, navLinksFooter, dropdownItems } from '~/utils/links'
 
   const dropdownUserOpen = ref<boolean>(false)
 
@@ -105,7 +51,7 @@
 
       <UNavigationMenu
         orientation="vertical"
-        :items="navHeader"
+        :items="navLinksHeader"
         :ui="{
           label: '-mb-1.5 mt-3',
           link: 'no-underline text-sm data-[active]:text-neutral-900 dark:data-[active]:text-neutral-50 dark:data-[active]:bg-neutral-900 rounded-[calc(var(--ui-radius)*1.5)]',
@@ -118,7 +64,7 @@
     <div class="flex flex-col gap-4">
       <UNavigationMenu
         orientation="vertical"
-        :items="navFooter"
+        :items="navLinksFooter"
         :ui="{
           link: 'no-underline text-xs rounded-[calc(var(--ui-radius)*1.5)]'
         }"

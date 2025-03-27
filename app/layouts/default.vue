@@ -47,8 +47,8 @@
               <UButton
                 label="Termos de uso"
                 variant="link"
-                to="/terms"
-                external
+                to="/compliance/terms"
+                target="_blank"
                 size="xs"
                 icon="i-lucide-external-link"
                 class="text-neutral-400 no-underline"
@@ -59,8 +59,8 @@
               <UButton
                 label="Política de privacidade"
                 variant="link"
-                to="/privacy"
-                external
+                to="/compliance/privacy"
+                target="_blank"
                 size="xs"
                 icon="i-lucide-external-link"
                 class="text-neutral-400 no-underline"

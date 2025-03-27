@@ -6,8 +6,8 @@
 
 <template>
   <ExternalContent
-    title="Termos de Uso"
-    description="Termos e Condições"
+    title="Política de Privacidade"
+    description="Política de Privacidade"
     date="27/03/2025"
     :nav-items="complianceLinks"
   >

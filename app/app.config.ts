@@ -9,6 +9,9 @@ export default defineAppConfig({
     icons: {
       loading: 'line-md:loading-loop'
     },
+    button: {
+      base: 'disabled:opacity-40'
+    },
     slideover: {
       slots: {
         overlay: 'backdrop-blur-xs'

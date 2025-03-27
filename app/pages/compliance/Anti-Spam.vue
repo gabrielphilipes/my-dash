@@ -6,8 +6,8 @@
 
 <template>
   <ExternalContent
-    title="Termos de Uso"
-    description="Termos e Condições"
+    title="Anti-Spam"
+    description="Política Anti-Spam"
     date="27/03/2025"
     :nav-items="complianceLinks"
   >

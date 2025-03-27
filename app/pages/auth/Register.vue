@@ -35,7 +35,7 @@
 <template>
   <main class="h-screen flex flex-col md:items-center md:justify-center">
     <section
-      class="flex-1 flex flex-col items-center justify-center w-10/12 mt-40 mx-auto md:max-w-xl md:m-0"
+      class="flex-1 flex flex-col items-center justify-center w-10/12 mt-40 mb-10 mx-auto md:max-w-xl md:m-0"
     >
       <header class="text-center block mb-10">
         <h1 class="text-4xl font-bold">Cadastre-se ✍🏻</h1>
@@ -147,8 +147,8 @@
             <UCheckbox v-model="state.terms" size="sm" :ui="{ label: 'cursor-pointer' }" />
             <p class="text-xs font-medium cursor-pointer" @click="state.terms = !state.terms">
               Ao se cadastrar, você concorda com os
-              <NuxtLink to="/terms">termos de uso</NuxtLink> e a
-              <NuxtLink to="/privacy">política de privacidade</NuxtLink>
+              <NuxtLink to="/compliance/terms" target="_blank">termos de uso</NuxtLink> e a
+              <NuxtLink to="/compliance/privacy" target="_blank">política de privacidade</NuxtLink>
             </p>
           </div>
 
