@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { NavigationMenuItem, SelectItem } from '@nuxt/ui'
+  import type { SelectItem } from '@nuxt/ui'
   import { navLinksHeader, navLinksFooter, dropdownItems } from '~/utils/links'
 
   const dropdownUserOpen = ref<boolean>(false)

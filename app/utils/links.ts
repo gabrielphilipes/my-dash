@@ -23,16 +23,20 @@ export const navLinksFooter = ref<NavigationMenuItem[]>([
 
 export const dropdownItems = ref<DropdownMenuItem[]>([
   {
-    label: 'Profile',
+    label: 'Perfil',
     icon: 'i-lucide-user'
   },
   {
-    label: 'Billing',
-    icon: 'i-lucide-credit-card'
+    label: 'Configurações',
+    icon: 'i-lucide-cog'
   },
   {
-    label: 'Settings',
-    icon: 'i-lucide-cog'
+    type: 'separator'
+  },
+  {
+    label: 'Sair da conta',
+    icon: 'i-lucide-log-out',
+    color: 'error'
   }
 ])
 

@@ -1,15 +1,20 @@
 <script setup lang="ts">
-  import { RegisterSchema, type RegisterSchemaType } from '~~/server/validations/auth'
+  import { ChangePasswordSchema, type ChangePasswordSchemaType } from '~~/server/validations/auth'
 
-  const state = ref<RegisterSchemaType>({
-    name: '',
-    email: '',
+  const route = useRoute()
+  const token = route.query.token as string
+
+  if (!token) {
+    navigateTo('/recovery-password')
+  }
+
+  const state = ref<ChangePasswordSchemaType>({
+    token,
     password: '',
-    confirmPassword: '',
-    terms: false
+    confirmPassword: ''
   })
 
-  const isValid = computed<boolean>(() => RegisterSchema.safeParse(state.value).success)
+  const isValid = computed<boolean>(() => ChangePasswordSchema.safeParse(state.value).success)
   const showPasswordFirst = ref<boolean>(false)
   const showPasswordSecond = ref<boolean>(false)
   const loading = ref<boolean>(false)
@@ -19,11 +24,11 @@
 
     if (!isValid.value) return
 
-    // TODO: Implement the login logic
+    // TODO: Implementar a lógica de troca de senha
   }
 
   useHead({
-    title: 'Cadastre-se e tenha acesso a todos os recursos',
+    title: 'Altere sua senha',
     meta: [
       // TODO: Add the meta tags
     ]
@@ -37,58 +42,14 @@
     title="Recupere sua senha 🔑"
     description="Insira seu e-mail abaixo, para recuperar sua senha"
   >
-    <div class="flex items-center justify-center gap-2">
-      <UButton
-        type="button"
-        variant="link"
-        leading-icon="devicon:google"
-        label="Google"
-        class="!text-neutral-600 hover:text-neutral-600 hover:bg-neutral-100"
-        :disabled="true"
-      />
-
-      <UButton
-        type="button"
-        variant="link"
-        leading-icon="i-mdi-facebook"
-        label="Facebook"
-        class="!text-[#1877F2] hover:text-[#1877F2] hover:bg-[#1877F2]/10"
-        :disabled="true"
-      />
-
-      <UButton
-        type="button"
-        variant="link"
-        leading-icon="i-mdi-apple"
-        label="Apple"
-        class="!text-black hover:text-black hover:bg-black/5"
-        :disabled="true"
-      />
-    </div>
-
-    <USeparator label="ou" :ui="{ label: 'text-neutral-500' }" />
-
     <UForm
-      :schema="RegisterSchema"
+      :schema="ChangePasswordSchema"
       :state="state"
       @submit="handleSubmit"
       class="flex flex-col gap-4"
     >
-      <UFormField name="name" label="Nome completo" required>
-        <UInput v-model="state.name" type="text" placeholder="Gabriel Philipe" class="block" />
-      </UFormField>
-
-      <UFormField name="email" label="E-mail" required>
-        <UInput
-          v-model="state.email"
-          type="email"
-          :placeholder="`gabriel@${useAppConfig().site_name.toLowerCase()}.com`"
-          class="block"
-        />
-      </UFormField>
-
       <div class="grid md:grid-cols-2 gap-4">
-        <UFormField name="password" label="Senha" class="relative" required>
+        <UFormField name="password" label="Nova senha" class="relative">
           <UInput
             v-model="state.password"
             :type="showPasswordFirst ? 'text' : 'password'"
@@ -110,7 +71,7 @@
           </UInput>
         </UFormField>
 
-        <UFormField name="confirmPassword" label="Confirmar senha" required>
+        <UFormField name="confirmPassword" label="Confirmar nova senha">
           <UInput
             v-model="state.confirmPassword"
             :type="showPasswordSecond ? 'text' : 'password'"
@@ -133,18 +94,9 @@
         </UFormField>
       </div>
 
-      <div class="flex items-center justify-start gap-2">
-        <UCheckbox v-model="state.terms" size="sm" :ui="{ label: 'cursor-pointer' }" />
-        <p class="text-xs font-medium cursor-pointer" @click="state.terms = !state.terms">
-          Ao se cadastrar, você concorda com os
-          <NuxtLink to="/compliance/terms" target="_blank">termos de uso</NuxtLink> e a
-          <NuxtLink to="/compliance/privacy" target="_blank">política de privacidade</NuxtLink>
-        </p>
-      </div>
-
       <UButton
         type="submit"
-        label="Criar conta"
+        label="Trocar senha"
         :disabled="!isValid"
         :loading="loading"
         class="justify-center font-bold"
@@ -152,7 +104,7 @@
     </UForm>
 
     <template #bottomHTML>
-      <p>Já tem uma conta?</p>
+      <p>Lembrou sua senha?</p>
       <NuxtLink to="/login">Faça login!</NuxtLink>
     </template>
   </AuthContent>

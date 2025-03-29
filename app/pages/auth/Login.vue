@@ -42,6 +42,7 @@
   >
     <section class="w-10/12 mt-40 mx-auto md:w-7/12 lg:w-5/12 md:m-0">
       <header class="text-center block mb-10">
+        <AuthLogo />
         <h1 class="text-4xl font-bold">Seja bem vindo 👋🏻</h1>
         <p class="text-sm text-neutral-500">Faça login para continuar</p>
       </header>
@@ -76,11 +77,7 @@
           />
         </div>
 
-        <div class="flex items-center gap-2 text-xs font-medium">
-          <span class="w-full h-[1px] bg-neutral-200 dark:bg-neutral-700" />
-          <p>ou</p>
-          <span class="w-full h-[1px] bg-neutral-200 dark:bg-neutral-700" />
-        </div>
+        <USeparator label="ou" :ui="{ label: 'text-neutral-500' }" />
 
         <UForm
           :schema="LoginSchema"

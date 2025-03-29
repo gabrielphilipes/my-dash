@@ -19,11 +19,9 @@ export default defineNuxtConfig({
 
   hooks: {
     'pages:extend'(pages: NuxtPage[]) {
-      // Add the auth routes
-      pages.push({ path: '/login', file: '~/pages/auth/Login.vue' })
-      pages.push({ path: '/register', file: '~/pages/auth/Register.vue' })
-      pages.push({ path: '/recovery-password', file: '~/pages/auth/RecoveryPassword.vue' })
-      pages.push({ path: '/change-password', file: '~/pages/auth/ChangePassword.vue' })
+      // Add the custom routes
+      const customRoutes = require('./app/utils/custom-routes')
+      pages.push(...customRoutes)
     }
   },
 
