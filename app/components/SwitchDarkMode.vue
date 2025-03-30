@@ -9,15 +9,15 @@
 
 <template>
   <USwitch
+    v-model:model-value="isDark"
     unchecked-icon="i-lucide-moon"
     checked-icon="i-lucide-sun"
-    v-model:model-value="isDark"
     :default-value="isDark"
     :label="isDark ? 'Modo escuro' : 'Modo claro'"
     size="sm"
-    @update:model-value="colorMode.preference = isDark ? 'dark' : 'light'"
     :ui="{
       label: 'text-xs text-neutral-400 cursor-pointer'
     }"
+    @update:model-value="colorMode.preference = isDark ? 'dark' : 'light'"
   />
 </template>

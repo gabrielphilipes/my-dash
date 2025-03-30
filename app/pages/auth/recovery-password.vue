@@ -38,8 +38,8 @@
     <UForm
       :schema="RecoveryPasswordSchema"
       :state="state"
-      @submit="handleSubmit"
       class="flex flex-col gap-4"
+      @submit="handleSubmit"
     >
       <UFormField name="email" label="E-mail" required>
         <UInput
