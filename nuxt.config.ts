@@ -1,5 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 import type { NuxtPage } from 'nuxt/schema'
+import customRoutes from './app/utils/custom-routes'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -9,7 +10,14 @@ export default defineNuxtConfig({
   srcDir: 'app',
   serverDir: 'server',
 
-  modules: ['@nuxt/icon', '@nuxt/scripts', '@nuxt/ui', '@nuxtjs/google-fonts', 'vue-sonner/nuxt'],
+  modules: [
+    '@nuxt/icon',
+    '@nuxt/scripts',
+    '@nuxt/ui',
+    '@nuxt/eslint',
+    '@nuxtjs/google-fonts',
+    'vue-sonner/nuxt'
+  ],
 
   css: ['~/assets/css/general.css'],
 
@@ -19,9 +27,7 @@ export default defineNuxtConfig({
 
   hooks: {
     'pages:extend'(pages: NuxtPage[]) {
-      // Add the custom routes
-      const customRoutes = require('./app/utils/custom-routes')
-      pages.push(...customRoutes)
+      pages.push(...customRoutes) // Add the custom routes
     }
   },
 
