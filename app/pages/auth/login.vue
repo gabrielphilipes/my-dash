@@ -82,8 +82,8 @@
         <UForm
           :schema="LoginSchema"
           :state="state"
-          @submit="handleSubmit"
           class="flex flex-col gap-4"
+          @submit="handleSubmit"
         >
           <UFormField name="email" label="E-mail">
             <UInput
@@ -153,7 +153,7 @@
       class="hidden md:block w-5/12 lg:w-7/12 h-9/12 rounded-3xl overflow-hidden bg-neutral-100 dark:bg-neutral-800"
     >
       <div class="w-full h-full flex items-center justify-center">
-        <img src="/images/login.svg" alt="Login background" class="w-full h-full object-cover" />
+        <img src="/images/login.svg" alt="Login background" class="w-full h-full object-cover" >
       </div>
     </aside>
   </main>

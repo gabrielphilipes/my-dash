@@ -71,8 +71,8 @@
     <UForm
       :schema="RegisterSchema"
       :state="state"
-      @submit="handleSubmit"
       class="flex flex-col gap-4"
+      @submit="handleSubmit"
     >
       <UFormField name="name" label="Nome completo" required>
         <UInput v-model="state.name" type="text" placeholder="Gabriel Philipe" class="block" />
