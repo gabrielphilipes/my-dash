@@ -45,8 +45,8 @@
     <UForm
       :schema="ChangePasswordSchema"
       :state="state"
-      @submit="handleSubmit"
       class="flex flex-col gap-4"
+      @submit="handleSubmit"
     >
       <div class="grid md:grid-cols-2 gap-4">
         <UFormField name="password" label="Nova senha" class="relative">

@@ -40,13 +40,13 @@
       </header>
 
       <USelect
-        :items="teams"
         v-model="teamSelected"
+        :items="teams"
         :avatar="teamSelectedAvatar"
-        @update:model-value="onChangeTeam"
         label="Equipe"
         placeholder="Selecione sua equipe"
         class="mt-1"
+        @update:model-value="onChangeTeam"
       />
 
       <UNavigationMenu
@@ -71,6 +71,7 @@
       />
 
       <UDropdownMenu
+        v-model:open="dropdownUserOpen"
         :items="dropdownItems"
         :content="{
           align: 'start',
@@ -78,7 +79,6 @@
           sideOffset: 8
         }"
         :ui="{ content: 'w-48' }"
-        v-model:open="dropdownUserOpen"
       >
         <UButton
           color="neutral"
