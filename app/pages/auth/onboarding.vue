@@ -5,11 +5,19 @@
   import FinishWelcome from '~/components/auth/onboarding/FinishWelcome.vue'
 
   const route = useRoute()
-  const step: number = Number(route.query?.step ?? 0)
-  const loading = ref<boolean>(false)
-  const stepper = useTemplateRef('stepper')
+  const step = ref<number>(Number(route.query?.step ?? 1) - 1)
+  if (step.value < 0) step.value = 0
 
-  const steps = ref<StepperItem[]>([
+  const loading = ref<boolean>(false)
+  const stepper = useTemplateRef<{
+    hasPrev: boolean
+    hasNext: boolean
+    prev(): void
+    next(): void
+  }>('stepper')
+
+  type OnboardingSlot = 'RegisterTeam' | 'InviteMembers' | 'FinishWelcome'
+  const steps = ref<(StepperItem & { slot: OnboardingSlot })[]>([
     {
       title: 'Cadastrar equipe',
       icon: 'fluent:people-team-20-filled',
@@ -56,38 +64,23 @@
   <AuthContent title="Vamos começar 🚀">
     <UStepper ref="stepper" :items="steps" class="w-full" :default-value="step">
       <template #content="{ item }">
-        <UCard class="mt-10">
-          <Component :is="componentMaps[item.slot]" />
-
-          <template #footer>
-            <div
-              class="flex"
-              :class="{
-                '!justify-between': stepper?.hasPrev,
-                '!justify-end': !stepper?.hasPrev
-              }"
-            >
-              <UButton
-                v-if="stepper?.hasPrev"
-                variant="link"
-                color="neutral"
-                label="Voltar"
-                icon="material-symbols:arrow-back-rounded"
-                size="xs"
-                @click="stepper?.prev()"
-              />
-
-              <UButton v-if="stepper?.hasNext" label="Próxima etapa" @click="stepper?.next()" />
-              <UButton
-                v-if="!stepper?.hasNext"
-                :loading="loading"
-                :disabled="loading"
-                label="Finalizar!"
-                @click="handleSubmit"
-              />
-            </div>
-          </template>
-        </UCard>
+        <div class="mt-10">
+          <Component
+            :is="componentMaps[item.slot]"
+            :stepper="
+              stepper
+                ? {
+                    hasPrev: stepper.hasPrev,
+                    hasNext: stepper.hasNext,
+                    currentStep: steps.findIndex((step) => step.slot === item.slot) + 1
+                  }
+                : undefined
+            "
+            @prev="stepper?.prev()"
+            @next="stepper?.next()"
+            @submit="handleSubmit"
+          />
+        </div>
       </template>
     </UStepper>
 
