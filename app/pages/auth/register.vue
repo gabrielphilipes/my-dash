@@ -9,15 +9,23 @@
     terms: false
   })
 
+  const router = useRouter()
   const isValid = computed<boolean>(() => RegisterSchema.safeParse(state.value).success)
   const showPasswordFirst = ref<boolean>(false)
   const showPasswordSecond = ref<boolean>(false)
   const loading = ref<boolean>(false)
+  const isSuccess = ref<boolean>(false)
 
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault()
 
     if (!isValid.value) return
+
+    isSuccess.value = true
+
+    setTimeout(() => {
+      router.push('/login')
+    }, 10000)
 
     // TODO: Implement the login logic
   }
@@ -34,10 +42,12 @@
 
 <template>
   <AuthContent
-    title="Recupere sua senha 🔑"
-    description="Insira seu e-mail abaixo, para recuperar sua senha"
+    title="Cadastre-se 👤"
+    description="Selecione uma rede social ou insira seus dados para criar uma conta"
   >
-    <div class="flex items-center justify-center gap-2">
+    <AuthConfirmEmail v-if="isSuccess" />
+
+    <div v-if="!isSuccess" class="flex items-center justify-center gap-2">
       <UButton
         type="button"
         variant="link"
@@ -66,9 +76,10 @@
       />
     </div>
 
-    <USeparator label="ou" :ui="{ label: 'text-neutral-500' }" />
+    <USeparator v-if="!isSuccess" label="ou" :ui="{ label: 'text-neutral-500' }" />
 
     <UForm
+      v-if="!isSuccess"
       :schema="RegisterSchema"
       :state="state"
       class="flex flex-col gap-4"
@@ -151,7 +162,7 @@
       />
     </UForm>
 
-    <template #bottomHTML>
+    <template v-if="!isSuccess" #bottomHTML>
       <p>Já tem uma conta?</p>
       <NuxtLink to="/login">Faça login!</NuxtLink>
     </template>
