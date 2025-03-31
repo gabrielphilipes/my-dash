@@ -1,29 +1,57 @@
 <script setup lang="ts">
-  import { RegisterSchema, type RegisterSchemaType } from '~~/server/validations/auth'
+  import type { StepperItem } from '@nuxt/ui'
+  import RegisterTeam from '~/components/auth/onboarding/RegisterTeam.vue'
+  import InviteMembers from '~/components/auth/onboarding/InviteMembers.vue'
+  import FinishWelcome from '~/components/auth/onboarding/FinishWelcome.vue'
 
-  const state = ref<RegisterSchemaType>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    terms: false
-  })
+  const route = useRoute()
+  const step = ref<number>(Number(route.query?.step ?? 1) - 1)
+  if (step.value < 0) step.value = 0
 
-  const isValid = computed<boolean>(() => RegisterSchema.safeParse(state.value).success)
-  const showPasswordFirst = ref<boolean>(false)
-  const showPasswordSecond = ref<boolean>(false)
   const loading = ref<boolean>(false)
+  const stepper = useTemplateRef<{
+    hasPrev: boolean
+    hasNext: boolean
+    prev(): void
+    next(): void
+  }>('stepper')
 
-  const handleSubmit = (e: SubmitEvent) => {
-    e.preventDefault()
+  type OnboardingSlot = 'RegisterTeam' | 'InviteMembers' | 'FinishWelcome'
+  const steps = ref<(StepperItem & { slot: OnboardingSlot })[]>([
+    {
+      title: 'Cadastrar equipe',
+      icon: 'fluent:people-team-20-filled',
+      slot: 'RegisterTeam'
+    },
+    {
+      title: 'Membros',
+      icon: 'material-symbols:person-add-rounded',
+      slot: 'InviteMembers'
+    },
+    {
+      title: 'Finalizar',
+      icon: 'material-symbols:bookmark-check-rounded',
+      slot: 'FinishWelcome'
+    }
+  ])
 
-    if (!isValid.value) return
+  const componentMaps = {
+    RegisterTeam: RegisterTeam,
+    InviteMembers: InviteMembers,
+    FinishWelcome: FinishWelcome
+  }
 
-    // TODO: Implement the login logic
+  const handleSubmit = () => {
+    console.log('submit')
+    loading.value = true
+
+    setTimeout(() => {
+      loading.value = false
+    }, 2000)
   }
 
   useHead({
-    title: 'Cadastre-se e tenha acesso a todos os recursos',
+    title: 'Vamos começar 🚀',
     meta: [
       // TODO: Add the meta tags
     ]
@@ -33,143 +61,39 @@
 </script>
 
 <template>
-  <main class="h-screen flex flex-col md:items-center md:justify-center">
-    <section
-      class="flex-1 flex flex-col items-center justify-center w-10/12 mt-40 mb-10 mx-auto md:max-w-xl md:m-0"
-    >
-      <header class="text-center block mb-10">
-        <h1 class="text-4xl font-bold">Cadastre-se ✍🏻</h1>
-        <p class="text-sm text-neutral-500">Escolha sua rede social ou insira seus dados abaixo</p>
-      </header>
-
-      <div class="flex flex-col gap-5 w-full">
-        <div class="flex items-center justify-center gap-2">
-          <UButton
-            type="button"
-            variant="link"
-            leading-icon="devicon:google"
-            label="Google"
-            class="!text-neutral-600 hover:text-neutral-600 hover:bg-neutral-100"
-            :disabled="true"
-          />
-
-          <UButton
-            type="button"
-            variant="link"
-            leading-icon="i-mdi-facebook"
-            label="Facebook"
-            class="!text-[#1877F2] hover:text-[#1877F2] hover:bg-[#1877F2]/10"
-            :disabled="true"
-          />
-
-          <UButton
-            type="button"
-            variant="link"
-            leading-icon="i-mdi-apple"
-            label="Apple"
-            class="!text-black hover:text-black hover:bg-black/5"
-            :disabled="true"
+  <AuthContent title="Vamos começar 🚀">
+    <UStepper ref="stepper" :items="steps" class="w-full" :default-value="step">
+      <template #content="{ item }">
+        <div class="mt-10">
+          <Component
+            :is="componentMaps[item.slot]"
+            :stepper="
+              stepper
+                ? {
+                    hasPrev: stepper.hasPrev,
+                    hasNext: stepper.hasNext,
+                    currentStep: steps.findIndex((step) => step.slot === item.slot) + 1
+                  }
+                : undefined
+            "
+            @prev="stepper?.prev()"
+            @next="stepper?.next()"
+            @submit="handleSubmit"
           />
         </div>
+      </template>
+    </UStepper>
 
-        <div class="flex items-center gap-2 text-xs font-medium">
-          <span class="w-full h-[1px] bg-neutral-200 dark:bg-neutral-700" />
-          <p>ou</p>
-          <span class="w-full h-[1px] bg-neutral-200 dark:bg-neutral-700" />
-        </div>
-
-        <UForm
-          :schema="RegisterSchema"
-          :state="state"
-          class="flex flex-col gap-4"
-          @submit="handleSubmit"
-        >
-          <UFormField name="name" label="Nome completo" required>
-            <UInput v-model="state.name" type="text" placeholder="Gabriel Philipe" class="block" />
-          </UFormField>
-
-          <UFormField name="email" label="E-mail" required>
-            <UInput
-              v-model="state.email"
-              type="email"
-              :placeholder="`gabriel@${useAppConfig().site_name.toLowerCase()}.com`"
-              class="block"
-            />
-          </UFormField>
-
-          <div class="grid md:grid-cols-2 gap-4">
-            <UFormField name="password" label="Senha" class="relative" required>
-              <UInput
-                v-model="state.password"
-                :type="showPasswordFirst ? 'text' : 'password'"
-                placeholder="********"
-                class="block"
-              >
-                <template #trailing>
-                  <UButton
-                    color="neutral"
-                    variant="link"
-                    size="sm"
-                    :icon="showPasswordFirst ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                    :aria-label="showPasswordFirst ? 'Hide password' : 'Show password'"
-                    :aria-pressed="showPasswordFirst"
-                    aria-controls="password"
-                    @click="showPasswordFirst = !showPasswordFirst"
-                  />
-                </template>
-              </UInput>
-            </UFormField>
-
-            <UFormField name="confirmPassword" label="Confirmar senha" required>
-              <UInput
-                v-model="state.confirmPassword"
-                :type="showPasswordSecond ? 'text' : 'password'"
-                placeholder="********"
-                class="block"
-              >
-                <template #trailing>
-                  <UButton
-                    color="neutral"
-                    variant="link"
-                    size="sm"
-                    :icon="showPasswordSecond ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                    :aria-label="showPasswordSecond ? 'Hide password' : 'Show password'"
-                    :aria-pressed="showPasswordSecond"
-                    aria-controls="password"
-                    @click="showPasswordSecond = !showPasswordSecond"
-                  />
-                </template>
-              </UInput>
-            </UFormField>
-          </div>
-
-          <div class="flex items-center justify-start gap-2">
-            <UCheckbox v-model="state.terms" size="sm" :ui="{ label: 'cursor-pointer' }" />
-            <p class="text-xs font-medium cursor-pointer" @click="state.terms = !state.terms">
-              Ao se cadastrar, você concorda com os
-              <NuxtLink to="/compliance/terms" target="_blank">termos de uso</NuxtLink> e a
-              <NuxtLink to="/compliance/privacy" target="_blank">política de privacidade</NuxtLink>
-            </p>
-          </div>
-
-          <UButton
-            type="submit"
-            label="Criar conta"
-            :disabled="!isValid"
-            :loading="loading"
-            class="justify-center font-bold"
-          />
-        </UForm>
-
-        <div class="flex justify-center text-xs font-medium mt-4">
-          <div class="flex items-center gap-1 text-neutral-400">
-            <p>Já tem uma conta?</p>
-            <NuxtLink to="/login">Faça login!</NuxtLink>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <AuthFooter />
-  </main>
+    <div class="mt-4 flex justify-center opacity-40">
+      <UButton
+        type="button"
+        variant="link"
+        color="neutral"
+        label="Pular configurações iniciais"
+        size="xs"
+        to="/"
+        class="no-underline"
+      />
+    </div>
+  </AuthContent>
 </template>
