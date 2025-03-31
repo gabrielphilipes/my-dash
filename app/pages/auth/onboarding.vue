@@ -3,6 +3,7 @@
   import RegisterTeam from '~/components/auth/onboarding/RegisterTeam.vue'
   import InviteMembers from '~/components/auth/onboarding/InviteMembers.vue'
   import FinishWelcome from '~/components/auth/onboarding/FinishWelcome.vue'
+  import Security from '~/components/auth/onboarding/Security.vue'
 
   const route = useRoute()
   const step = ref<number>(Number(route.query?.step ?? 1) - 1)
@@ -16,7 +17,7 @@
     next(): void
   }>('stepper')
 
-  type OnboardingSlot = 'RegisterTeam' | 'InviteMembers' | 'FinishWelcome'
+  type OnboardingSlot = 'RegisterTeam' | 'InviteMembers' | 'FinishWelcome' | 'Security'
   const steps = ref<(StepperItem & { slot: OnboardingSlot })[]>([
     {
       title: 'Cadastrar equipe',
@@ -29,6 +30,11 @@
       slot: 'InviteMembers'
     },
     {
+      title: 'Segurança',
+      icon: 'material-symbols:security-rounded',
+      slot: 'Security'
+    },
+    {
       title: 'Finalizar',
       icon: 'material-symbols:bookmark-check-rounded',
       slot: 'FinishWelcome'
@@ -38,6 +44,7 @@
   const componentMaps = {
     RegisterTeam: RegisterTeam,
     InviteMembers: InviteMembers,
+    Security: Security,
     FinishWelcome: FinishWelcome
   }
 

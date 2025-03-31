@@ -25,3 +25,10 @@ export const InviteMembersSchema = z.object({
 })
 
 export type InviteMembersSchemaType = z.infer<typeof InviteMembersSchema>
+
+// 2FA
+export const RequestQRCodeSchema = z.object({
+  code: z.array(z.string()).length(6, 'O código deve conter 6 dígitos')
+})
+
+export type RequestQRCodeSchemaType = z.infer<typeof RequestQRCodeSchema>
