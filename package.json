@@ -24,6 +24,8 @@
     "lint:prettier:check": "prettier --check \"**/*.{js,ts,vue,json,css,scss,md}\"",
     "lint:eslint:fix": "eslint --fix .",
     "lint:eslint:check": "eslint .",
+    "services:up": "docker compose -f infra/docker-compose.yml up -d",
+    "services:down": "docker compose -f infra/docker-compose.yml down",
     "prepare": "husky",
     "commit": "cz"
   },
