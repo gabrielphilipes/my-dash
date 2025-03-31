@@ -25,7 +25,7 @@
     }"
   >
     <UButton
-      v-if="currentStep > 1 && currentStep < 3"
+      v-if="currentStep > 1 && currentStep < 4"
       variant="link"
       color="neutral"
       label="Voltar"
@@ -36,14 +36,14 @@
     />
 
     <UButton
-      v-if="currentStep !== 3"
+      v-if="currentStep !== 4"
       label="Próxima etapa"
       :disabled="props.loading || !props.isValid"
       :loading="props.loading"
       @click="emit('next')"
     />
     <UButton
-      v-if="currentStep === 3"
+      v-if="currentStep === 4"
       label="Acessar o sistema"
       class="w-full justify-center no-underline hover:text-white dark:hover:text-black"
       to="/"
