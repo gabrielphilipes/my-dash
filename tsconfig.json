@@ -3,6 +3,6 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "types": ["jest", "node"]
+    "types": ["node"]
   }
 }
