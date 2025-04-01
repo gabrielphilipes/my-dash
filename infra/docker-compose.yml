@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: ${SITE_NAME:-mydash}-postgres
+    container_name: mydash-postgres
     env_file:
       - ../.env
     ports:
