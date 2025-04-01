@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "bun run services:up && bun run services:wait-database && bun run migrations:run && bun run nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -26,6 +26,8 @@
     "lint:eslint:check": "eslint .",
     "services:up": "docker compose -f infra/docker-compose.yml up -d",
     "services:down": "docker compose -f infra/docker-compose.yml down",
+    "services:wait-database": "bun run infra/wait-postgres.js",
+    "migrations:run": "drizzle-kit generate && drizzle-kit migrate",
     "prepare": "husky",
     "commit": "cz"
   },
