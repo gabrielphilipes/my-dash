@@ -1,0 +1,8 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: mydash-postgres
+    env_file:
+      - ../.env
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'

@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/scripts',
     '@nuxt/ui',
+    '@nuxt/test-utils/module',
     '@nuxt/eslint',
     '@nuxtjs/google-fonts',
     'vue-sonner/nuxt'
