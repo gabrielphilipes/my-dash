@@ -42,6 +42,7 @@
     "@nuxtjs/google-fonts": "3.2.0",
     "@tailwindcss/vite": "^4.0.15",
     "@unhead/vue": "^2.0.0-rc.13",
+    "argon2": "0.41.1",
     "bun": "^1.2.7",
     "drizzle-orm": "^0.41.0",
     "eslint": "^9.0.0",

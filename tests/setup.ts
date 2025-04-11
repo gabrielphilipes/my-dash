@@ -7,6 +7,7 @@ await setup({
 })
 
 beforeAll(async () => {
+  // Wait for the web server to start
   const waitForWebServer = async () => {
     const fetchStatusPage = async () => {
       const response = await fetch('http://localhost:3000')
