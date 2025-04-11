@@ -1,4 +1,5 @@
 import { like } from 'drizzle-orm'
+import { ofetch } from 'ofetch'
 import { $fetch } from '@nuxt/test-utils/e2e'
 import { useDB } from '../../../server/utils/database'
 import { afterAll, describe, expect, it } from 'vitest'
@@ -27,6 +28,37 @@ describe('Register email/password', () => {
     expect(response.name).toBe(payload.name)
     expect(response.email).toBe(payload.email)
     expect(response.avatar).toBeNull()
+  })
+
+  it('should set user session', async () => {
+    const payload = {
+      name: 'John Doe',
+      email: 'john.doe.session@mydash.test',
+      password: 'Password@123',
+      passwordConfirmation: 'Password@123',
+      terms: true
+    }
+
+    /**
+     * Use `ofetch.raw` to get the raw response
+     * and get the cookie from the response headers
+     * then use it to make the me request
+     */
+    const registerResponse = await ofetch.raw('/api/auth/register', {
+      method: 'POST',
+      body: payload,
+      credentials: 'include',
+      baseURL: 'http://localhost:3000'
+    })
+
+    const cookie = registerResponse.headers.get('set-cookie') || ''
+
+    const meResponse = await ofetch('/api/me', {
+      headers: { cookie },
+      baseURL: 'http://localhost:3000'
+    })
+
+    expect(meResponse.id).toBe(registerResponse._data.id)
   })
 
   it('should convert email to lowercase', async () => {

@@ -1,7 +1,6 @@
 import { RegisterSchema } from '~~/server/validations/auth'
-import { findByEmail, createUserWithPassword } from '~~/server/database/actions/users'
-import { hashPassword } from '~~/server/utils/hash'
 import { userTransformer } from '~~/server/transformers/user'
+import { findByEmail, createUserWithPassword } from '~~/server/database/actions/users'
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, (body) => RegisterSchema.safeParse(body))
@@ -16,7 +15,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Email already exists' })
   }
 
-  const usersData = await createUserWithPassword({
+  const userData = await createUserWithPassword({
     name: body.data.name,
     email,
     password: await hashPassword(body.data.password)
@@ -24,8 +23,9 @@ export default defineEventHandler(async (event) => {
 
   // TODO: Send email verification
 
-  // TODO: Set user login
+  const userResponse = userTransformer(userData)
+  await setUserSession(event, { user: userResponse, maxAge: 60 * 60 * 24 * 7 }) // 7 days
 
   setResponseStatus(event, 201)
-  return userTransformer(usersData)
+  return userResponse
 })
