@@ -6,3 +6,10 @@ services:
       - ../.env
     ports:
       - '${POSTGRES_PORT:-5432}:5432'
+
+  mailcrab:
+    image: marlonb/mailcrab:latest
+    container_name: mydash-mailcrab
+    ports:
+      - '${MAILCRAB_PORT:-1080}:1080'
+      - '${MAILCRAB_SMTP_PORT:-1025}:1025'

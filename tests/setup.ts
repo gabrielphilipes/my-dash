@@ -1,6 +1,13 @@
 import { setup } from '@nuxt/test-utils'
 import { beforeAll } from 'vitest'
 import retry from 'async-retry'
+import { config } from 'dotenv'
+import { resolve } from 'path'
+
+config({ path: resolve(process.cwd(), '.env') })
+
+export const endpointApi = `http://localhost:3000`
+export const endpointMailCrab = `http://localhost:${process.env.MAILCRAB_PORT}`
 
 await setup({
   host: 'http://localhost:3000'

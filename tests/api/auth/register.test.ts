@@ -1,9 +1,10 @@
 import { like } from 'drizzle-orm'
 import { ofetch } from 'ofetch'
 import { $fetch } from '@nuxt/test-utils/e2e'
-import { useDB } from '../../../server/utils/database'
+import { useDB } from '~~/server/utils/database'
 import { afterAll, describe, expect, it } from 'vitest'
-import { users } from '../../../server/database/schema/user'
+import { users } from '~~/server/database/schema/user'
+import { endpointMailCrab } from '~~/tests/setup'
 
 afterAll(async () => {
   // Remove users test
@@ -28,6 +29,27 @@ describe('Register email/password', () => {
     expect(response.name).toBe(payload.name)
     expect(response.email).toBe(payload.email)
     expect(response.avatar).toBeNull()
+  })
+
+  it('should send email verification', async () => {
+    await ofetch(`${endpointMailCrab}/api/delete-all`, { method: 'POST' })
+
+    const payload = {
+      name: 'John Doe',
+      email: 'john.doe.email.verification@mydash.test',
+      password: 'Password@123',
+      passwordConfirmation: 'Password@123',
+      terms: true
+    }
+
+    await $fetch(`/api/auth/register`, { method: 'POST', body: payload })
+
+    const email = await ofetch(`${endpointMailCrab}/api/messages`)
+
+    expect(email.length).toBe(1)
+    expect(email[0].to[0].email).toBe(payload.email)
+    expect(email[0].to[0].name).toBe(payload.name)
+    expect(email[0].subject).toBe('Confirme sua conta')
   })
 
   it('should set user session', async () => {

@@ -1,6 +1,8 @@
 import tailwindcss from '@tailwindcss/vite'
 import type { NuxtPage } from 'nuxt/schema'
 import customRoutes from './app/utils/custom-routes'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import vue from '@vitejs/plugin-vue'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -24,7 +26,12 @@ export default defineNuxtConfig({
   css: ['~/assets/css/general.css'],
 
   nitro: {
-    preset: 'vercel'
+    preset: 'vercel',
+
+    rollupConfig: {
+      // @ts-expect-error - Rollup plugin type definitions are incomplete for vue plugin
+      plugins: [vue()]
+    }
   },
 
   hooks: {
@@ -35,7 +42,7 @@ export default defineNuxtConfig({
 
   // Modules
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss(), tsconfigPaths()]
   },
 
   googleFonts: {

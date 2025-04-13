@@ -21,3 +21,12 @@ export const createUserWithPassword = async (data: InsertUser): Promise<InsertUs
     throw new Error('Failed to create user')
   }
 }
+
+export const removeUser = async (id: string) => {
+  try {
+    await useDB().delete(users).where(eq(users.id, id))
+  } catch (error) {
+    console.error(error)
+    throw new Error('Failed to remove user')
+  }
+}
