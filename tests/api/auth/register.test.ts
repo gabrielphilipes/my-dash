@@ -1,4 +1,4 @@
-import { like } from 'drizzle-orm'
+import { eq, like } from 'drizzle-orm'
 import { ofetch } from 'ofetch'
 import { $fetch } from '@nuxt/test-utils/e2e'
 import { useDB } from '~~/server/utils/database'
@@ -32,7 +32,7 @@ describe('Register email/password', () => {
   })
 
   it('should send email verification', async () => {
-    await ofetch(`${endpointMailCrab}/api/delete-all`, { method: 'POST' })
+    await ofetch(`${endpointMailCrab}/api/delete-all`, { method: 'POST' }) // Delete all emails
 
     const payload = {
       name: 'John Doe',
@@ -50,6 +50,33 @@ describe('Register email/password', () => {
     expect(email[0].to[0].email).toBe(payload.email)
     expect(email[0].to[0].name).toBe(payload.name)
     expect(email[0].subject).toBe('Confirme sua conta')
+  })
+
+  it('should verify email', async () => {
+    await ofetch(`${endpointMailCrab}/api/delete-all`, { method: 'POST' }) // Delete all emails
+
+    const payload = {
+      name: 'John Doe',
+      email: 'john.doe.email.confirmation@mydash.test',
+      password: 'Password@123',
+      passwordConfirmation: 'Password@123',
+      terms: true
+    }
+
+    await $fetch(`/api/auth/register`, { method: 'POST', body: payload })
+
+    // Get email and url to verify
+    const getEmails = await ofetch(`${endpointMailCrab}/api/messages`)
+    const emailId = getEmails[0].id
+
+    const contentEmail = await ofetch(`${endpointMailCrab}/api/message/${emailId}`)
+    const url = contentEmail.html.match(`${process.env.SITE_URL}[^"]+`)[0]
+
+    await ofetch(url, { method: 'GET' }) // Verify email
+
+    // Confirm column `verified_at` is not null
+    const user = await useDB().select().from(users).where(eq(users.email, payload.email))
+    expect(user[0]?.email_verified_at).not.toBeNull()
   })
 
   it('should set user session', async () => {
