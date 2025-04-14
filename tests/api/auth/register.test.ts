@@ -2,9 +2,9 @@ import { like } from 'drizzle-orm'
 import { ofetch } from 'ofetch'
 import { $fetch } from '@nuxt/test-utils/e2e'
 import { useDB } from '~~/server/utils/database'
-import { afterAll, describe, expect, it } from 'vitest'
-import { users } from '~~/server/database/schema/user'
 import { endpointMailCrab } from '~~/tests/setup'
+import { users } from '~~/server/database/schema/user'
+import { afterAll, describe, expect, it } from 'vitest'
 
 afterAll(async () => {
   // Remove users test

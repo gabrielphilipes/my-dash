@@ -1,4 +1,5 @@
 import { render } from '@vue-email/render'
+import { encrypt } from '~~/server/utils/hash'
 import { useEmail } from '~~/server/utils/email'
 import { RegisterSchema } from '~~/server/validations/auth'
 import { userTransformer } from '~~/server/transformers/user'
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event) => {
 
   const email = body.data.email.toLowerCase()
   const checkEmail = await findByEmail(email)
-  if (checkEmail.length > 0) {
+  if (checkEmail) {
     throw createError({ statusCode: 400, statusMessage: 'Email already exists' })
   }
 
@@ -25,7 +26,8 @@ export default defineEventHandler(async (event) => {
   })
 
   try {
-    const verificationUrl = `http://localhost:3000/auth/verify?token=${userData.id}`
+    const token = encrypt(email as string)
+    const verificationUrl = `${process.env.SITE_URL}/api/auth/verify?token=${token}`
 
     const emailContent = await render(ConfirmAccount, {
       name: body.data.name,
