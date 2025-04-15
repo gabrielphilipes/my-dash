@@ -64,7 +64,7 @@
     ]
   })
 
-  definePageMeta({ layout: false })
+  definePageMeta({ layout: false, middleware: 'app' })
 </script>
 
 <template>

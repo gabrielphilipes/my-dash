@@ -27,7 +27,7 @@
     ]
   })
 
-  definePageMeta({ layout: false })
+  definePageMeta({ layout: false, middleware: 'auth' })
 </script>
 
 <template>
