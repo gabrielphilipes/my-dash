@@ -50,6 +50,7 @@
     "drizzle-orm": "^0.41.0",
     "eslint": "^9.0.0",
     "install": "^0.13.0",
+    "nanoid": "5.1.5",
     "nodemailer": "6.10.1",
     "nuxt": "^3.16.1",
     "nuxt-auth-utils": "0.5.19",

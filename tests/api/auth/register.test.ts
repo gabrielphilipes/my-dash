@@ -24,9 +24,7 @@ describe('Register email/password', () => {
     }
 
     const response = await $fetch('/api/auth/register', { method: 'POST', body: payload })
-    expect(response.id).toMatch(
-      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
-    ) // uuid
+    expect(response.id).toBeDefined()
     expect(response.name).toBe(payload.name)
     expect(response.email).toBe(payload.email)
     expect(response.avatar).toBeNull()
