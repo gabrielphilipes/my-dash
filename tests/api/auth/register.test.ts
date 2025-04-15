@@ -1,5 +1,6 @@
-import { eq, like } from 'drizzle-orm'
 import { ofetch } from 'ofetch'
+import type { H3Error } from 'h3'
+import { eq, like } from 'drizzle-orm'
 import { $fetch } from '@nuxt/test-utils/e2e'
 import { useDB } from '~~/server/utils/database'
 import { endpointMailCrab } from '~~/tests/setup'
@@ -142,8 +143,9 @@ describe('Register email/password', () => {
         body: payloadWithoutName
       })
     } catch (error) {
-      expect(error.data.statusCode).toBe(400)
-      expect(error.data.statusMessage).toBe('Invalid body')
+      const errorObject = error as { data: H3Error }
+      expect(errorObject.data.statusCode).toBe(400)
+      expect(errorObject.data.statusMessage).toBe('Invalid body')
     }
 
     // Missing email
@@ -154,8 +156,9 @@ describe('Register email/password', () => {
         body: payloadWithoutEmail
       })
     } catch (error) {
-      expect(error.data.statusCode).toBe(400)
-      expect(error.data.statusMessage).toBe('Invalid body')
+      const errorObject = error as { data: H3Error }
+      expect(errorObject.data.statusCode).toBe(400)
+      expect(errorObject.data.statusMessage).toBe('Invalid body')
     }
 
     // Missing password
@@ -166,8 +169,9 @@ describe('Register email/password', () => {
         body: payloadWithoutPassword
       })
     } catch (error) {
-      expect(error.data.statusCode).toBe(400)
-      expect(error.data.statusMessage).toBe('Invalid body')
+      const errorObject = error as { data: H3Error }
+      expect(errorObject.data.statusCode).toBe(400)
+      expect(errorObject.data.statusMessage).toBe('Invalid body')
     }
 
     // Missing password confirmation
@@ -178,8 +182,9 @@ describe('Register email/password', () => {
         body: payloadWithoutPasswordConfirmation
       })
     } catch (error) {
-      expect(error.data.statusCode).toBe(400)
-      expect(error.data.statusMessage).toBe('Invalid body')
+      const errorObject = error as { data: H3Error }
+      expect(errorObject.data.statusCode).toBe(400)
+      expect(errorObject.data.statusMessage).toBe('Invalid body')
     }
 
     // Missing terms
@@ -190,8 +195,9 @@ describe('Register email/password', () => {
         body: payloadWithoutTerms
       })
     } catch (error) {
-      expect(error.data.statusCode).toBe(400)
-      expect(error.data.statusMessage).toBe('Invalid body')
+      const errorObject = error as { data: H3Error }
+      expect(errorObject.data.statusCode).toBe(400)
+      expect(errorObject.data.statusMessage).toBe('Invalid body')
     }
   })
 
@@ -209,8 +215,9 @@ describe('Register email/password', () => {
     try {
       await $fetch('/api/auth/register', { method: 'POST', body: payload })
     } catch (error) {
-      expect(error.data.statusCode).toBe(400)
-      expect(error.data.statusMessage).toBe('Email already exists')
+      const errorObject = error as { data: H3Error }
+      expect(errorObject.data.statusCode).toBe(400)
+      expect(errorObject.data.message).toBe('Email already exists')
     }
   })
 })
