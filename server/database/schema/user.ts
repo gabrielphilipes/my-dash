@@ -1,7 +1,12 @@
-import { pgTable, text, uuid, timestamp, boolean } from 'drizzle-orm/pg-core'
+import { nanoid } from 'nanoid'
+import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
-  id: uuid('id').primaryKey().defaultRandom(), // uuid
+  id: text('id')
+    .primaryKey()
+    .notNull()
+    .unique()
+    .$default(() => nanoid(10)),
   name: text('name').notNull(),
   avatar: text('avatar'),
   email: text('email').notNull().unique(),
