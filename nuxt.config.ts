@@ -19,7 +19,6 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxt/eslint',
     '@nuxtjs/google-fonts',
-    'vue-sonner/nuxt',
     'nuxt-auth-utils'
   ],
 
