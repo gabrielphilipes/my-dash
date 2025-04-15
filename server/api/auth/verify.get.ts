@@ -4,18 +4,18 @@ import { confirmAccount, findByEmail } from '~~/server/database/actions/users'
 export default defineEventHandler(async (event) => {
   try {
     const query = getQuery(event)
-    const token = query.token as string
+    const token = query?.token
 
     if (!token) {
-      throw new Error('Token not provided')
+      throw createError({ statusCode: 404, statusMessage: 'Token not provided' })
     }
 
-    const email = decrypt(token)
+    const email: string = decrypt(token as string)
 
     const user = await findByEmail(email)
 
     if (!user) {
-      throw new Error('User not found')
+      throw createError({ statusCode: 404, statusMessage: 'Usuário não encontrado' })
     }
 
     await confirmAccount(email)

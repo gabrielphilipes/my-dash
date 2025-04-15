@@ -2,6 +2,9 @@ const env = process.env
 
 export default defineAppConfig({
   site_name: env.SITE_NAME ?? 'MyDash',
+  toaster: {
+    position: 'top-center'
+  },
   ui: {
     colors: {
       neutral: 'neutral'
