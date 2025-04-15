@@ -1,4 +1,8 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
+import { config } from 'dotenv'
+import { resolve } from 'path'
+
+config({ path: resolve(process.cwd(), '.env') })
 
 export const dbCredentials = {
   host: process.env.POSTGRES_HOST!,

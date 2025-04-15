@@ -29,13 +29,13 @@ export const RegisterSchema = z
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/,
         'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial'
       ),
-    confirmPassword: z.string().min(8, 'A senha deve conter pelo menos 8 caracteres'),
+    passwordConfirmation: z.string().min(8, 'A senha deve conter pelo menos 8 caracteres'),
     terms: z.boolean().refine((value) => value === true, {
       message: 'Você deve aceitar os termos'
     })
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
+  .refine((data) => data.password === data.passwordConfirmation, {
+    path: ['passwordConfirmation'],
     message: 'As senhas não conferem'
   })
 

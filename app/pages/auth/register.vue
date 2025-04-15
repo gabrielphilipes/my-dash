@@ -5,7 +5,7 @@
     name: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    passwordConfirmation: '',
     terms: false
   })
 
@@ -16,18 +16,41 @@
   const loading = ref<boolean>(false)
   const isSuccess = ref<boolean>(false)
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const toast = useToast()
+
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault()
 
     if (!isValid.value) return
 
-    isSuccess.value = true
+    await $fetch('/api/auth/register', {
+      method: 'POST',
+      body: state.value
+    })
+      .then(() => {
+        isSuccess.value = true
 
-    setTimeout(() => {
-      router.push('/login')
-    }, 10000)
+        toast.add({
+          title: 'Cadastro realizado com sucesso',
+          color: 'success',
+          duration: 10000,
+          icon: 'i-lucide-check-circle'
+        })
 
-    // TODO: Implement the login logic
+        setTimeout(() => {
+          router.push('/onboarding')
+        }, 10000) // 10 seconds
+      })
+      .catch((error) => {
+        toast.add({
+          title: 'Erro ao cadastrar',
+          description: error.data.message,
+          color: 'error',
+          icon: 'i-lucide-x-circle'
+        })
+
+        console.error(error)
+      })
   }
 
   useHead({
@@ -86,7 +109,13 @@
       @submit="handleSubmit"
     >
       <UFormField name="name" label="Nome completo" required>
-        <UInput v-model="state.name" type="text" placeholder="Gabriel Philipe" class="block" />
+        <UInput
+          v-model="state.name"
+          type="text"
+          placeholder="Gabriel Philipe"
+          class="block"
+          autofocus
+        />
       </UFormField>
 
       <UFormField name="email" label="E-mail" required>
@@ -121,9 +150,9 @@
           </UInput>
         </UFormField>
 
-        <UFormField name="confirmPassword" label="Confirmar senha" required>
+        <UFormField name="passwordConfirmation" label="Confirmar senha" required>
           <UInput
-            v-model="state.confirmPassword"
+            v-model="state.passwordConfirmation"
             :type="showPasswordSecond ? 'text' : 'password'"
             placeholder="********"
             class="block"
@@ -150,6 +179,7 @@
           Ao se cadastrar, você concorda com os
           <NuxtLink to="/compliance/terms" target="_blank">termos de uso</NuxtLink> e a
           <NuxtLink to="/compliance/privacy" target="_blank">política de privacidade</NuxtLink>
+          <span class="text-red-500 inline-block ml-1">*</span>
         </p>
       </div>
 

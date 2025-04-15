@@ -15,7 +15,7 @@
     <div class="flex flex-col items-center gap-4 p-4">
       <UIcon name="material-symbols:mark-email-read" class="text-4xl text-primary" />
       <h1 class="text-lg font-medium text-center">{{ title }}</h1>
-      <p class="text-sm text-center text-gray-600">
+      <p class="text-sm text-center text-gray-600 dark:text-gray-400">
         {{ description }}
       </p>
     </div>
