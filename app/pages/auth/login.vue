@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { LoginSchema, type LoginSchemaType } from '~~/server/validations/auth'
+  import type { H3Error } from 'h3'
 
   const toast = useToast()
   const router = useRouter()
@@ -19,21 +20,62 @@
   const showPassword = ref<boolean>(false)
   const loading = ref<boolean>(false)
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault()
 
     if (!isValid.value) return
 
-    // Remove the cookie if the user doesn't want to remember the email
-    if (!state.value.remember) {
-      useCookie('my-email').value = ''
-    }
+    // Set loading state
+    loading.value = true
 
-    // TODO: Implement the login logic
-    if (redirect) {
-      router.push(redirect as string)
-    } else {
-      router.push('/')
+    try {
+      // Save email in cookie if remember is checked
+      if (state.value.remember) {
+        useCookie('my-email').value = state.value.email
+      } else {
+        useCookie('my-email').value = ''
+      }
+
+      // Call login API
+      await $fetch('/api/auth/login', {
+        method: 'POST',
+        body: state.value,
+        credentials: 'include'
+      })
+
+      // Update user session
+      await nextTick()
+      await useUserSession().fetch()
+
+      // Show success toast
+      toast.add({
+        title: 'Login realizado com sucesso',
+        color: 'success',
+        icon: 'i-lucide-check-circle'
+      })
+
+      // Redirect user
+      setTimeout(() => {
+        if (redirect) {
+          router.push(redirect as string)
+        } else {
+          router.push('/')
+        }
+      }, 2000)
+    } catch (error) {
+      const errorData = error as { data: H3Error }
+
+      // Show error toast
+      toast.add({
+        title: 'Erro ao fazer login',
+        description: errorData.data?.message || 'Ocorreu um erro ao tentar fazer login',
+        color: 'error',
+        icon: 'i-lucide-x-circle'
+      })
+
+      console.error(error)
+    } finally {
+      loading.value = false
     }
   }
 
