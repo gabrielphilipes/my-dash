@@ -1,6 +1,12 @@
 <script setup lang="ts">
-  import { AuthFooter } from '#components'
   import { LoginSchema, type LoginSchemaType } from '~~/server/validations/auth'
+
+  const toast = useToast()
+  const router = useRouter()
+  const route = useRoute()
+  const query = route.query
+  const unauthenticated = query?.unauthenticated
+  const redirect = query?.redirect
 
   const rememberEmail = useCookie<string | undefined>('my-email')
   const state = ref<LoginSchemaType>({
@@ -24,7 +30,29 @@
     }
 
     // TODO: Implement the login logic
+    if (redirect) {
+      router.push(redirect as string)
+    } else {
+      router.push('/')
+    }
   }
+
+  // Only run on the client
+  const { user } = useUserSession()
+  onMounted(() => {
+    // Query params
+    if (unauthenticated) {
+      toast.add({
+        title: 'Você precisa estar logado para acessar esta página',
+        description: 'Por favor, faça login para continuar',
+        icon: 'i-heroicons-exclamation-circle',
+        color: 'error'
+      })
+    }
+
+    // Remove the query params
+    router.replace('/login')
+  })
 
   useHead({
     title: 'Acesse sua conta',
@@ -33,7 +61,7 @@
     ]
   })
 
-  definePageMeta({ layout: false })
+  definePageMeta({ layout: false, middleware: 'auth' })
 </script>
 
 <template>
@@ -46,6 +74,7 @@
           <AuthLogo />
           <h1 class="text-4xl font-bold">Seja bem vindo 👋🏻</h1>
           <p class="text-sm text-neutral-500">Faça login para continuar</p>
+          <pre>{{ user }}</pre>
         </header>
 
         <div class="flex flex-col gap-5">

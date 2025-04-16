@@ -6,7 +6,7 @@ export const users = pgTable('users', {
     .primaryKey()
     .notNull()
     .unique()
-    .$default(() => nanoid(10)),
+    .$default(() => nanoid(32)),
   name: text('name').notNull(),
   avatar: text('avatar'),
   email: text('email').notNull().unique(),

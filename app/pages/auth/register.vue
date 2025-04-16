@@ -25,9 +25,10 @@
 
     await $fetch('/api/auth/register', {
       method: 'POST',
-      body: state.value
+      body: state.value,
+      credentials: 'include'
     })
-      .then(() => {
+      .then(async () => {
         isSuccess.value = true
 
         toast.add({
@@ -36,6 +37,9 @@
           duration: 10000,
           icon: 'i-lucide-check-circle'
         })
+
+        await nextTick()
+        await useUserSession().fetch()
 
         setTimeout(() => {
           router.push('/onboarding')
@@ -60,7 +64,7 @@
     ]
   })
 
-  definePageMeta({ layout: false })
+  definePageMeta({ layout: false, middleware: 'auth' })
 </script>
 
 <template>

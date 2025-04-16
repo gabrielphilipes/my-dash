@@ -1,11 +1,8 @@
-<script setup lang="ts">
-  const appConfig = useAppConfig()
-</script>
-
 <template>
+  <NuxtRouteAnnouncer />
   <NuxtLoadingIndicator />
 
-  <UApp :toaster="appConfig.toaster">
+  <UApp :toaster="{ position: 'top-center' }">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
