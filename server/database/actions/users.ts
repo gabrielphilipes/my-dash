@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm'
 import { users } from '../schema/user'
-import type { InsertUser } from '../schema/user'
+import type { InsertUser, User } from '../schema/user'
 
-export const findByEmail = async (email: string) => {
+export const findByEmail = async (email: string): Promise<User | null> => {
   try {
     const [user] = await useDB().select().from(users).where(eq(users.email, email))
 
@@ -42,6 +42,7 @@ export const confirmAccount = async (email: string) => {
     throw createError({ statusCode: 500, statusMessage: 'Failed to confirm account' })
   }
 }
+
 export const removeUser = async (id: string) => {
   try {
     await useDB().delete(users).where(eq(users.id, id))
