@@ -1,8 +1,15 @@
-import { setup } from '@nuxt/test-utils'
-import { beforeAll } from 'vitest'
+import { resolve } from 'path'
 import retry from 'async-retry'
 import { config } from 'dotenv'
-import { resolve } from 'path'
+import { ofetch } from 'ofetch'
+import { eq } from 'drizzle-orm'
+import type { H3Error } from 'h3'
+import { beforeAll } from 'vitest'
+import { setup } from '@nuxt/test-utils'
+import { useDB } from '~~/server/utils/database'
+import { users } from '~~/server/database/schema/user'
+import type { User } from '~~/server/database/schema/user'
+import { userTransformer } from '~~/server/transformers/user'
 
 config({ path: resolve(process.cwd(), '.env') })
 
@@ -33,3 +40,35 @@ beforeAll(async () => {
 
   await waitForWebServer()
 }, 30000)
+
+export const testUserData = {
+  name: 'Gabriel Silva',
+  email: 'gabriel.silva.test@mydash.com.br',
+  password: 'Password@123'
+}
+
+export const testUser = async () => {
+  try {
+    const user = await ofetch(`${endpointApi}/api/auth/register`, {
+      method: 'POST',
+      body: {
+        name: testUserData.name,
+        email: testUserData.email,
+        password: testUserData.password,
+        passwordConfirmation: testUserData.password,
+        terms: true
+      }
+    })
+
+    return user
+  } catch (error) {
+    const errorData = error as { data: H3Error }
+    if (errorData.data.statusCode === 400) {
+      console.log(`User already exists: ${testUserData.email}`)
+
+      const [user] = await useDB().select().from(users).where(eq(users.email, testUserData.email))
+
+      return userTransformer(user as User)
+    }
+  }
+}

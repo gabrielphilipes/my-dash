@@ -1,32 +1,11 @@
-import type { H3Error } from 'h3'
 import { ofetch } from 'ofetch'
+import type { H3Error } from 'h3'
 import { $fetch } from '@nuxt/test-utils/e2e'
 import { beforeAll, describe, expect, it } from 'vitest'
-import { endpointApi } from '../../setup'
-
-const userData = {
-  name: 'John Doe',
-  email: 'john.doe@mydash.test',
-  password: 'Password@123'
-}
+import { endpointApi, testUser, testUserData } from '../../setup'
 
 beforeAll(async () => {
-  // Register user
-  const payload = {
-    name: userData.name,
-    email: userData.email,
-    password: userData.password,
-    passwordConfirmation: userData.password,
-    terms: true
-  }
-
-  try {
-    await $fetch('/api/auth/register', { method: 'POST', body: payload })
-  } catch (error) {
-    if (error.status === 400) {
-      console.log(`User already exists: ${userData.email}`)
-    }
-  }
+  await testUser()
 })
 
 describe('Logout users', () => {
@@ -36,8 +15,8 @@ describe('Logout users', () => {
     const loginResponse = await ofetch.raw(`${endpointApi}/api/auth/login`, {
       method: 'POST',
       body: {
-        email: userData.email,
-        password: userData.password
+        email: testUserData.email,
+        password: testUserData.password
       }
     })
 
