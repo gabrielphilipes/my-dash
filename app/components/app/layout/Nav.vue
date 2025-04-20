@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import type { SelectItem } from '@nuxt/ui'
-  import { navLinksHeader, navLinksFooter, dropdownItems } from '~/utils/links'
-
-  const dropdownUserOpen = ref<boolean>(false)
+  import { navLinksHeader } from '~/utils/links.ts'
 
   const teams = ref<SelectItem[]>([
     {
@@ -62,49 +60,7 @@
     </div>
 
     <div class="flex flex-col gap-4">
-      <UNavigationMenu
-        orientation="vertical"
-        :items="navLinksFooter"
-        :ui="{
-          link: 'no-underline text-xs rounded-[calc(var(--ui-radius)*1.5)]'
-        }"
-      />
-
-      <UDropdownMenu
-        v-model:open="dropdownUserOpen"
-        :items="dropdownItems"
-        :content="{
-          align: 'start',
-          side: 'bottom',
-          sideOffset: 8
-        }"
-        :ui="{ content: 'w-48' }"
-      >
-        <UButton
-          color="neutral"
-          variant="ghost"
-          type="button"
-          class="flex items-center justify-between gap-2 w-full"
-        >
-          <div class="flex flex-1 items-center gap-2">
-            <UAvatar
-              alt="John Doe"
-              title="John Doe"
-              aria-label="John Doe"
-              src="https://picsum.photos/200"
-              class="rounded-lg"
-            />
-            <span class="text-sm font-medium truncate max-w-[130px]"> John Doe </span>
-          </div>
-
-          <UIcon
-            name="ic:sharp-keyboard-arrow-down"
-            size="16"
-            class="my_transition"
-            :class="dropdownUserOpen ? 'rotate-180' : ''"
-          />
-        </UButton>
-      </UDropdownMenu>
+      <AppLayoutNavBottom />
     </div>
   </div>
 </template>

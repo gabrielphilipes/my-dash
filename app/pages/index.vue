@@ -1,4 +1,22 @@
 <script setup lang="ts">
+  const router = useRouter()
+  const route = useRoute()
+  const toast = useToast()
+
+  const query = route.query
+  onMounted(() => {
+    if (query.loggedIn) {
+      toast.add({
+        title: 'Seja bem-vindo!',
+        description: 'Você já está logado, basta aproveitar o sistema',
+        color: 'success',
+        icon: 'i-lucide-check-circle'
+      })
+
+      router.replace('/')
+    }
+  })
+
   definePageMeta({
     middleware: 'app'
   })

@@ -7,6 +7,7 @@
   const route = useRoute()
   const query = route.query
   const unauthenticated = query?.unauthenticated
+  const logout = query?.logout
   const redirect = query?.redirect
 
   const rememberEmail = useCookie<string | undefined>('my-email')
@@ -80,7 +81,6 @@
   }
 
   // Only run on the client
-  const { user } = useUserSession()
   onMounted(() => {
     // Query params
     if (unauthenticated) {
@@ -89,6 +89,14 @@
         description: 'Por favor, faça login para continuar',
         icon: 'i-heroicons-exclamation-circle',
         color: 'error'
+      })
+    }
+
+    if (logout) {
+      toast.add({
+        title: 'Você foi deslogado com sucesso',
+        icon: 'i-heroicons-check-circle',
+        color: 'success'
       })
     }
 
@@ -116,7 +124,6 @@
           <AuthLogo />
           <h1 class="text-4xl font-bold">Seja bem vindo 👋🏻</h1>
           <p class="text-sm text-neutral-500">Faça login para continuar</p>
-          <pre>{{ user }}</pre>
         </header>
 
         <div class="flex flex-col gap-5">
