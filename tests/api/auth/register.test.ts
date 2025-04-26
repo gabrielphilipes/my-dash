@@ -23,7 +23,12 @@ describe('Register email/password', () => {
       terms: true
     }
 
-    const response = await $fetch('/api/auth/register', { method: 'POST', body: payload })
+    const response = await $fetch('/api/auth/register', { method: 'POST', body: payload }).catch(
+      (error) => {
+        console.log(error.data)
+      }
+    )
+
     expect(response.id).toBeDefined()
     expect(response.name).toBe(payload.name)
     expect(response.email).toBe(payload.email)
@@ -127,7 +132,7 @@ describe('Register email/password', () => {
   it('should validate fields', async () => {
     const payload = {
       name: 'John Doe',
-      email: 'john.doe@mydash.test',
+      email: 'john.doe.missing.fields@mydash.test',
       password: 'Password@123',
       passwordConfirmation: 'Password@123',
       terms: true

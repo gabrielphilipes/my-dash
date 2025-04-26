@@ -2,28 +2,20 @@ import { ofetch } from 'ofetch'
 import type { H3Error } from 'h3'
 import { $fetch } from '@nuxt/test-utils/e2e'
 import { beforeAll, describe, expect, it } from 'vitest'
-import { endpointApi, testUser, testUserData } from '../../setup'
+import { endpointApi, testUser, testUserLogin } from '../../setup'
+
+let loginUserCookie = ''
 
 beforeAll(async () => {
   await testUser()
+  loginUserCookie = await testUserLogin()
 })
 
 describe('Logout users', () => {
   // Success cases
   it('should logout a user', async () => {
-    // Login user
-    const loginResponse = await ofetch.raw(`${endpointApi}/api/auth/login`, {
-      method: 'POST',
-      body: {
-        email: testUserData.email,
-        password: testUserData.password
-      }
-    })
-
-    const cookie = loginResponse.headers.get('set-cookie') || ''
-
     const logoutResponse = await $fetch(`${endpointApi}/api/auth/logout`, {
-      headers: { cookie },
+      headers: { cookie: loginUserCookie },
       method: 'POST'
     })
 

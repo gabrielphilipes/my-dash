@@ -5,46 +5,25 @@ import { $fetch } from '@nuxt/test-utils/e2e'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { users } from '~~/server/database/schema/user'
 import { useDB } from '~~/server/utils/database'
-import { endpointApi, endpointMailCrab } from '../../setup'
-
-const userData = {
-  name: 'John Doe',
-  email: 'john.doe@mydash.test',
-  password: 'Password@123'
-}
+import { endpointApi, endpointMailCrab, testUser, testUserData } from '../../setup'
 
 beforeAll(async () => {
-  // Register user
-  const payload = {
-    name: userData.name,
-    email: userData.email,
-    password: userData.password,
-    passwordConfirmation: userData.password,
-    terms: true
-  }
-
-  try {
-    await $fetch('/api/auth/register', { method: 'POST', body: payload })
-  } catch (error) {
-    if (error.status === 400) {
-      console.log(`User already exists: ${userData.email}`)
-    }
-  }
+  await testUser()
 })
 
 const updateUserEmailVerifiedAt = async (value: boolean) => {
   await useDB()
     .update(users)
     .set({ email_verified_at: value ? new Date() : null })
-    .where(eq(users.email, userData.email))
+    .where(eq(users.email, testUserData.email))
 }
 
 describe('Login users', () => {
   // Success cases
   it('should login a user with valid credentials', async () => {
     const payload = {
-      email: userData.email,
-      password: userData.password,
+      email: testUserData.email,
+      password: testUserData.password,
       remember: false
     }
 
@@ -74,8 +53,8 @@ describe('Login users', () => {
 
   it('should login a user with remember me', async () => {
     const payload = {
-      email: userData.email,
-      password: userData.password,
+      email: testUserData.email,
+      password: testUserData.password,
       remember: true
     }
 
@@ -106,7 +85,7 @@ describe('Login users', () => {
   // Error cases
   it('should not login a user with invalid credentials', async () => {
     const payload = {
-      email: userData.email,
+      email: testUserData.email,
       password: 'Abc@1234',
       remember: true
     }
@@ -129,8 +108,8 @@ describe('Login users', () => {
     await ofetch(`${endpointMailCrab}/api/delete-all`, { method: 'POST' }) // Delete all emails
 
     const payload = {
-      email: userData.email,
-      password: userData.password,
+      email: testUserData.email,
+      password: testUserData.password,
       remember: true
     }
 
@@ -154,7 +133,7 @@ describe('Login users', () => {
     const email = getEmails[0]
 
     expect(email.subject).toBe('Confirme sua conta')
-    expect(email.to[0].email).toBe(userData.email)
-    expect(email.to[0].name).toBe(userData.name)
+    expect(email.to[0].email).toBe(testUserData.email)
+    expect(email.to[0].name).toBe(testUserData.name)
   })
 })

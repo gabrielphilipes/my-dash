@@ -72,3 +72,26 @@ export const testUser = async () => {
     }
   }
 }
+
+export const testUserLogin = async (email?: string, password?: string): Promise<string> => {
+  try {
+    const payload = {
+      email: email || testUserData.email,
+      password: password || testUserData.password
+    }
+
+    const loginResponse = await ofetch.raw(`${endpointApi}/api/auth/login`, {
+      method: 'POST',
+      body: payload
+    })
+
+    return loginResponse.headers.get('set-cookie') || ''
+  } catch (error) {
+    const errorData = error as { data: H3Error }
+    if (errorData.data.statusCode === 401) {
+      console.log(`User not found: ${email || testUserData.email}`)
+    }
+
+    throw error
+  }
+}
