@@ -1,7 +1,8 @@
 import nodemailer from 'nodemailer'
-import { encrypt } from '~~/server/utils/hash'
 import { render } from '@vue-email/render'
+import { encrypt } from '~~/server/utils/hash'
 import ConfirmAccount from '~/emails/ConfirmAccount.vue'
+import RecoveryPassword from '~/emails/RecoveryPassword.vue'
 import { removeUser } from '~~/server/database/actions/users'
 
 interface BaseEmailPayload {
@@ -100,5 +101,35 @@ export const sendEmailToConfirmAccount = async (
 
     console.error('Error sending email', error, email)
     throw createError({ statusCode: 500, statusMessage: 'Error sending email verification' })
+  }
+}
+
+export const sendEmailToRecoveryPassword = async (
+  name: string,
+  email: string
+): Promise<ResponseSendEmail> => {
+  try {
+    const payloadToken = {
+      email,
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24) // 1 day
+    }
+
+    const token = encrypt(JSON.stringify(payloadToken))
+    const recoveryUrl = `${process.env.SITE_URL}/change-password?token=${token}`
+
+    const emailContent = await render(RecoveryPassword, {
+      name: name,
+      recoveryUrl
+    })
+
+    return useEmail({
+      toEmail: email,
+      toName: name,
+      subject: 'Recupere sua senha ' + name,
+      html: emailContent
+    })
+  } catch (error) {
+    console.error('Error sending email', error, email)
+    throw createError({ statusCode: 500, statusMessage: 'Error sending email', cause: error })
   }
 }
