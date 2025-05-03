@@ -1,4 +1,4 @@
-import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
 export const navLinksHeader = ref<NavigationMenuItem[]>([
   {
@@ -18,25 +18,6 @@ export const navLinksFooter = ref<NavigationMenuItem[]>([
     icon: 'i-lucide-github',
     to: 'https://github.com/gabrielphilipes/my-dash',
     target: '_blank'
-  }
-])
-
-export const dropdownItems = ref<DropdownMenuItem[]>([
-  {
-    label: 'Perfil',
-    icon: 'i-lucide-user'
-  },
-  {
-    label: 'Configurações',
-    icon: 'i-lucide-cog'
-  },
-  {
-    type: 'separator'
-  },
-  {
-    label: 'Sair da conta',
-    icon: 'i-lucide-log-out',
-    color: 'error'
   }
 ])
 

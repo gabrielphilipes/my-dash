@@ -1,11 +1,13 @@
 <script setup lang="ts">
   import { LoginSchema, type LoginSchemaType } from '~~/server/validations/auth'
+  import type { H3Error } from 'h3'
 
   const toast = useToast()
   const router = useRouter()
   const route = useRoute()
   const query = route.query
   const unauthenticated = query?.unauthenticated
+  const logout = query?.logout
   const redirect = query?.redirect
 
   const rememberEmail = useCookie<string | undefined>('my-email')
@@ -19,26 +21,66 @@
   const showPassword = ref<boolean>(false)
   const loading = ref<boolean>(false)
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault()
 
     if (!isValid.value) return
 
-    // Remove the cookie if the user doesn't want to remember the email
-    if (!state.value.remember) {
-      useCookie('my-email').value = ''
-    }
+    // Set loading state
+    loading.value = true
 
-    // TODO: Implement the login logic
-    if (redirect) {
-      router.push(redirect as string)
-    } else {
-      router.push('/')
+    try {
+      // Save email in cookie if remember is checked
+      if (state.value.remember) {
+        useCookie('my-email').value = state.value.email
+      } else {
+        useCookie('my-email').value = ''
+      }
+
+      // Call login API
+      await $fetch('/api/auth/login', {
+        method: 'POST',
+        body: state.value,
+        credentials: 'include'
+      })
+
+      // Update user session
+      await nextTick()
+      await useUserSession().fetch()
+
+      // Show success toast
+      toast.add({
+        title: 'Login realizado com sucesso',
+        color: 'success',
+        icon: 'i-lucide-check-circle'
+      })
+
+      // Redirect user
+      setTimeout(() => {
+        if (redirect) {
+          router.push(redirect as string)
+        } else {
+          router.push('/')
+        }
+      }, 2000)
+    } catch (error) {
+      const errorData = error as { data: H3Error }
+
+      // Show error toast
+      toast.add({
+        title: 'Erro ao fazer login',
+        description: errorData.data?.message || 'Ocorreu um erro ao tentar fazer login',
+        color: 'error',
+        icon: 'i-lucide-x-circle'
+      })
+
+      console.error(error)
+    } finally {
+      loading.value = false
     }
   }
 
   // Only run on the client
-  const { user } = useUserSession()
   onMounted(() => {
     // Query params
     if (unauthenticated) {
@@ -47,6 +89,14 @@
         description: 'Por favor, faça login para continuar',
         icon: 'i-heroicons-exclamation-circle',
         color: 'error'
+      })
+    }
+
+    if (logout) {
+      toast.add({
+        title: 'Você foi deslogado com sucesso',
+        icon: 'i-heroicons-check-circle',
+        color: 'success'
       })
     }
 
@@ -74,7 +124,6 @@
           <AuthLogo />
           <h1 class="text-4xl font-bold">Seja bem vindo 👋🏻</h1>
           <p class="text-sm text-neutral-500">Faça login para continuar</p>
-          <pre>{{ user }}</pre>
         </header>
 
         <div class="flex flex-col gap-5">

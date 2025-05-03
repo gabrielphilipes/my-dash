@@ -1,4 +1,8 @@
 import nodemailer from 'nodemailer'
+import { encrypt } from '~~/server/utils/hash'
+import { render } from '@vue-email/render'
+import ConfirmAccount from '~/emails/ConfirmAccount.vue'
+import { removeUser } from '~~/server/database/actions/users'
 
 interface BaseEmailPayload {
   toEmail: string
@@ -16,6 +20,11 @@ interface HtmlEmailPayload extends BaseEmailPayload {
   html: string
 }
 
+interface ResponseSendEmail {
+  success: boolean
+  messageId: string
+}
+
 export type EmailPayload = TextEmailPayload | HtmlEmailPayload
 
 const transporter = nodemailer.createTransport({
@@ -28,7 +37,13 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-export const useEmail = async ({ toEmail, toName, subject, text, html }: EmailPayload) => {
+export const useEmail = async ({
+  toEmail,
+  toName,
+  subject,
+  text,
+  html
+}: EmailPayload): Promise<ResponseSendEmail> => {
   try {
     const result = await transporter.sendMail({
       from: {
@@ -57,5 +72,33 @@ export const useEmail = async ({ toEmail, toName, subject, text, html }: EmailPa
       statusMessage: 'Error sending email',
       cause: error
     })
+  }
+}
+
+export const sendEmailToConfirmAccount = async (
+  id: string,
+  name: string,
+  email: string
+): Promise<ResponseSendEmail> => {
+  try {
+    const token = encrypt(email as string)
+    const verificationUrl = `${process.env.SITE_URL}/api/auth/verify?token=${token}`
+
+    const emailContent = await render(ConfirmAccount, {
+      name: name,
+      verificationUrl
+    })
+
+    return useEmail({
+      toEmail: email,
+      toName: name,
+      subject: 'Confirme sua conta',
+      html: emailContent
+    })
+  } catch (error) {
+    await removeUser(id)
+
+    console.error('Error sending email', error, email)
+    throw createError({ statusCode: 500, statusMessage: 'Error sending email verification' })
   }
 }

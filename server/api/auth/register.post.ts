@@ -1,10 +1,7 @@
-import { render } from '@vue-email/render'
-import { encrypt } from '~~/server/utils/hash'
-import { useEmail } from '~~/server/utils/email'
 import { RegisterSchema } from '~~/server/validations/auth'
 import { userTransformer } from '~~/server/transformers/user'
-import ConfirmAccount from '~~/app/emails/ConfirmAccount.vue'
-import { findByEmail, createUserWithPassword, removeUser } from '~~/server/database/actions/users'
+import { sendEmailToConfirmAccount } from '~~/server/utils/email'
+import { findByEmail, createUserWithPassword } from '~~/server/database/actions/users'
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, (body) => RegisterSchema.safeParse(body))
@@ -25,27 +22,8 @@ export default defineEventHandler(async (event) => {
     password: await hashPassword(body.data.password)
   })
 
-  try {
-    const token = encrypt(email as string)
-    const verificationUrl = `${process.env.SITE_URL}/api/auth/verify?token=${token}`
-
-    const emailContent = await render(ConfirmAccount, {
-      name: body.data.name,
-      verificationUrl
-    })
-
-    await useEmail({
-      toEmail: email,
-      toName: body.data.name,
-      subject: 'Confirme sua conta',
-      html: emailContent
-    })
-  } catch (error) {
-    await removeUser(userData.id as string)
-
-    console.error('Error sending email', error, email)
-    throw createError({ statusCode: 500, statusMessage: 'Error sending email verification' })
-  }
+  // Resend email
+  await sendEmailToConfirmAccount(userData.id as string, userData.name, userData.email)
 
   const userResponse = userTransformer(userData)
   await setUserSession(event, { user: userResponse, maxAge: 60 * 60 * 24 * 7 }) // 7 days
