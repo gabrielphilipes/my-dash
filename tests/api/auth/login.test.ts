@@ -2,14 +2,10 @@ import type { H3Error } from 'h3'
 import { eq } from 'drizzle-orm'
 import { ofetch } from 'ofetch'
 import { $fetch } from '@nuxt/test-utils/e2e'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { users } from '~~/server/database/schema/user'
 import { useDB } from '~~/server/utils/database'
-import { endpointApi, endpointMailCrab, testUser, testUserData } from '../../setup'
-
-beforeAll(async () => {
-  await testUser()
-})
+import { endpointApi, endpointMailCrab, testUserData } from '../../setup'
 
 const updateUserEmailVerifiedAt = async (value: boolean) => {
   await useDB()
@@ -45,7 +41,7 @@ describe('Login users', () => {
 
     // Confirm user is logged in
     const meResponse = await ofetch(`${endpointApi}/api/me`, {
-      headers: { cookie: cookies?.[0] }
+      headers: { cookie: cookies?.[0] || '' }
     })
 
     expect(meResponse.id).toBeDefined()
@@ -76,7 +72,7 @@ describe('Login users', () => {
 
     // Confirm user is logged in
     const meResponse = await ofetch(`${endpointApi}/api/me`, {
-      headers: { cookie: cookies?.[0] }
+      headers: { cookie: cookies?.[0] || '' }
     })
 
     expect(meResponse.id).toBeDefined()

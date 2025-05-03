@@ -39,6 +39,10 @@ beforeAll(async () => {
   }
 
   await waitForWebServer()
+
+  await ofetch(`${endpointMailCrab}/api/delete-all`, { method: 'POST' }) // Delete all emails
+
+  await testUser()
 }, 30000)
 
 export const testUserData = {
@@ -60,13 +64,27 @@ export const testUser = async () => {
       }
     })
 
+    await useDB()
+      .update(users)
+      .set({ email_verified_at: new Date() })
+      .where(eq(users.email, testUserData.email))
+      .returning()
+
     return user
   } catch (error) {
     const errorData = error as { data: H3Error }
     if (errorData.data.statusCode === 400) {
-      console.log(`User already exists: ${testUserData.email}`)
-
       const [user] = await useDB().select().from(users).where(eq(users.email, testUserData.email))
+
+      if (!user?.email_verified_at) {
+        await useDB()
+          .update(users)
+          .set({ email_verified_at: new Date() })
+          .where(eq(users.email, testUserData.email))
+          .returning()
+
+        console.log('Update user verified at')
+      }
 
       return userTransformer(user as User)
     }

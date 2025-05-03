@@ -2,12 +2,11 @@ import { ofetch } from 'ofetch'
 import type { H3Error } from 'h3'
 import { $fetch } from '@nuxt/test-utils/e2e'
 import { beforeAll, describe, expect, it } from 'vitest'
-import { endpointApi, testUser, testUserLogin } from '../../setup'
+import { endpointApi, testUserLogin } from '../../setup'
 
 let loginUserCookie = ''
 
 beforeAll(async () => {
-  await testUser()
   loginUserCookie = await testUserLogin()
 })
 

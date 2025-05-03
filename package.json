@@ -17,7 +17,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "bun run services:up && bun run services:wait-database && bun run migrations:run && bun run nuxt dev",
-    "test": "bun run services:up && bun run services:wait-database && bun run migrations:run && concurrently -n nuxt,vitest --hide nuxt -k -s command-vitest \"nuxt dev\" \"vitest run --sequence.concurrent=false\"",
+    "test": "bun run services:up && bun run services:wait-database && bun run migrations:run && concurrently -n nuxt,vitest --hide nuxt -k -s command-vitest \"nuxt dev\" \"vitest run --no-file-parallelism\"",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -29,7 +29,7 @@
     "services:down": "docker compose -f infra/docker-compose.yml down",
     "services:wait-database": "bun run infra/wait-postgres.js",
     "migrations:run": "drizzle-kit generate && drizzle-kit migrate",
-    "test:watch": "vitest",
+    "test:watch": "vitest --no-file-parallelism",
     "prepare": "husky",
     "commit": "cz"
   },

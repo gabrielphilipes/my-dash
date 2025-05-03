@@ -29,10 +29,10 @@ describe('Register email/password', () => {
       }
     )
 
-    expect(response.id).toBeDefined()
-    expect(response.name).toBe(payload.name)
-    expect(response.email).toBe(payload.email)
-    expect(response.avatar).toBeNull()
+    expect(response?.id).toBeDefined()
+    expect(response?.name).toBe(payload.name)
+    expect(response?.email).toBe(payload.email)
+    expect(response?.avatar).toBeNull()
   })
 
   it('should send email verification', async () => {
