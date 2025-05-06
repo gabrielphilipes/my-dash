@@ -5,7 +5,7 @@ import type { UserTransformer } from '../transformers/user'
 
 const jwtKey = Buffer.from(process.env.NUXT_SESSION_PASSWORD as string, 'utf-8')
 
-export const requireAuth = async (event: H3Event) => {
+const validateAuth = async (event: H3Event) => {
   try {
     const { user } = await requireUserSession(event)
 
@@ -15,19 +15,31 @@ export const requireAuth = async (event: H3Event) => {
 
     const authorization = getHeader(event, 'authorization')
 
-    if (authorization) {
-      try {
-        return await verifyJWT(authorization)
-      } catch (error) {
-        console.log('Error on verifyJWT', error)
-      }
+    if (!authorization) {
+      return null
     }
 
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Unauthorized'
-    })
+    try {
+      return await verifyJWT(authorization)
+    } catch (error) {
+      console.log('Error on verifyJWT', error)
+    }
+
+    return null
   }
+}
+
+export const requireAuth = async (event: H3Event) => {
+  const user = await validateAuth(event)
+
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+
+  // TODO: Check if user is active
+  // TODO: Check subscription status
+
+  return user
 }
 
 export const authenticateUser = async (email: string, password: string) => {
