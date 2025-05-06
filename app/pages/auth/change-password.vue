@@ -2,6 +2,8 @@
   import { ChangePasswordSchema, type ChangePasswordSchemaType } from '~~/server/validations/auth'
 
   const route = useRoute()
+  const router = useRouter()
+  const toast = useToast()
   const token = route.query.token as string
 
   if (!token) {
@@ -18,19 +20,47 @@
   const showPasswordFirst = ref<boolean>(false)
   const showPasswordSecond = ref<boolean>(false)
   const loading = ref<boolean>(false)
+  const isSuccess = ref<boolean>(false)
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault()
 
     if (!isValid.value) return
 
-    // TODO: Implementar a lógica de troca de senha
+    loading.value = true
+
+    try {
+      await $fetch('/api/auth/change-password', {
+        method: 'POST',
+        body: state.value
+      })
+
+      isSuccess.value = true
+
+      setTimeout(() => {
+        router.push('/login')
+      }, 10000) // 10 seconds
+    } catch (error: { data?: { message: string } }) {
+      toast.add({
+        title: 'Erro ao alterar senha',
+        description: error.data?.message || 'Ocorreu um erro ao tentar alterar sua senha',
+        color: 'error',
+        icon: 'i-lucide-x-circle'
+      })
+
+      console.error(error)
+    } finally {
+      loading.value = false
+    }
   }
 
   useHead({
     title: 'Altere sua senha',
     meta: [
-      // TODO: Add the meta tags
+      {
+        name: 'description',
+        content: 'Altere sua senha de forma segura e rápida'
+      }
     ]
   })
 
@@ -38,11 +68,16 @@
 </script>
 
 <template>
-  <AuthContent
-    title="Recupere sua senha 🔑"
-    description="Insira seu e-mail abaixo, para recuperar sua senha"
-  >
+  <AuthContent title="Recupere sua senha 🔑" description="Insira sua nova senha abaixo">
+    <AuthConfirmCard
+      v-if="isSuccess"
+      title="Senha alterada com sucesso!"
+      description="Você será redirecionado para a página de login em instantes."
+      icon="i-lucide-check-circle"
+    />
+
     <UForm
+      v-if="!isSuccess"
       :schema="ChangePasswordSchema"
       :state="state"
       class="flex flex-col gap-4"
