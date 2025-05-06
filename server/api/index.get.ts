@@ -1,8 +1,4 @@
-import { requireAuth } from '~~/server/utils/auth'
-
-export default defineEventHandler(async (event) => {
-  await requireAuth(event)
-
+export default defineEventHandler(async () => {
   return {
     message: 'Hello World'
   }
