@@ -72,7 +72,7 @@
     title="Cadastre-se 👤"
     description="Selecione uma rede social ou insira seus dados para criar uma conta"
   >
-    <AuthConfirmEmail v-if="isSuccess" />
+    <AuthConfirmCard v-if="isSuccess" />
 
     <div v-if="!isSuccess" class="flex items-center justify-center gap-2">
       <UButton

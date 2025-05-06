@@ -58,7 +58,7 @@
     title="Recupere sua senha 🔑"
     description="Insira seu e-mail abaixo, para recuperar sua senha"
   >
-    <AuthConfirmEmail
+    <AuthConfirmCard
       v-if="isSuccess"
       title="Você está a um passo de recuperar seu acesso!"
       :description="`Enviamos um e-mail para <b>${state.email}</b> com instruções para recuperar sua senha. Basta clicar no link e inserir sua nova senha.`"
