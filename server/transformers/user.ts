@@ -1,10 +1,17 @@
 import type { InsertUser } from '~~/server/database/schema/user'
 
-export const userTransformer = (user: InsertUser) => {
+export interface UserTransformer {
+  id: string
+  name: string
+  avatar: string
+  email: string
+}
+
+export const userTransformer = (user: InsertUser): UserTransformer => {
   return {
-    id: user.id,
-    name: user.name,
-    avatar: user.avatar,
-    email: user.email
+    id: user.id as string,
+    name: user.name as string,
+    avatar: user.avatar as string,
+    email: user.email as string
   }
 }
