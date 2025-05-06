@@ -4,6 +4,7 @@ import { encrypt } from '~~/server/utils/hash'
 import ConfirmAccount from '~/emails/ConfirmAccount.vue'
 import RecoveryPassword from '~/emails/RecoveryPassword.vue'
 import { removeUser } from '~~/server/database/actions/users'
+import type { ChangePasswordToken } from '~~/server/types/auth'
 
 interface BaseEmailPayload {
   toEmail: string
@@ -109,7 +110,7 @@ export const sendEmailToRecoveryPassword = async (
   email: string
 ): Promise<ResponseSendEmail> => {
   try {
-    const payloadToken = {
+    const payloadToken: ChangePasswordToken = {
       email,
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24) // 1 day
     }

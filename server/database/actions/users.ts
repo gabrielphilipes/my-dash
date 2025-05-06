@@ -51,3 +51,19 @@ export const removeUser = async (id: string) => {
     throw new Error('Failed to remove user')
   }
 }
+
+export const updateUserPassword = async (email: string, password: string) => {
+  try {
+    const hashedPassword = await hashPassword(password)
+    const [user] = await useDB()
+      .update(users)
+      .set({ password: hashedPassword })
+      .where(eq(users.email, email))
+      .returning()
+
+    return user
+  } catch (error) {
+    console.error(error)
+    throw createError({ statusCode: 500, statusMessage: 'Failed to update user password' })
+  }
+}

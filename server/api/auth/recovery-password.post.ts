@@ -11,7 +11,7 @@ export default defineEventHandler(async (event: H3Event) => {
     throw createError({ statusCode: 400, statusMessage: 'Invalid body' })
   }
 
-  // Find user by e-mail
+  // Find user by e-mailcur
   const user = await findByEmail(body.data.email)
   if (!user) {
     // Waiting 2 seconds to not reveal if the e-mail exists or not, helping to avoid brute force attacks
