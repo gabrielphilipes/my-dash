@@ -44,7 +44,7 @@ describe('Login users', () => {
       headers: { cookie: cookies?.[0] || '' }
     })
 
-    expect(meResponse.id).toBeDefined()
+    expect(meResponse.user.id).toBeDefined()
   })
 
   it('should login a user with remember me', async () => {
@@ -75,7 +75,7 @@ describe('Login users', () => {
       headers: { cookie: cookies?.[0] || '' }
     })
 
-    expect(meResponse.id).toBeDefined()
+    expect(meResponse.user.id).toBeDefined()
   })
 
   // Error cases

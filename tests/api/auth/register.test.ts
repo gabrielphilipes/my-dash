@@ -111,7 +111,9 @@ describe('Register email/password', () => {
       baseURL: 'http://localhost:3000'
     })
 
-    expect(meResponse.id).toBe(registerResponse._data.id)
+    console.log(meResponse)
+
+    expect(meResponse.user.id).toBe(registerResponse._data.id)
   })
 
   it('should convert email to lowercase', async () => {
