@@ -9,6 +9,7 @@
   const unauthenticated = query?.unauthenticated
   const logout = query?.logout
   const redirect = query?.redirect
+  const information = query?.information
 
   const rememberEmail = useCookie<string | undefined>('my-email')
   const state = ref<LoginSchemaType>({
@@ -75,7 +76,7 @@
       })
 
       console.error(error)
-    } finally {
+
       loading.value = false
     }
   }
@@ -92,6 +93,14 @@
       })
     }
 
+    if (information) {
+      toast.add({
+        title: information as string,
+        icon: 'i-heroicons-exclamation-circle',
+        color: 'info'
+      })
+    }
+
     if (logout) {
       toast.add({
         title: 'Você foi deslogado com sucesso',
@@ -100,7 +109,7 @@
       })
     }
 
-    // Remove the query params
+    // Remove all query params
     router.replace('/login')
   })
 

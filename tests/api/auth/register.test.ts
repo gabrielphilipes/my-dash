@@ -23,11 +23,7 @@ describe('Register email/password', () => {
       terms: true
     }
 
-    const response = await $fetch('/api/auth/register', { method: 'POST', body: payload }).catch(
-      (error) => {
-        console.log(error.data)
-      }
-    )
+    const response = await $fetch('/api/auth/register', { method: 'POST', body: payload })
 
     expect(response?.id).toBeDefined()
     expect(response?.name).toBe(payload.name)
@@ -111,7 +107,7 @@ describe('Register email/password', () => {
       baseURL: 'http://localhost:3000'
     })
 
-    expect(meResponse.id).toBe(registerResponse._data.id)
+    expect(meResponse.user.id).toBe(registerResponse._data.id)
   })
 
   it('should convert email to lowercase', async () => {

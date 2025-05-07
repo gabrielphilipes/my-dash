@@ -49,7 +49,6 @@
   }
 
   const handleSubmit = () => {
-    console.log('submit')
     loading.value = true
 
     setTimeout(() => {
