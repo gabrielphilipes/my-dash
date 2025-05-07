@@ -8,6 +8,13 @@
       "when": 1744726589255,
       "tag": "0000_next_joseph",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1746572071250,
+      "tag": "0001_sharp_deathstrike",
+      "breakpoints": true
     }
   ]
 }

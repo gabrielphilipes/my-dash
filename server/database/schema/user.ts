@@ -1,5 +1,13 @@
 import { nanoid } from 'nanoid'
-import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core'
+import { pgTable, text, timestamp, boolean, pgEnum } from 'drizzle-orm/pg-core'
+
+export enum UserStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  DELETED = 'deleted'
+}
+
+export const userStatus = pgEnum('status', Object.values(UserStatus) as [string, ...string[]])
 
 export const users = pgTable('users', {
   id: text('id')
@@ -12,6 +20,7 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   email_verified_at: timestamp('email_verified_at', { withTimezone: true }),
   password: text('password'),
+  status: userStatus('status').default(UserStatus.ACTIVE),
   two_factor_enabled: boolean('two_factor_enabled').default(false),
   two_factor_secret: text('two_factor_secret'),
   two_factor_recovery_codes: text('two_factor_recovery_codes'),

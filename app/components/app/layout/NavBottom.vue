@@ -25,12 +25,7 @@
   ])
 
   const handleLogout = async () => {
-    await $fetch('/api/auth/logout', { method: 'POST' })
-
-    const { clear } = useUserSession()
-    await clear()
-
-    navigateTo('/login?logout=true')
+    navigateTo('/logout')
   }
 </script>
 
