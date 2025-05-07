@@ -76,7 +76,7 @@
       })
 
       console.error(error)
-    } finally {
+
       loading.value = false
     }
   }

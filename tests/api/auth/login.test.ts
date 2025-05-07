@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm'
 import { ofetch } from 'ofetch'
 import { $fetch } from '@nuxt/test-utils/e2e'
 import { describe, expect, it } from 'vitest'
-import { users } from '~~/server/database/schema/user'
+import { users, UserStatus } from '~~/server/database/schema/user'
 import { useDB } from '~~/server/utils/database'
 import { endpointApi, endpointMailCrab, testUserData } from '../../setup'
 
@@ -131,5 +131,38 @@ describe('Login users', () => {
     expect(email.subject).toBe('Confirme sua conta')
     expect(email.to[0].email).toBe(testUserData.email)
     expect(email.to[0].name).toBe(testUserData.name)
+  })
+
+  it('should not login a user with blocked account', async () => {
+    const payload = {
+      email: testUserData.email,
+      password: testUserData.password,
+      remember: false
+    }
+
+    await updateUserEmailVerifiedAt(true)
+
+    // Update user status to inactive
+    await useDB()
+      .update(users)
+      .set({ status: UserStatus.INACTIVE })
+      .where(eq(users.email, testUserData.email))
+
+    try {
+      await $fetch(`${endpointApi}/api/auth/login`, {
+        method: 'POST',
+        body: payload
+      })
+    } catch (error) {
+      const errorObject = error as { data: H3Error }
+      expect(errorObject.data.statusCode).toBe(401)
+      expect(errorObject.data.message).toBe('Seu usuário não está mais ativo!')
+    }
+
+    // Reset user status to active for other tests
+    await useDB()
+      .update(users)
+      .set({ status: UserStatus.ACTIVE })
+      .where(eq(users.email, testUserData.email))
   })
 })
