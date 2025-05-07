@@ -23,11 +23,7 @@ describe('Register email/password', () => {
       terms: true
     }
 
-    const response = await $fetch('/api/auth/register', { method: 'POST', body: payload }).catch(
-      (error) => {
-        console.log(error.data)
-      }
-    )
+    const response = await $fetch('/api/auth/register', { method: 'POST', body: payload })
 
     expect(response?.id).toBeDefined()
     expect(response?.name).toBe(payload.name)
@@ -110,8 +106,6 @@ describe('Register email/password', () => {
       headers: { cookie },
       baseURL: 'http://localhost:3000'
     })
-
-    console.log(meResponse)
 
     expect(meResponse.user.id).toBe(registerResponse._data.id)
   })
