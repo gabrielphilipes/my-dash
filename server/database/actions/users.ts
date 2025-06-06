@@ -1,6 +1,13 @@
 import { eq } from 'drizzle-orm'
 import { users } from '../schema/user'
 import type { InsertUser, User } from '../schema/user'
+import type { OAuthProvider } from '../schema/users_oauth'
+import { createOAuthUser, type InsertOAuthUser } from './oauth'
+
+interface InsertUserWithOAuth extends InsertUser {
+  provider: OAuthProvider
+  provider_user_id: string
+}
 
 export const findByEmail = async (email: string): Promise<User | null> => {
   try {
@@ -21,6 +28,28 @@ export const createUserWithPassword = async (data: InsertUser): Promise<InsertUs
   } catch (error) {
     console.error(error)
     throw new Error('Failed to create user')
+  }
+}
+
+export const createUserWithOAuth = async (data: InsertUserWithOAuth): Promise<InsertUser> => {
+  try {
+    const userData = {
+      ...data,
+      email_verified_at: new Date()
+    }
+    const [user] = await useDB().insert(users).values(userData).returning()
+
+    const oauthData: InsertOAuthUser = {
+      provider: data.provider,
+      provider_user_id: data.provider_user_id,
+      user_id: user.id
+    }
+    await createOAuthUser(oauthData)
+
+    return user
+  } catch (error) {
+    console.error(error)
+    throw new Error('Failed to create user and oauth')
   }
 }
 

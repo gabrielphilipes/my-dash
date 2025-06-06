@@ -9,6 +9,7 @@
     terms: false
   })
 
+  const route = useRoute()
   const router = useRouter()
   const isValid = computed<boolean>(() => RegisterSchema.safeParse(state.value).success)
   const showPasswordFirst = ref<boolean>(false)
@@ -17,6 +18,22 @@
   const isSuccess = ref<boolean>(false)
 
   const toast = useToast()
+
+  const query = route.query
+  onMounted(() => {
+    if (query.registerWithEmail && query.email) {
+      toast.add({
+        title: 'Você já está registrado com esse e-mail',
+        description: `Já existe uma conta com o e-mail: ${query.email}. Por favor, faça login ou recupere sua senha. Após, você poderá vincular sua conta!`,
+        color: 'warning',
+        icon: 'i-lucide-alert-triangle',
+        duration: 20000
+      })
+    }
+
+    // Clear query params
+    router.replace('/register')
+  })
 
   const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault()
@@ -93,14 +110,15 @@
         :disabled="true"
       />
 
-      <UButton
-        type="button"
-        variant="link"
-        leading-icon="i-mdi-apple"
-        label="Apple"
-        class="!text-black hover:text-black hover:bg-black/5"
-        :disabled="true"
-      />
+      <a href="/oauth/github">
+        <UButton
+          type="button"
+          variant="link"
+          leading-icon="i-mdi-github"
+          label="GitHub"
+          class="!text-black hover:text-black hover:bg-black/5"
+        />
+      </a>
     </div>
 
     <USeparator v-if="!isSuccess" label="ou" :ui="{ label: 'text-neutral-500' }" />

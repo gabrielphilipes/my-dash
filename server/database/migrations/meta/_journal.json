@@ -15,6 +15,13 @@
       "when": 1746572071250,
       "tag": "0001_sharp_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749227617423,
+      "tag": "0002_goofy_tana_nile",
+      "breakpoints": true
     }
   ]
 }
