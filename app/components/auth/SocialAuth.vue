@@ -1,12 +1,13 @@
 <template>
-  <UButton
-    type="button"
-    variant="link"
-    leading-icon="devicon:google"
-    label="Google"
-    class="!text-neutral-600 hover:text-neutral-600 hover:bg-neutral-100"
-    :disabled="true"
-  />
+  <a href="/oauth/google">
+    <UButton
+      type="button"
+      variant="link"
+      leading-icon="devicon:google"
+      label="Google"
+      class="!text-neutral-600 hover:text-neutral-600 hover:bg-neutral-100"
+    />
+  </a>
 
   <UButton
     type="button"
