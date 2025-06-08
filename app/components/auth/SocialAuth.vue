@@ -9,14 +9,15 @@
     />
   </a>
 
-  <UButton
-    type="button"
-    variant="link"
-    leading-icon="i-mdi-facebook"
-    label="Facebook"
-    class="!text-[#1877F2] hover:text-[#1877F2] hover:bg-[#1877F2]/10"
-    :disabled="true"
-  />
+  <a href="/oauth/facebook">
+    <UButton
+      type="button"
+      variant="link"
+      leading-icon="i-mdi-facebook"
+      label="Facebook"
+      class="!text-[#1877F2] hover:text-[#1877F2] hover:bg-[#1877F2]/10"
+    />
+  </a>
 
   <a href="/oauth/github">
     <UButton
