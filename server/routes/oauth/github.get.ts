@@ -36,13 +36,11 @@ export default defineOAuthGitHubEventHandler({
         return sendRedirect(event, '/?alreadyRegistered=true')
       }
 
+      // USER HAS REGISTERED WITH EMAIL
       return sendRedirect(event, `/register?registerWithEmail=true&email=${user.email}`)
     } catch (error) {
       console.error(error)
-      throw createError({
-        statusCode: 500,
-        statusMessage: 'Authentication failed'
-      })
+      return sendRedirect(event, '/register?oauthError=true')
     }
   }
 })

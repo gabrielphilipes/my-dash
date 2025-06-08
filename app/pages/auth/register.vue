@@ -31,6 +31,15 @@
       })
     }
 
+    if (query.oauthError) {
+      toast.add({
+        title: 'Houve um erro ao vincular',
+        description: 'Por favor, tente novamente mais tarde ou entre em contato com o suporte',
+        color: 'error',
+        icon: 'i-lucide-x-circle'
+      })
+    }
+
     // Clear query params
     router.replace('/register')
   })
