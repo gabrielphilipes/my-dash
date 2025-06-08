@@ -39,12 +39,19 @@ export const createUserWithOAuth = async (data: InsertUserWithOAuth): Promise<In
     }
     const [user] = await useDB().insert(users).values(userData).returning()
 
-    const oauthData: InsertOAuthUser = {
-      provider: data.provider,
-      provider_user_id: data.provider_user_id,
-      user_id: user.id
+    try {
+      const oauthData: InsertOAuthUser = {
+        provider: data.provider,
+        provider_user_id: data.provider_user_id,
+        user_id: user.id
+      }
+
+      await createOAuthUser(oauthData)
+    } catch (error) {
+      console.error(error)
+      await removeUser(user.id)
+      throw new Error('Failed to create oauth')
     }
-    await createOAuthUser(oauthData)
 
     return user
   } catch (error) {
