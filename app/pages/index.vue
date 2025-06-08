@@ -15,6 +15,15 @@
 
       router.replace('/')
     }
+
+    if (query.alreadyRegistered) {
+      toast.add({
+        title: 'Você já está registrado',
+        description: 'Você já está registrado, basta aproveitar o sistema',
+        color: 'success',
+        icon: 'i-lucide-check-circle'
+      })
+    }
   })
 
   definePageMeta({

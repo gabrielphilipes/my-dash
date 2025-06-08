@@ -137,32 +137,7 @@
 
         <div class="flex flex-col gap-5">
           <div class="flex items-center justify-center gap-2">
-            <UButton
-              type="button"
-              variant="link"
-              leading-icon="devicon:google"
-              label="Google"
-              class="!text-neutral-600 hover:text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-              :disabled="true"
-            />
-
-            <UButton
-              type="button"
-              variant="link"
-              leading-icon="i-mdi-facebook"
-              label="Facebook"
-              class="!text-[#1877F2] hover:text-[#1877F2] hover:bg-[#1877F2]/20"
-              :disabled="true"
-            />
-
-            <UButton
-              type="button"
-              variant="link"
-              leading-icon="i-mdi-apple"
-              label="Apple"
-              class="!text-black hover:text-black hover:bg-black/5"
-              :disabled="true"
-            />
+            <AuthSocialAuth />
           </div>
 
           <USeparator label="ou" :ui="{ label: 'text-neutral-500' }" />

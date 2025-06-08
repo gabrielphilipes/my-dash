@@ -9,6 +9,7 @@
     terms: false
   })
 
+  const route = useRoute()
   const router = useRouter()
   const isValid = computed<boolean>(() => RegisterSchema.safeParse(state.value).success)
   const showPasswordFirst = ref<boolean>(false)
@@ -17,6 +18,31 @@
   const isSuccess = ref<boolean>(false)
 
   const toast = useToast()
+
+  const query = route.query
+  onMounted(() => {
+    if (query.registerWithEmail && query.email) {
+      toast.add({
+        title: 'Você já está registrado com esse e-mail',
+        description: `Já existe uma conta com o e-mail: ${query.email}. Por favor, faça login ou recupere sua senha. Após, você poderá vincular sua conta!`,
+        color: 'warning',
+        icon: 'i-lucide-alert-triangle',
+        duration: 20000
+      })
+    }
+
+    if (query.oauthError) {
+      toast.add({
+        title: 'Houve um erro ao vincular',
+        description: 'Por favor, tente novamente mais tarde ou entre em contato com o suporte',
+        color: 'error',
+        icon: 'i-lucide-x-circle'
+      })
+    }
+
+    // Clear query params
+    router.replace('/register')
+  })
 
   const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault()
@@ -75,32 +101,7 @@
     <AuthConfirmCard v-if="isSuccess" />
 
     <div v-if="!isSuccess" class="flex items-center justify-center gap-2">
-      <UButton
-        type="button"
-        variant="link"
-        leading-icon="devicon:google"
-        label="Google"
-        class="!text-neutral-600 hover:text-neutral-600 hover:bg-neutral-100"
-        :disabled="true"
-      />
-
-      <UButton
-        type="button"
-        variant="link"
-        leading-icon="i-mdi-facebook"
-        label="Facebook"
-        class="!text-[#1877F2] hover:text-[#1877F2] hover:bg-[#1877F2]/10"
-        :disabled="true"
-      />
-
-      <UButton
-        type="button"
-        variant="link"
-        leading-icon="i-mdi-apple"
-        label="Apple"
-        class="!text-black hover:text-black hover:bg-black/5"
-        :disabled="true"
-      />
+      <AuthSocialAuth />
     </div>
 
     <USeparator v-if="!isSuccess" label="ou" :ui="{ label: 'text-neutral-500' }" />
