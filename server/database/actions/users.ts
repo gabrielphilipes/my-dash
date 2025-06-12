@@ -16,7 +16,7 @@ export const findByEmail = async (email: string): Promise<User | null> => {
     return user
   } catch (error) {
     console.error(error)
-    throw new Error('Failed to find user by email')
+    throw createError({ statusCode: 500, statusMessage: 'Failed to find user by email' })
   }
 }
 
@@ -27,7 +27,7 @@ export const createUserWithPassword = async (data: InsertUser): Promise<InsertUs
     return user
   } catch (error) {
     console.error(error)
-    throw new Error('Failed to create user')
+    throw createError({ statusCode: 500, statusMessage: 'Failed to create user' })
   }
 }
 
@@ -50,13 +50,13 @@ export const createUserWithOAuth = async (data: InsertUserWithOAuth): Promise<In
     } catch (error) {
       console.error(error)
       await removeUser(user.id)
-      throw new Error('Failed to create oauth')
+      throw createError({ statusCode: 500, statusMessage: 'Failed to create oauth' })
     }
 
     return user
   } catch (error) {
     console.error(error)
-    throw new Error('Failed to create user and oauth')
+    throw createError({ statusCode: 500, statusMessage: 'Failed to create user and oauth' })
   }
 }
 
@@ -84,7 +84,7 @@ export const removeUser = async (id: string) => {
     await useDB().delete(users).where(eq(users.id, id))
   } catch (error) {
     console.error(error)
-    throw new Error('Failed to remove user')
+    throw createError({ statusCode: 500, statusMessage: 'Failed to remove user' })
   }
 }
 
