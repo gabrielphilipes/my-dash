@@ -1,8 +1,8 @@
+import type { H3Event } from 'h3'
 import { userTransformer } from '~~/server/transformers/user'
 import { findOAuthUser } from '~~/server/database/actions/oauth'
 import type { OAuthProvider } from '~~/server/database/schema/users_oauth'
 import { createUserWithOAuth, findByEmail } from '~~/server/database/actions/users'
-import type { H3Event } from 'h3'
 
 interface OAuthUser {
   id: string
@@ -47,7 +47,7 @@ export const createOAuthHandler = (provider: OAuthProvider) => {
       // USER HAS REGISTERED WITH EMAIL
       return sendRedirect(event, `/register?registerWithEmail=true&email=${user.email}`)
     } catch (error) {
-      console.error(error)
+      console.error(error, 'OAuth error')
       return sendRedirect(event, '/register?oauthError=true')
     }
   }

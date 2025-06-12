@@ -1,10 +1,14 @@
 FILES=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(js|jsx|ts|tsx|vue|css|scss|json|md)$' || true)
 
 if [ -n "$FILES" ]; then
-  echo "1️⃣Formatting files with Prettier..."
+  echo "\n\n1️⃣ Checking for secrets with Secretlint..."
+  bunx secretlint "**/*"
+  echo "\n\n✅ No secrets found in the codebase"
+
+  echo "\n\n2️⃣ Formatting files with Prettier..."
   echo "$FILES" | xargs bun run lint:prettier:fix -- --log-level silent
 
-  echo "\n\n2️⃣Checking quality code with ESLint..."
+  echo "\n\n3️⃣ Checking quality code with ESLint..."
   echo "$FILES" | xargs bunx eslint --fix
 
   echo "$FILES" | xargs git add

@@ -8,14 +8,14 @@ export interface InsertOAuthUser {
   provider_user_id: string
 }
 
-export const createOAuthUser = async (data: InsertOAuthUser) => {
+export const createOAuthUser = async (data: InsertOAuthUser): Promise<UserOAuth> => {
   try {
     const [oauth] = await useDB().insert(usersOAuth).values(data).returning()
 
     return oauth
   } catch (error) {
     console.error(error)
-    throw new Error('Failed to create oauth user')
+    throw createError({ statusCode: 500, statusMessage: 'Failed to create oauth user' })
   }
 }
 
@@ -32,6 +32,6 @@ export const findOAuthUser = async (
     return oauth
   } catch (error) {
     console.error(error)
-    throw new Error('Failed to find oauth user')
+    throw createError({ statusCode: 500, statusMessage: 'Failed to find oauth user' })
   }
 }
